@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function StatsCards() {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-5 md:grid-cols-3">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="font-medium text-muted-foreground">
+          <CardTitle className="font-medium">
             Active users
           </CardTitle>
         </CardHeader>
@@ -23,7 +23,7 @@ export function StatsCards() {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="font-medium text-muted-foreground">
+          <CardTitle className="font-medium">
             Subscriptions
           </CardTitle>
         </CardHeader>
@@ -41,7 +41,7 @@ export function StatsCards() {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="font-medium text-muted-foreground">
+          <CardTitle className="font-medium">
             Non-subscriptions
           </CardTitle>
         </CardHeader>

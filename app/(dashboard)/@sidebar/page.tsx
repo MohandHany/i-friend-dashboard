@@ -65,9 +65,9 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed top-0 left-0 w-72 h-screen bg-dark-blue flex flex-col p-2 z-[100]">
+    <aside className="fixed top-0 left-0 w-76 h-screen bg-dark-blue flex flex-col p-2 z-[100]">
       {/* Logo */}
-      <div className="flex items-center justify-center p-4 2xl:p-8">
+      <div className="flex items-center justify-center p-4">
         <Image
           src="/IFriend.svg"
           alt="iFriend Logo"
@@ -78,8 +78,8 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 overflow-y-auto">
-        <ul className="list-none m-0 p-0">
+      <nav className="flex-1 overflow-y-auto custom-scrollbar">
+        <ul className="list-none mr-2 2xl:mr-0 p-0">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
 
@@ -94,7 +94,7 @@ export default function Sidebar() {
                     tracking-[0.02rem]
                     ${isActive
                       ? "text-primary-blue bg-light-blue rounded-xl"
-                      : "text-natural hover:text-white group hover:bg-light-blue rounded-xl"
+                      : "text-natural-text hover:text-white group hover:bg-light-blue rounded-xl"
                     }
                   `}
                 >
@@ -102,7 +102,7 @@ export default function Sidebar() {
                   {isActive && (
                     <span className="absolute left-0 top-0 bottom-0 w-[3px] " />
                   )}
-                  <item.iconName className={`${isActive ? "text-primary-blue" : "text-natural group-hover:text-white"} duration-200`} />
+                  <item.iconName className={`${isActive ? "text-primary-blue" : "text-natural-text group-hover:text-white"} duration-200`} />
                   <span>{item.name}</span>
                 </Link>
               </li>

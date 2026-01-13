@@ -13,6 +13,9 @@ module.exports = {
         "light-blue": "#0E1521",
         "natural": "#666C76",
       },
+      fontFamily: {
+        sans: ["var(--font-lexend)", "sans-serif"],
+      },
     },
   },
   plugins: [],

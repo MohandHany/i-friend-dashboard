@@ -1,8 +1,7 @@
 "use client";
 
-import NotificationsIcon from "@/public/notifications-icon";
 import { usePathname } from "next/navigation";
-import { menuItems } from "@/app/@sidebar/page";
+import { menuItems } from "@/app/(dashboard)/@sidebar/page";
 
 interface NavbarProps {
   userName?: string;
@@ -20,21 +19,17 @@ export default function Navbar({
   const pageName = menuItems.find((item) => item.href === pathname)?.name;
 
   return (
-    <nav className="fixed top-0 right-0 left-[280px] h-16 bg-white flex items-center justify-between px-6 z-50">
-      {/* Left Section - Notification Label */}
+    <nav className="fixed top-0 right-0 left-76 h-16 bg-white flex items-center justify-between px-6 z-50">
+      {/* Left Section - Page Title */}
       <div className="flex items-center">
         <h1 className="text-xl font-semibold text-gray-900">{pageName}</h1>
       </div>
 
       {/* Right Section - Bell Icon and User Info */}
       <div className="flex items-center gap-4">
-        {/* Bell Icon */}
-        <button className="relative cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-all duration-200">
-          <NotificationsIcon />
-        </button>
 
         {/* User Profile Section */}
-        <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 rounded-lg px-3 py-2 transition-colors">
+        <div className="flex items-center gap-3 cursor-pointer hover:bg-light-natural rounded-lg px-3 py-2 transition-colors">
           {/* User Avatar */}
           <div className="w-10 h-10 rounded-full bg-primary-blue flex items-center justify-center overflow-hidden">
             <img

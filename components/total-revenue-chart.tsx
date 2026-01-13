@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
@@ -14,6 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { Button } from "./ui/button"
 
 const chartData = [
   { month: "Jan", revenue: 0 },
@@ -43,14 +46,36 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function TotalRevenueChart({ justifyDiscount }: { justifyDiscount: string }) {
+export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justifyDiscount: string, showTimeFilter?: boolean }) {
+  const [timeRange, setTimeRange] = React.useState("Yearly")
+
   return (
-    <Card className="w-full h-full">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+    <Card className="w-full h-fit">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
         <div className="flex flex-col space-y-1 w-full">
-          <CardTitle className="text-base font-medium text-muted-foreground">
-            Total revenues
-          </CardTitle>
+          <div className="flex items-center justify-between w-full mb-0">
+            <CardTitle className="text-base font-medium">
+              Total revenues
+            </CardTitle>
+            {showTimeFilter && (
+              <div className="flex items-center gap-2">
+                {["Weekly", "Monthly", "Yearly"].map((range) => (
+                  <Button
+                    key={range}
+                    onClick={() => setTimeRange(range)}
+                    className={`px-6 py-3 rounded-lg cursor-pointer shadow transition-all duration-200
+                      ${timeRange === range
+                      ? "bg-primary-blue text-white"
+                      : "bg-blue-100 text-primary-blue hover:bg-blue-200"
+                      }`}
+                    variant={"none"}
+                  >
+                    {range}
+                  </Button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className={`w-full flex items-end gap-4 ${justifyDiscount}`}>
             <span className="text-2xl font-bold">10,230 EGP</span>
             <div className="flex items-center gap-1">
@@ -62,7 +87,7 @@ export function TotalRevenueChart({ justifyDiscount }: { justifyDiscount: string
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pl-0">
+      <CardContent className="pl-0 pr-4 pb-4">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <AreaChart
             accessibilityLayer

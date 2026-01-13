@@ -7,11 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import ArrowDownIcon from "@/public/arrow-down-icon";
 import Image from "next/image";
 
 const topUsers = [
   { rank: 1, name: "Adham", score: 45, phone: "+0201000000000" },
-  { rank: 2, name: "Ail", score: 34, phone: "+0201000000000" },
+  { rank: 2, name: "Ali", score: 34, phone: "+0201000000000" },
   { rank: 3, name: "Noor", score: 22, phone: "+0201000000000" },
   { rank: 4, name: "Yara", score: 17, phone: "+0201000000000" },
   { rank: 5, name: "Mahmoud", score: 12, phone: "+0201000000000" },
@@ -21,16 +22,31 @@ export function TopList() {
   return (
     <Card className="w-full">
       <CardHeader className="p-4">
-        <CardTitle className="text-lg font-bold">Top list</CardTitle>
+        <CardTitle className="text-lg font-bold text-black">Top list</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
-          <TableHeader>
-            <TableRow className="h-[50px] border-t bg-muted">
-              <TableHead className="w-[50px] text-center font-bold text-lg">#</TableHead>
-              <TableHead className="font-bold">Name</TableHead>
-              <TableHead className="font-bold">Score Coins</TableHead>
-              <TableHead className="font-bold">Phone</TableHead>
+          <TableHeader className="bg-light-natural">
+            <TableRow>
+              <TableHead className="w-[60px] text-center font-bold text-lg">#</TableHead>
+              <TableHead>
+                <div className="flex items-center gap-1">
+                  Name
+                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                </div>
+              </TableHead>
+              <TableHead>
+                <div className="flex items-center gap-1">
+                  Score Coins
+                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                </div>
+              </TableHead>
+              <TableHead>
+                <div className="flex items-center gap-1">
+                  Phone
+                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                </div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
