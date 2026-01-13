@@ -80,7 +80,7 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
                       ? "bg-primary-blue text-white"
                       : "bg-blue-100 text-primary-blue hover:bg-blue-200"
                     }`}
-                    variant={"none"}
+                    variant={"default"}
                   >
                     {range}
                   </Button>
