@@ -64,7 +64,7 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
   return (
     <Card className="w-full h-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
-        <div className="flex flex-col space-y-1 w-full">
+        <div className="flex flex-col space-y-1 w-full border-b pb-4">
           <div className="flex items-center justify-between w-full mb-0">
             <CardTitle className="text-base font-medium">
               Total users

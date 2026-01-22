@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Table,
   TableBody,
@@ -18,6 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Accordion,
   AccordionContent,
@@ -26,6 +29,7 @@ import {
 } from "@/components/ui/accordion"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
 
 const usersLocationData = [
   { region: "Cairo", country: "Egypt", totalUser: "2,340", newUser: "120" },
@@ -36,14 +40,42 @@ const usersLocationData = [
   { region: "Dakahlia", country: "Egypt", totalUser: "2,340", newUser: "120" },
   { region: "Gharbia", country: "Egypt", totalUser: "2,340", newUser: "120" },
   { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
+  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
+  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
+  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
+  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
+  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
 ]
 
 export function UsersLocationTable() {
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+
+  const totalPages = Math.ceil(usersLocationData.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const currentData = usersLocationData.slice(startIndex, startIndex + itemsPerPage)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
   return (
     <div>
-      <div className="w-full bg-white rounded-xl border">
-        <div className="flex items-center justify-end gap-4 p-4">
-          <div className="relative w-72">
+      <Card className="w-full bg-white rounded-xl border">
+        <CardHeader className="flex flex-row items-center justify-end gap-4 p-4">
+          <div className="relative w-72 m-0">
             <SearchIcon className="absolute fill-natural right-2 top-1/2 -translate-y-1/2" />
             <Input placeholder="Search" className="pr-10 rounded-lg placeholder:text-natural-text" />
           </div>
@@ -93,70 +125,86 @@ export function UsersLocationTable() {
               </Accordion>
             </PopoverContent>
           </Popover>
-        </div>
-
-        <Table>
-          <TableHeader className="bg-light-natural">
-            <TableRow>
-              <TableHead>
-                <div className="flex items-center gap-1">
-                  Region
-                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center gap-1">
-                  Country
-                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center gap-1">
-                  Total user
-                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center gap-1">
-                  New User
-                  <ArrowDownIcon className="w-4 h-4 fill-natural" />
-                </div>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {usersLocationData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.region}</TableCell>
-                <TableCell>{row.country}</TableCell>
-                <TableCell>{row.totalUser}</TableCell>
-                <TableCell>{row.newUser}</TableCell>
+        </CardHeader>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader className="bg-light-natural">
+              <TableRow>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    Region
+                    <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    Country
+                    <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    Total user
+                    <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    New User
+                    <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {currentData.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.region}</TableCell>
+                  <TableCell>{row.country}</TableCell>
+                  <TableCell>{row.totalUser}</TableCell>
+                  <TableCell>{row.newUser}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
-      </div>
-      <div className="flex items-center justify-between py-4">
-        <Button variant="outline" className="gap-2 group" disabled>
-          <ArrowLeftIcon className="h-4 w-4 group-hover:-translate-x-1 transition" />
-          Previous
-        </Button>
-        <div className="flex items-center gap-2 text-sm">
-          <Button variant="outline" size="icon" className="h-8 w-8 bg-gray-50">1</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">2</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">3</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">4</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">5</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">6</Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">7</Button>
-          <span className="text-gray-400">...</span>
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between py-4">
+          <Button
+            variant="outline"
+            className="gap-2 group"
+            onClick={handlePrevious}
+            disabled={currentPage === 1}
+          >
+            <ArrowLeftIcon className="h-4 w-4 group-hover:-translate-x-1 transition" />
+            Previous
+          </Button>
+          <div className="flex items-center gap-2 text-sm">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "outline" : "ghost"}
+                size="icon"
+                className={`h-8 w-8 ${currentPage === page ? "bg-gray-50" : ""}`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </Button>
+            ))}
+          </div>
+          <Button
+            variant="outline"
+            className="gap-2 group"
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+          >
+            Next
+            <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition" />
+          </Button>
         </div>
-        <Button variant="outline" className="gap-2 group">
-          Next
-          <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition" />
-        </Button>
-      </div>
+      )}
     </div>
   )
 }

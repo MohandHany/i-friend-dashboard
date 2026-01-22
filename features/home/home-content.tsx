@@ -1,4 +1,4 @@
-import { StatsCards } from "@/components/stats-cards";
+import { StatsCards } from "@/features/home/components/stats-cards";
 import { TotalRevenueChart } from "@/components/total-revenue-chart";
 import { TotalUsersChart } from "@/components/total-users-chart";
 import { TopList } from "./components/top-list";
