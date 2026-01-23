@@ -41,7 +41,7 @@ export const menuItems = [
   },
   {
     name: "Users Management",
-    href: "/users",
+    href: "/users-management",
     iconName: UsersIcon,
   },
   {
