@@ -1,7 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -40,7 +38,7 @@ export function AlertWindow({
 }: AlertWindowProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-[400px] z-[9999] flex flex-col items-center justify-center text-center p-6">
+      <AlertDialogContent className="max-w-[400px] z-9999 flex flex-col items-center justify-center text-center p-6">
         <Button
           variant="ghost"
           size="icon"

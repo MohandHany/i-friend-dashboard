@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/contexts/auth-context";
+import { Toaster } from "@/components/ui/sonner";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -24,7 +26,10 @@ export default function RootLayout({
       <body
         className={`${lexend.variable} antialiased bg-light-natural`}
       >
-        <main>{children}</main>
+        <AuthProvider>
+          <main>{children}</main>
+          <Toaster position="top-center" theme="light"/>
+        </AuthProvider>
       </body>
     </html>
   );
