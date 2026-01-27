@@ -1,16 +1,17 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL ?? "https://api.i-friend.cloud/api/v1/dashboard",
+  baseURL:
+    process.env.NEXT_PUBLIC_API_URL ??
+    "https://api.i-friend.cloud/api/v1/dashboard",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 api.interceptors.request.use((config) => {
-
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("accessToken")
+    const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
