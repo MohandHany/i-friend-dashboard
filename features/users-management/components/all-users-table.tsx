@@ -191,7 +191,7 @@ export function AllUsersTable() {
                 </TableHead>
                 <TableHead>
                   <div className="flex items-center gap-1">
-                    Registration date
+                    Registration Date
                     <ArrowDownIcon className="w-4 h-4 fill-natural" />
                   </div>
                 </TableHead>
@@ -204,7 +204,7 @@ export function AllUsersTable() {
                   <TableCell className="text-center font-medium">{user.id}</TableCell>
                   <TableCell>{`${user.firstName} ${user.lastName}`}</TableCell>
                   <TableCell>{user.kids}</TableCell>
-                  <TableCell>{user.subscription}</TableCell>
+                  <TableCell><span className={`text-${user.subscription === "Active" ? "success" : "danger"}`}>{user.subscription}</span></TableCell>
                   <TableCell>{user.date}</TableCell>
                   <TableCell className="text-right py-0">
                     <div className="flex items-center justify-center">

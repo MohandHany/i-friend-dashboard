@@ -17,6 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Button } from "./ui/button"
+import { useRouter, usePathname } from "next/navigation"
 
 const chartData = [
   { month: "Jan", revenue: 0 },
@@ -48,14 +49,15 @@ const chartConfig = {
 
 export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justifyDiscount: string, showTimeFilter?: boolean }) {
   const [timeRange, setTimeRange] = React.useState("Yearly")
-
+  const router = useRouter()
+  const pathname = usePathname().split("/")[1]
   return (
-    <Card className="w-full h-fit">
+    <Card className={`w-full h-fit ${pathname !== "revenues" && "hover:shadow-lg hover:scale-102 transition-all duration-200 cursor-pointer"}`} onClick={() => router.push("/revenues")}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
         <div className="flex flex-col space-y-1 w-full border-b pb-4">
           <div className="flex items-center justify-between w-full mb-0">
             <CardTitle className="text-base font-medium">
-              Total revenues
+              Total Revenues
             </CardTitle>
             {showTimeFilter && (
               <div className="flex items-center gap-2">
@@ -65,8 +67,8 @@ export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justify
                     onClick={() => setTimeRange(range)}
                     className={`px-6 py-3 rounded-lg cursor-pointer shadow transition-all duration-200
                       ${timeRange === range
-                      ? "bg-primary-blue text-white"
-                      : "bg-blue-100 text-primary-blue hover:bg-blue-200"
+                      ? "bg-primary-blue text-white hover:bg-primary-blue-hover"
+                      : "bg-primary-blue/10 text-primary-blue hover:bg-primary-blue/20"
                       }`}
                     variant={"default"}
                   >
@@ -82,7 +84,7 @@ export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justify
               <span className="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg">
                 +9.6%
               </span>
-              <span className="text-xs text-muted-foreground">last month</span>
+              <span className="text-xs text-muted-foreground">Last month</span>
             </div>
           </div>
         </div>

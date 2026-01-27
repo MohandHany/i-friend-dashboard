@@ -1,60 +1,84 @@
 "use client"
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import FilterIcon from "@/public/filter-icon"
 import SearchIcon from "@/public/search-icon"
 import { ArrowLeftIcon } from "@/public/arrow-left-icon"
 import { ArrowRightIcon } from "@/public/arrow-right-icon"
 import ArrowDownIcon from "@/public/arrow-down-icon"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { useEffect, useState } from "react"
+import FilterationUsersLocation from "./filteration-users-location"
+import { getRegionAnalysis } from "@/services/queries/analysis/region-analysis"
 
-const usersLocationData = [
-  { region: "Cairo", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Riyadh", country: "Saudi arabia", totalUser: "2,340", newUser: "120" },
-  { region: "Makkah", country: "Saudi arabia", totalUser: "2,340", newUser: "120" },
-  { region: "Alexandria", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Tabuk", country: "Saudi arabia", totalUser: "2,340", newUser: "120" },
-  { region: "Dakahlia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Gharbia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-  { region: "Qalyubia", country: "Egypt", totalUser: "2,340", newUser: "120" },
-]
+type Row = { region: string; country: string; totalUser: number; newUser: number }
 
 export function UsersLocationTable() {
   const [currentPage, setCurrentPage] = useState(1)
+  const [rows, setRows] = useState<Row[]>([])
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([])
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
   const itemsPerPage = 10
 
-  const totalPages = Math.ceil(usersLocationData.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentData = usersLocationData.slice(startIndex, startIndex + itemsPerPage)
+  // Apply filters
+  const filteredRows = rows.filter((r) => {
+    const countryOk = selectedCountries.length === 0 || selectedCountries.includes(r.country)
+    const regionOk = selectedRegions.length === 0 || selectedRegions.includes(r.region)
+    const term = searchTerm.trim().toLowerCase()
+    const searchOk = term === "" || r.country.toLowerCase().includes(term) || r.region.toLowerCase().includes(term)
+    return countryOk && regionOk && searchOk
+  })
 
+  const totalPages = Math.ceil(filteredRows.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const currentData = filteredRows.slice(startIndex, startIndex + itemsPerPage)
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getRegionAnalysis()
+        if (res.success && res.data) {
+          const mapped: Row[] = res.data.data.map(item => ({
+            region: item.region,
+            country: item.country,
+            totalUser: item.totalUser,
+            newUser: item.newUser,
+          }))
+          setRows(mapped)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    })()
+  }, [])
+
+  const toggleCountry = (country: string, checked: boolean) => {
+    setCurrentPage(1)
+    setSelectedCountries((prev) => {
+      const next = checked ? [...prev, country] : prev.filter((c) => c !== country)
+      // After updating countries, recompute allowed regions and prune selectedRegions
+      const allowedRegions = Array.from(
+        new Set(
+          rows
+            .filter((r) => next.length === 0 || next.includes(r.country))
+            .map((r) => r.region)
+        )
+      )
+      setSelectedRegions((old) => old.filter((rg) => allowedRegions.includes(rg)))
+      return next
+    })
+  }
+
+  const toggleRegion = (region: string, checked: boolean) => {
+    setCurrentPage(1)
+    setSelectedRegions((prev) =>
+      checked ? [...prev, region] : prev.filter((r) => r !== region)
+    )
+  }
+
+  // Pagination is purely local based on fetched rows length
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
   }
@@ -77,54 +101,20 @@ export function UsersLocationTable() {
         <CardHeader className="flex flex-row items-center justify-end gap-4 p-4">
           <div className="relative w-72 m-0">
             <SearchIcon className="absolute fill-natural right-2 top-1/2 -translate-y-1/2" />
-            <Input placeholder="Search" className="pr-10 rounded-lg placeholder:text-natural-text" />
+            <Input
+              placeholder="Search"
+              className="pr-10 rounded-lg placeholder:text-natural-text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="default" className="bg-primary-blue hover:bg-primary-blue-hover gap-2 rounded-lg p-5">
-                <FilterIcon className="!w-5.5 !h-5.5 fill-white" />
-                Filter
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-56 p-0" align="end">
-              <Accordion type="multiple" className="w-full">
-                <AccordionItem value="country">
-                  <AccordionTrigger className="text-natural-text px-4 py-2 hover:no-underline hover:bg-muted/50">
-                    Country
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 pb-4 pt-0">
-                    <div className="flex flex-col gap-2 mt-2">
-                      {Array.from(new Set(usersLocationData.map(item => item.country))).map((country) => (
-                        <div key={country} className="flex items-center space-x-2">
-                          <Checkbox id={`country-${country}`} />
-                          <Label htmlFor={`country-${country}`} className="cursor-pointer text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            {country}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="region" className="border-b-0">
-                  <AccordionTrigger className="text-natural-text px-4 py-2 hover:no-underline hover:bg-muted/50">
-                    Region
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 pb-4 pt-0">
-                    <div className="flex flex-col gap-2 mt-2">
-                      {Array.from(new Set(usersLocationData.map(item => item.region))).map((region) => (
-                        <div key={region} className="flex items-center space-x-2">
-                          <Checkbox id={`region-${region}`} />
-                          <Label htmlFor={`region-${region}`} className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            {region}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </PopoverContent>
-          </Popover>
+          <FilterationUsersLocation
+            rows={rows}
+            selectedCountries={selectedCountries}
+            selectedRegions={selectedRegions}
+            onToggleCountry={toggleCountry}
+            onToggleRegion={toggleRegion}
+          />
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -144,7 +134,7 @@ export function UsersLocationTable() {
                 </TableHead>
                 <TableHead>
                   <div className="flex items-center gap-1">
-                    Total user
+                    Total User
                     <ArrowDownIcon className="w-4 h-4 fill-natural" />
                   </div>
                 </TableHead>

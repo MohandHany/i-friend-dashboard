@@ -16,7 +16,7 @@ export function StatsCards() {
               <span className="inline-flex items-center rounded-lg bg-success/10 px-2 py-1 text-xs font-medium text-success">
                 +9.6%
               </span>
-              <span>last month</span>
+              <span>Last month</span>
             </div>
           </div>
         </CardContent>
@@ -24,7 +24,7 @@ export function StatsCards() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="font-medium">
-            Non-subscriptions
+            Non-Subscriptions
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -34,7 +34,7 @@ export function StatsCards() {
               <span className="inline-flex items-center rounded-lg bg-success/10 px-2 py-1 text-xs font-medium text-success">
                 +9.6%
               </span>
-              <span>last month</span>
+              <span>Last month</span>
             </div>
           </div>
         </CardContent>

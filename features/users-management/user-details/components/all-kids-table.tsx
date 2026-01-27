@@ -81,7 +81,7 @@ export function AllKidsTable() {
                   <TableCell>{kid.name}</TableCell>
                   <TableCell>{kid.reportsCount}</TableCell>
                   <TableCell className="text-right py-0">
-                    <div className="flex items-center justify-end">
+                    <div className="flex items-center justify-center">
                       <Link href={`${pathname}/kid-details/${kid.id}`}>
                         <Button
                           variant="ghost"
