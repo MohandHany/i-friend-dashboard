@@ -1,5 +1,4 @@
 "use client"
-
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
@@ -14,77 +13,88 @@ import { getAllParents, AllParentsItem } from "@/services/queries/users-manageme
 import { UsersFilter } from "./users-filter"
 import { formatRegistrationDate } from "@/lib/utils"
 
-
 export function AllUsersTable() {
 
+  const [kidsFilter, setKidsFilter] = useState("");
+  const [subscriptionFilters, setSubscriptionFilters] = useState<string[]>([]);
+  const [dateFilter, setDateFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState<AllParentsItem[]>([]);
+  const itemsPerPage = 10;
 
-  const [kidsFilter, setKidsFilter] = useState("")
-  const [subscriptionFilters, setSubscriptionFilters] = useState<string[]>([])
-  const [dateFilter, setDateFilter] = useState("")
-  const [search, setSearch] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
-  const [users, setUsers] = useState<AllParentsItem[]>([])
-  const itemsPerPage = 10
-
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const filteredUsers = users.filter((user) => {
-    const matchesName = search ? user.name?.toLowerCase().includes(search.toLowerCase()) : true
-    const matchesKids = kidsFilter ? user.kidsCount.toString() === kidsFilter : true
+    const matchesName = search
+      ? user.name?.toLowerCase().includes(search.toLowerCase())
+      : true;
+    const matchesKids = kidsFilter
+      ? user.kidsCount.toString() === kidsFilter
+      : true;
     const matchesSubscription =
-      subscriptionFilters.length > 0 ? subscriptionFilters.includes(user.isSubscribed ? "Subscribed" : "Not Subscribed") : true
+      subscriptionFilters.length > 0
+        ? subscriptionFilters.includes(
+          user.isSubscribed ? "Subscribed" : "Not Subscribed",
+        )
+        : true;
 
-    let matchesDate = true
+    let matchesDate = true;
     if (dateFilter) {
       // Mock date format: "23 March,2024"
       // We need to handle the comma carefully or rely on Date parsing
-      const userDate = new Date(user.registrationDate || "")
-      const filterDate = new Date(dateFilter)
+      const userDate = new Date(user.registrationDate || "");
+      const filterDate = new Date(dateFilter);
       // Compare by locale date string or similar to ignore time
-      matchesDate = userDate.toDateString() === filterDate.toDateString()
+      matchesDate = userDate.toDateString() === filterDate.toDateString();
     }
 
-    return matchesName && matchesKids && matchesSubscription && matchesDate
-  })
+    return matchesName && matchesKids && matchesSubscription && matchesDate;
+  });
 
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentUsers = filteredUsers.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
+    setCurrentPage(page);
+  };
 
   const handlePrevious = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getAllParents()
+        const res = await getAllParents();
         if (res.success && res.data) {
-          setUsers(res.data.users ?? [])
+          setUsers(res.data.users ?? []);
         }
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   return (
     <div>
       <Card className="w-full bg-white rounded-xl border">
         <CardHeader className="flex flex-col md:flex-row justify-between items-center gap-4 p-4">
-          <CardTitle className="text-black text-lg font-semibold grow m-0">All Users</CardTitle>
+          <CardTitle className="text-black text-lg font-semibold grow m-0">
+            All Users
+          </CardTitle>
           <UsersFilter
             kidsFilter={kidsFilter}
             setKidsFilter={setKidsFilter}
@@ -95,11 +105,11 @@ export function AllUsersTable() {
             search={search}
             setSearch={setSearch}
             onReset={() => {
-              setKidsFilter("")
-              setSubscriptionFilters([])
-              setDateFilter("")
-              setSearch("")
-              setCurrentPage(1)
+              setKidsFilter("");
+              setSubscriptionFilters([]);
+              setDateFilter("");
+              setSearch("");
+              setCurrentPage(1);
             }}
           />
         </CardHeader>
@@ -108,7 +118,9 @@ export function AllUsersTable() {
           <Table>
             <TableHeader className="bg-light-natural">
               <TableRow>
-                <TableHead className="w-[50px] text-center font-bold text-lg">#</TableHead>
+                <TableHead className="w-[50px] text-center font-bold text-lg">
+                  #
+                </TableHead>
                 <TableHead>
                   <div className="flex items-center gap-1">
                     Name
@@ -139,14 +151,28 @@ export function AllUsersTable() {
             <TableBody>
               {currentUsers.map((user, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-center font-medium">{index + 1}</TableCell>
+                  <TableCell className="text-center font-medium">
+                    {index + 1}
+                  </TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.kidsCount}</TableCell>
-                  <TableCell><span className={`text-${user.isSubscribed ? "success" : "danger"}`}>{user.isSubscribed ? "Subscribed" : "Not Subscribed"}</span></TableCell>
-                  <TableCell>{formatRegistrationDate(user.registrationDate)}</TableCell>
+                  <TableCell>
+                    <span
+                      className={`text-${user.isSubscribed ? "success" : "danger"}`}
+                    >
+                      {user.isSubscribed ? "Subscribed" : "Not Subscribed"}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    {formatRegistrationDate(user.registrationDate)}
+                  </TableCell>
                   <TableCell className="text-right py-0">
                     <div className="flex items-center justify-center">
-                      <Button asChild variant="ghost" className="h-auto text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10 gap-1">
+                      <Button
+                        asChild
+                        variant="ghost"
+                        className="h-auto text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10 gap-1"
+                      >
                         <Link href={`${pathname}/parent-details/${user.id}`}>
                           <VisibleIcon className="h-5! w-5!" />
                           View
@@ -197,5 +223,5 @@ export function AllUsersTable() {
         </div>
       )}
     </div>
-  )
+  );
 }

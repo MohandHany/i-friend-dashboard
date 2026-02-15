@@ -1,45 +1,58 @@
-"use client"
+"use client";
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import ArrowDownIcon from "@/public/arrow-down-icon"
-import DownloadIcon from "@/public/download-icon"
-import type { KidDetailsData } from "@/services/queries/users-management/GET/get-kid-details"
-import { useEffect, useState } from "react"
-import { getKidDetails } from "@/services/queries/users-management/GET/get-kid-details"
-import IFriendSpinner from "@/components/ifriend-spinner"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import ArrowDownIcon from "@/public/arrow-down-icon";
+import DownloadIcon from "@/public/download-icon";
+import type { KidDetailsData } from "@/services/queries/users-management/GET/get-kid-details";
+import { useEffect, useState } from "react";
+import { getKidDetails } from "@/services/queries/users-management/GET/get-kid-details";
+import IFriendSpinner from "@/components/ifriend-spinner";
 
 const reports = [
   { id: 1, name: "Adham", lastName: "Ahmed", age: 8, reportsCount: 3 },
-]
+];
 
 export function KidDetailsContent({ kidId }: { kidId: string }) {
-
-  const [kid, setKid] = useState<KidDetailsData | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [kid, setKid] = useState<KidDetailsData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchKidDetails = async () => {
       try {
-        setLoading(true)
-        const res = await getKidDetails(kidId)
+        setLoading(true);
+        const res = await getKidDetails(kidId);
         if (res.success) {
-          setKid(res.data ?? null)
-          setError(null)
+          setKid(res.data ?? null);
+          setError(null);
         } else {
-          setError(res.message)
+          setError(res.message);
         }
       } catch {
-        setError("Unexpected error happened")
+        setError("Unexpected error happened");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchKidDetails()
-  }, [kidId])
+    };
+    fetchKidDetails();
+  }, [kidId]);
 
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -47,15 +60,21 @@ export function KidDetailsContent({ kidId }: { kidId: string }) {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/users-management">Users Management</BreadcrumbLink>
+            <BreadcrumbLink href="/users-management">
+              Users Management
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/users-management/parent-details">{kid?.parentName}</BreadcrumbLink>
+            <BreadcrumbLink href="/users-management/parent-details">
+              {kid?.parentName}
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-muted-foreground font-normal">{kid?.firstName} {kid?.lastName}</BreadcrumbPage>
+            <BreadcrumbPage className="text-muted-foreground font-normal">
+              {kid?.firstName} {kid?.lastName}
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -157,5 +176,5 @@ export function KidDetailsContent({ kidId }: { kidId: string }) {
         </>
       )}
     </div>
-  )
+  );
 }

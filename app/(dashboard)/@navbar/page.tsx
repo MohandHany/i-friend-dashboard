@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import Image from "next/image";
 import { menuItems } from "@/app/(dashboard)/@sidebar/page";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import SignOutIcon from "@/public/sign-out-icon";
 import { getMe } from "@/services/queries/settings/user/GET/get-me";
@@ -43,9 +47,9 @@ export default function Navbar() {
         setUserRole(userRole ? userRole.charAt(0).toUpperCase() + userRole.slice(1) : "")
         setUserAvatar(userAvatar ?? null)
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    })()
+    })();
   }, []);
 
   return (
@@ -57,7 +61,6 @@ export default function Navbar() {
 
       {/* Right Section - Bell Icon and User Info */}
       <div className="flex items-center gap-4">
-
         {/* User Profile Section with Popover */}
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>

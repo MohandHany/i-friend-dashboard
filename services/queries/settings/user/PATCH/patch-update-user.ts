@@ -12,13 +12,13 @@ export type UpdateUserResponse = {
   message: string;
   status?: number;
   data?: DashboardUserData;
-}
+};
 
 export const patchUpdateDashboardUser = async (body: UpdateUserData) => {
   try {
     const res = await api.patch<UpdateUserResponse>(
       "/settings/user/update-user",
-      body
+      body,
     );
     return {
       success: true as const,
@@ -26,7 +26,9 @@ export const patchUpdateDashboardUser = async (body: UpdateUserData) => {
       data: res.data?.data,
     };
   } catch (err) {
-    const error = err as { response?: { status?: number; data?: { message?: string } } };
+    const error = err as {
+      response?: { status?: number; data?: { message?: string } };
+    };
     const status = error.response?.status;
     return {
       success: false as const,

@@ -1,5 +1,5 @@
 import api from "@/services/axios";
-import { DashboardUserData } from "@/services/queries/settings/user/GET/get-all-users";
+import { DashboardUserData } from "@/services/queries/settings/user/get/get-all-users";
 
 export interface Request {
   avatarUrl?: File;
@@ -15,7 +15,7 @@ export type CreateUserResponse = {
   message: string;
   status?: number;
   data?: DashboardUserData;
-}
+};
 
 export const postCreateDashboardUser = async (body: Request) => {
   try {
@@ -35,7 +35,7 @@ export const postCreateDashboardUser = async (body: Request) => {
     const res = await api.post<CreateUserResponse>(
       "/settings/user/create-user",
       formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
+      { headers: { "Content-Type": "multipart/form-data" } },
     );
     return {
       success: true as const,
@@ -43,7 +43,9 @@ export const postCreateDashboardUser = async (body: Request) => {
       data: res.data?.data,
     };
   } catch (err) {
-    const error = err as { response?: { status?: number; data?: { message?: string } } };
+    const error = err as {
+      response?: { status?: number; data?: { message?: string } };
+    };
     const status = error.response?.status;
     return {
       success: false as const,
@@ -52,4 +54,3 @@ export const postCreateDashboardUser = async (body: Request) => {
     };
   }
 };
-
