@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,57 +9,59 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import VisibleIcon from "@/public/visible-icon"
-import ArrowDownIcon from "@/public/arrow-down-icon"
-import { ArrowLeftIcon } from "@/public/arrow-left-icon"
-import { ArrowRightIcon } from "@/public/arrow-right-icon"
-import { useState } from "react"
-import { usePathname } from "next/navigation"
+} from "@/components/ui/table";
+import VisibleIcon from "@/public/visible-icon";
+import ArrowDownIcon from "@/public/arrow-down-icon";
+import { ArrowLeftIcon } from "@/public/arrow-left-icon";
+import { ArrowRightIcon } from "@/public/arrow-right-icon";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 
-import Link from "next/link"
+import Link from "next/link";
 
-import type { ParentChildrenData } from "@/services/queries/users-management/GET/get-parent-details"
+import type { ParentChildrenData } from "@/services/queries/users-management/get/get-parent-details";
 
 export function AllKidsTable({ kids }: { kids: ParentChildrenData[] }) {
-  
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  const totalPages = Math.ceil(kids.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentKids = kids.slice(startIndex, startIndex + itemsPerPage)
+  const totalPages = Math.ceil(kids.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentKids = kids.slice(startIndex, startIndex + itemsPerPage);
 
-  const pathname = usePathname()
-
+  const pathname = usePathname();
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
+    setCurrentPage(page);
+  };
 
   const handlePrevious = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   return (
     <div>
       <Card className="rounded-xl border shadow-sm">
         <CardHeader className="border-b p-4">
-          <CardTitle className="text-black text-lg font-medium">All Kids</CardTitle>
+          <CardTitle className="text-black text-lg font-medium">
+            All Kids
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
             <TableHeader className="bg-natural border-none">
               <TableRow>
-                <TableHead className="w-[50px] text-center text-lg font-semibold">#</TableHead>
+                <TableHead className="w-[50px] text-center text-lg font-semibold">
+                  #
+                </TableHead>
                 <TableHead>
                   <div className="flex items-center gap-1">
                     Kid Name
@@ -78,7 +80,9 @@ export function AllKidsTable({ kids }: { kids: ParentChildrenData[] }) {
             <TableBody>
               {currentKids.map((kid, index) => (
                 <TableRow key={index + 1}>
-                  <TableCell className="text-center font-medium">{index + 1}</TableCell>
+                  <TableCell className="text-center font-medium">
+                    {index + 1}
+                  </TableCell>
                   <TableCell>{kid.name}</TableCell>
                   <TableCell>{kid.reportsCount}</TableCell>
                   <TableCell className="text-right py-0">
@@ -137,5 +141,5 @@ export function AllKidsTable({ kids }: { kids: ParentChildrenData[] }) {
         </div>
       )}
     </div>
-  )
+  );
 }

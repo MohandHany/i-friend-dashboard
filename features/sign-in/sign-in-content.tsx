@@ -65,7 +65,11 @@ export default function SignInContent() {
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
       {loading && (
         <div className="fixed inset-0 z-999 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-          <IFriendSpinner size={96} className="drop-shadow-xl" alt="Loading..." />
+          <IFriendSpinner
+            size={96}
+            className="drop-shadow-xl"
+            alt="Loading..."
+          />
         </div>
       )}
       {/* Left Side - Form */}
@@ -77,7 +81,10 @@ export default function SignInContent() {
           </h1>
         </div>
 
-        <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="flex flex-col gap-6"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm text-black select-none">
               Email address <span className="text-red-500">*</span>
@@ -98,7 +105,10 @@ export default function SignInContent() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm  text-black select-none">
+            <Label
+              htmlFor="password"
+              className="text-sm  text-black select-none"
+            >
               Password <span className="text-red-500">*</span>
             </Label>
             <div className="relative">
@@ -142,10 +152,7 @@ export default function SignInContent() {
                 } catch {}
               }}
             />
-            <Label
-              htmlFor="remember"
-              className="text-sm cursor-pointer"
-            >
+            <Label htmlFor="remember" className="text-sm cursor-pointer">
               Remember me
             </Label>
           </div>
@@ -177,5 +184,3 @@ export default function SignInContent() {
     </div>
   );
 }
-
-

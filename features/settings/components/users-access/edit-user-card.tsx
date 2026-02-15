@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react"
 import { Button } from "@/components/ui/button"
@@ -13,10 +13,10 @@ import { toast } from "sonner"
 import { X } from "lucide-react"
 
 interface EditUserDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  user: DashboardUserData | null
-  onUpdated?: () => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  user: DashboardUserData | null;
+  onUpdated?: () => void;
 }
 
 export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDialogProps) {
@@ -27,50 +27,55 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
   const [rolePopoverOpen, setRolePopoverOpen] = React.useState(false)
 
   React.useEffect(() => {
-    if (!open) return
-    let mounted = true
+    if (!open) return;
+    let mounted = true;
     const load = async () => {
       try {
-        const res = await getAllRoles()
-        if (mounted && res.success && res.data) setRoles(res.data)
+        const res = await getAllRoles();
+        if (mounted && res.success && res.data) setRoles(res.data);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-    }
-    load()
-    return () => { mounted = false }
-  }, [open])
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, [open]);
 
   React.useEffect(() => {
     if (open && user) {
-      setSelectedRoleId(user.dashboardUserRoleId || "")
+      setSelectedRoleId(user.dashboardUserRoleId || "");
     }
-  }, [open, user])
+  }, [open, user]);
 
   React.useEffect(() => {
     if (open || isClosing) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "unset"
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [open, isClosing])
+      document.body.style.overflow = "unset";
+    };
+  }, [open, isClosing]);
 
   const handleClose = () => {
-    setIsClosing(true)
+    setIsClosing(true);
     setTimeout(() => {
-      onOpenChange(false)
-      setIsClosing(false)
-    }, 200)
-  }
+      onOpenChange(false);
+      setIsClosing(false);
+    }, 200);
+  };
 
   const handleUpdate = async () => {
-    if (!user || !selectedRoleId) return
+    if (!user || !selectedRoleId) return;
     try {
-      setLoading(true)
-      const res = await patchUpdateDashboardUser({ userId: user.id, roleId: selectedRoleId })
+      setLoading(true);
+      const res = await patchUpdateDashboardUser({
+        userId: user.id,
+        roleId: selectedRoleId,
+      });
       if (res.success) {
         toast("User role updated successfully ✅")
         onUpdated?.()
@@ -82,25 +87,26 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
       console.error(e)
       toast("Failed to update user role ❌")
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  if (!open && !isClosing) return null
+  if (!open && !isClosing) return null;
 
-  const selectedRoleName = roles.find(r => r.id === selectedRoleId)?.name || "Select role"
+  const selectedRoleName =
+    roles.find((r) => r.id === selectedRoleId)?.name || "Select role";
 
   return (
     <div
       className={cn(
         "fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm m-0 duration-200",
-        isClosing ? "animate-out fade-out-0" : "animate-in fade-in-0"
+        isClosing ? "animate-out fade-out-0" : "animate-in fade-in-0",
       )}
     >
       <div
         className={cn(
           "relative w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200",
-          isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50"
+          isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50",
         )}
       >
         <Button
@@ -133,7 +139,10 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
                     <ArrowDown2Icon className="h-4 w-4 opacity-50" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2 z-[99999]" align="start">
+                <PopoverContent
+                  className="w-[var(--radix-popover-trigger-width)] p-2 z-[99999]"
+                  align="start"
+                >
                   <div className="max-h-64 overflow-auto space-y-1">
                     {roles.map((role) => (
                       <button
@@ -170,6 +179,5 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
         </div>
       </div>
     </div>
-  )
+  );
 }
-
