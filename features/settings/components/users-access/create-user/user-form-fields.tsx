@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils"
 import ArrowDown2Icon from "@/public/arrow-down-2-icon"
 import VisibleIcon from "@/public/visible-icon"
 import UnvisibleIcon from "@/public/unvisible-icon"
-import type { RoleItemsData } from "@/services/queries/settings/role/GET/get-all-roles"
+import type { RoleItemsData } from "@/services/queries/settings/role/get/get-all-roles"
 import type { z } from "zod"
 
 interface UserFormFieldsProps {

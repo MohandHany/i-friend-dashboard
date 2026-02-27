@@ -15,7 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   getAnalysisChart,
   AnalysisPeriod,
-} from "@/services/queries/analysis/GET/get-analysis-chart";
+} from "@/services/queries/analysis/get/get-analysis-chart";
 
 // Dynamic chart state populated from API
 type DynamicChartRow = { period: string;[key: string]: number | string }

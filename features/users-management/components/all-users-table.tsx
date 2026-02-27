@@ -9,7 +9,7 @@ import { ArrowRightIcon } from "@/public/arrow-right-icon"
 import ArrowDownIcon from "@/public/arrow-down-icon"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getAllParents, AllParentsItem } from "@/services/queries/users-management/GET/get-all-parents"
+import { getAllParents, AllParentsItem } from "@/services/queries/users-management/get/get-all-parents"
 import { UsersFilter } from "./users-filter"
 import { formatRegistrationDate } from "@/lib/utils"
 

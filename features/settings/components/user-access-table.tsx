@@ -27,13 +27,13 @@ import DeleteIcon from "@/public/delete-icon";
 import PlusIcon from "@/public/plus-icon";
 import { Label } from "@/components/ui/label";
 import { AddUserCard } from "./add-user-card";
-import { EditUserCard } from "./edit-user-card";
+import { EditUserCard } from "./users-access/edit-user-card";
 import { AlertWindow } from "@/components/alert-window";
 import {
   getAllDashboardUsers,
   DashboardUserData,
 } from "@/services/queries/settings/user/get/get-all-users";
-import { deleteUsers } from "@/services/queries/settings/user/DELETE/delete-user";
+import { deleteUsers } from "@/services/queries/settings/user/delete/delete-user";
 import { toast } from "sonner";
 import { ArrowLeftIcon } from "@/public/arrow-left-icon";
 import { ArrowRightIcon } from "@/public/arrow-right-icon";

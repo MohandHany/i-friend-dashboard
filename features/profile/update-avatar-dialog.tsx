@@ -4,7 +4,7 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { X, Upload } from "lucide-react"
-import { patchUpdateMe } from "@/services/queries/settings/user/PATCH/patch-update-me"
+import { patchUpdateMe } from "@/services/queries/settings/user/patch/patch-update-me"
 import { toast } from "sonner"
 import Image from "next/image"
 import { ImageCropDialog } from "@/components/image-crop-dialog"
@@ -131,16 +131,16 @@ export function UpdateAvatarDialog({ open, onOpenChange, onSuccess, currentAvata
               </div>
             </div>
             {currentAvatarUrl && !preview && (
-            <div className="absolute bottom-0 right-0 bg-white group hover:scale-105 transition-all duration-300 rounded-xl border-4 border-natural shadow-md">
-              <Button
-                variant="ghost"
-                className="text-danger group-hover:bg-danger/10 group-hover:text-danger hover:bg-danger/10 hover:text-danger transition-all duration-300 p-1"
-                onClick={handleRemove}
-                disabled={loading}
-              >
-                <DeleteIcon className="h-5! w-5!" />
-              </Button>
-            </div>
+              <div className="absolute bottom-0 right-0 bg-white group hover:scale-105 transition-all duration-300 rounded-xl border-4 border-natural shadow-md">
+                <Button
+                  variant="ghost"
+                  className="text-danger group-hover:bg-danger/10 group-hover:text-danger hover:bg-danger/10 hover:text-danger transition-all duration-300 p-1"
+                  onClick={handleRemove}
+                  disabled={loading}
+                >
+                  <DeleteIcon className="h-5! w-5!" />
+                </Button>
+              </div>
             )}
           </div>
 

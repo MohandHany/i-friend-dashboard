@@ -6,7 +6,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import EditIcon from "@/public/edit-icon"
 import DeleteIcon from "@/public/delete-icon"
-import type { RoleItemsData } from "@/services/queries/settings/role/GET/get-all-roles"
+import type { RoleItemsData } from "@/services/queries/settings/role/get/get-all-roles"
 
 interface RoleTableRowProps {
   role: RoleItemsData

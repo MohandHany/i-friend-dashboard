@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import SignOutIcon from "@/public/sign-out-icon";
-import { getMe } from "@/services/queries/settings/user/GET/get-me";
+import { getMe } from "@/services/queries/settings/user/get/get-me";
 import ArrowDown2Icon from "@/public/arrow-down-2-icon";
 import CameraIcon from "@/public/camera-icon";
 import { UpdateAvatarDialog } from "@/features/profile/update-avatar-dialog";

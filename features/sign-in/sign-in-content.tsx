@@ -10,7 +10,7 @@ import EmailIcon from "@/public/email-icon";
 import PasswordIcon from "@/public/password-icon";
 import VisibleIcon from "@/public/visible-icon";
 import UnvisibleIcon from "@/public/unvisible-icon";
-import { signIn } from "@/services/queries/auth/POST/sign-in";
+import { signIn } from "@/services/queries/auth/post/sign-in";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/auth-context";
 

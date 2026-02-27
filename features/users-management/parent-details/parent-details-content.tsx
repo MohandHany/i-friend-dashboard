@@ -3,8 +3,8 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AllKidsTable } from "./components/all-kids-table"
 import { useEffect, useState } from "react"
-import { getParentDetails } from "@/services/queries/users-management/GET/get-parent-details"
-import type { ParentDetailsData } from "@/services/queries/users-management/GET/get-parent-details"
+import { getParentDetails } from "@/services/queries/users-management/get/get-parent-details"
+import type { ParentDetailsData } from "@/services/queries/users-management/get/get-parent-details"
 import IFriendSpinner from "@/components/ifriend-spinner"
 import { formatRegistrationDate } from "@/lib/utils"
 

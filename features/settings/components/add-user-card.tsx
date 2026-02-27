@@ -15,11 +15,11 @@ import { cn } from "@/lib/utils";
 import {
   getAllRoles,
   RoleItemsData,
-} from "@/services/queries/settings/role/GET/get-all-roles";
+} from "@/services/queries/settings/role/get/get-all-roles";
 import {
   postCreateDashboardUser,
   Request as CreateUserRequest,
-} from "@/services/queries/settings/user/POST/post-create-user";
+} from "@/services/queries/settings/user/post/post-create-user";
 import { toast } from "sonner";
 
 interface AddUserDialogProps {
@@ -199,9 +199,9 @@ export function AddUserCard({
                     {(roles.length
                       ? roles.map((r) => ({ id: r.id, name: r.name }))
                       : roleOptionsFallback.map((name, idx) => ({
-                          id: String(idx),
-                          name,
-                        }))
+                        id: String(idx),
+                        name,
+                      }))
                     ).map((item) => (
                       <button
                         key={item.id}

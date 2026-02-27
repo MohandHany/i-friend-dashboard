@@ -11,8 +11,8 @@ import {
 import ArrowDownIcon from "@/public/arrow-down-icon";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getTopChildren } from "@/services/queries/home/GET/get-top-children";
-import { topChild } from "@/services/queries/home/GET/get-top-children";
+import { getTopChildren } from "@/services/queries/home/get/get-top-children";
+import { topChild } from "@/services/queries/home/get/get-top-children";
 
 export function TopList() {
   const [topChildren, setTopChildren] = useState<topChild[]>([]);
