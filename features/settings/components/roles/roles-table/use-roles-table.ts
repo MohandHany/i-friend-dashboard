@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import { getAllRoles, RoleItemsData } from "@/services/queries/settings/role/GET/get-all-roles"
-import { deleteRoles } from "@/services/queries/settings/role/DELETE/delete-roles"
+import { getAllRoles, RoleItemsData } from "@/services/queries/settings/role/get/get-all-roles"
+import { deleteRoles } from "@/services/queries/settings/role/delete/delete-roles"
 import { toast } from "sonner"
 
 export function useRolesTable() {

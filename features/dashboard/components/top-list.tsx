@@ -1,14 +1,21 @@
-'use client'
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import ArrowDownIcon from "@/public/arrow-down-icon";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getTopChildren } from "@/services/queries/home/GET/get-top-children";
-import { topChild } from "@/services/queries/home/GET/get-top-children";
+import { getTopChildren } from "@/services/queries/home/get/get-top-children";
+import { topChild } from "@/services/queries/home/get/get-top-children";
 
 export function TopList() {
-  const [topChildren, setTopChildren] = useState<topChild[]>([])
+  const [topChildren, setTopChildren] = useState<topChild[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -25,13 +32,17 @@ export function TopList() {
   return (
     <Card className="w-full">
       <CardHeader className="p-4">
-        <CardTitle className="text-lg font-medium text-black">Top List</CardTitle>
+        <CardTitle className="text-lg font-medium text-black">
+          Top List
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader className="bg-light-natural">
             <TableRow>
-              <TableHead className="w-[60px] text-center font-bold text-lg">#</TableHead>
+              <TableHead className="w-[60px] text-center font-bold text-lg">
+                #
+              </TableHead>
               <TableHead>
                 <div className="flex items-center gap-1">
                   Name
@@ -58,17 +69,32 @@ export function TopList() {
                 <TableCell className="flex items-center justify-center">
                   {index + 1 === 1 && (
                     <div>
-                      <Image src="/top-one-icon.svg" alt="top-one" width={40} height={40} />
+                      <Image
+                        src="/top-one-icon.svg"
+                        alt="top-one"
+                        width={40}
+                        height={40}
+                      />
                     </div>
                   )}
                   {index + 1 === 2 && (
                     <div>
-                      <Image src="/top-two-icon.svg" alt="top-two" width={40} height={40} />
+                      <Image
+                        src="/top-two-icon.svg"
+                        alt="top-two"
+                        width={40}
+                        height={40}
+                      />
                     </div>
                   )}
                   {index + 1 === 3 && (
                     <div>
-                      <Image src="/top-three-icon.svg" alt="top-three" width={40} height={40} />
+                      <Image
+                        src="/top-three-icon.svg"
+                        alt="top-three"
+                        width={40}
+                        height={40}
+                      />
                     </div>
                   )}
                   {index + 1 > 3 && (

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import { getAllDashboardUsers, DashboardUserData } from "@/services/queries/settings/user/GET/get-all-users"
-import { deleteUsers } from "@/services/queries/settings/user/DELETE/delete-user"
+import { getAllDashboardUsers, DashboardUserData } from "@/services/queries/settings/user/get/get-all-users"
+import { deleteUsers } from "@/services/queries/settings/user/delete/delete-user"
 import { toast } from "sonner"
 
 export function useUserTable() {

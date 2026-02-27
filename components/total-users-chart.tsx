@@ -1,11 +1,6 @@
-"use client"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+"use client";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -13,11 +8,14 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import { Button } from "./ui/button"
-import { useEffect, useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
-import { getAnalysisChart, AnalysisPeriod } from "@/services/queries/analysis/GET/get-analysis-chart"
+} from "@/components/ui/chart";
+import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  getAnalysisChart,
+  AnalysisPeriod,
+} from "@/services/queries/analysis/get/get-analysis-chart";
 
 // Dynamic chart state populated from API
 type DynamicChartRow = { period: string;[key: string]: number | string }
@@ -36,47 +34,45 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getAnalysisChart(timeRange)
+        const res = await getAnalysisChart(timeRange);
         if (res.success && res.data) {
           // Build dynamic rows for Recharts
-          const labels = res.data.labels
-          const datasets = res.data.datasets
-          const totalUsers = res.data.totalUsersInDb
-          setTotalUsers(totalUsers)
+          const labels = res.data.labels;
+          const datasets = res.data.datasets;
+          const totalUsers = res.data.totalUsersInDb;
+          setTotalUsers(totalUsers);
           const builtRows: DynamicChartRow[] = labels.map((label, index) => {
-            const row: DynamicChartRow = { period: label }
-            datasets.forEach(ds => {
+            const row: DynamicChartRow = { period: label };
+            datasets.forEach((ds) => {
               // use dataset.label as key (e.g., "Cairo, Egypt")
-              row[ds.label] = ds.data[index] ?? 0
-            })
-            return row
-          })
-          setRows(builtRows)
+              row[ds.label] = ds.data[index] ?? 0;
+            });
+            return row;
+          });
+          setRows(builtRows);
 
           // Build legend/config dynamically
-          const builtConfig: ChartConfig = {}
+          const builtConfig: ChartConfig = {};
           datasets.forEach((ds, i) => {
             builtConfig[ds.label] = {
               label: ds.label,
               color: defaultPalette[i % defaultPalette.length],
-            }
-          })
-          setConfig(builtConfig)
+            };
+          });
+          setConfig(builtConfig);
         }
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-    })()
-  }, [timeRange])
+    })();
+  }, [timeRange]);
 
   return (
     <Card className={`h-full ${pathname !== "analysis" && "hover:shadow-lg hover:scale-102 transition-all duration-200 cursor-pointer"}`} onClick={() => router.push("/analysis")}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
         <div className="flex flex-col space-y-1 w-full border-b pb-4">
           <div className="flex items-center justify-between w-full mb-0">
-            <CardTitle className="font-normal text-lg">
-              Total Users
-            </CardTitle>
+            <CardTitle className="font-normal text-lg">Total Users</CardTitle>
             {showTimeFilter && (
               <div className="flex items-center gap-2">
                 {ranges.map((range) => (
@@ -110,7 +106,11 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
       <CardContent className="pl-0 pr-4 pb-4">
         <ChartContainer config={config} className="h-[300px] w-full">
           <BarChart accessibilityLayer data={rows}>
-            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#E5E7EB" />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              stroke="#E5E7EB"
+            />
             <XAxis
               dataKey="period"
               tickLine={false}
@@ -143,5 +143,5 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

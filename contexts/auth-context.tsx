@@ -4,8 +4,8 @@ import { createContext, useContext, useState, ReactNode, useEffect } from 'react
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import "@/services/queries/auth/interceptors";
-import { getMe, type MyDataType } from '@/services/queries/settings/user/GET/get-me';
-import { getAllRoles, type RoleItemsData } from '@/services/queries/settings/role/GET/get-all-roles';
+import { getMe, type MyDataType } from '@/services/queries/settings/user/get/get-me';
+import { getAllRoles, type RoleItemsData } from '@/services/queries/settings/role/get/get-all-roles';
 import { getFirstAccessibleRoute } from '@/lib/menu-routes';
 
 /* Store authentication token in local storage */

@@ -1,15 +1,20 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getParentsStats, type ParentsStatsData } from "@/services/queries/users-management/GET/get-parents-stats";
+import {
+  getParentsStats,
+  type ParentsStatsData,
+} from "@/services/queries/users-management/get/get-parents-stats";
 import { useRouter } from "next/navigation";
 
 type StatsCardsProps = {
   includeAllUsersCard?: boolean;
 };
 
-export default function StatsCards({ includeAllUsersCard = false }: StatsCardsProps) {
+export default function StatsCards({
+  includeAllUsersCard = false,
+}: StatsCardsProps) {
   const [stats, setStats] = useState<ParentsStatsData | null>(null);
   const router = useRouter();
 
@@ -36,10 +41,14 @@ export default function StatsCards({ includeAllUsersCard = false }: StatsCardsPr
       {includeAllUsersCard && (
         <Card className={includeAllUsersCard ? "rounded-r-none" : ""}>
           <CardHeader className="pb-0">
-            <CardTitle className="text-lg text-natural-text">All Users</CardTitle>
+            <CardTitle className="text-lg text-natural-text">
+              All Users
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold">{totalUsers.toLocaleString()}</div>
+            <div className="text-3xl font-semibold">
+              {totalUsers.toLocaleString()}
+            </div>
           </CardContent>
         </Card>
       )}

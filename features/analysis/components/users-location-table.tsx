@@ -1,100 +1,120 @@
-"use client"
+"use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import SearchIcon from "@/public/search-icon"
-import { ArrowLeftIcon } from "@/public/arrow-left-icon"
-import { ArrowRightIcon } from "@/public/arrow-right-icon"
-import ArrowDownIcon from "@/public/arrow-down-icon"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { useEffect, useState } from "react"
-import FilterationUsersLocation from "./users-location-filter"
-import { getRegionAnalysis, RegionAnalysisItem } from "@/services/queries/analysis/GET/get-region-analysis"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import SearchIcon from "@/public/search-icon";
+import { ArrowLeftIcon } from "@/public/arrow-left-icon";
+import { ArrowRightIcon } from "@/public/arrow-right-icon";
+import ArrowDownIcon from "@/public/arrow-down-icon";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import FilterationUsersLocation from "./users-location-filter";
+import {
+  getRegionAnalysis,
+  RegionAnalysisItem,
+} from "@/services/queries/analysis/get/get-region-analysis";
 
 export function UsersLocationTable() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [rows, setRows] = useState<RegionAnalysisItem[]>([])
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([])
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const itemsPerPage = 10
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rows, setRows] = useState<RegionAnalysisItem[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const itemsPerPage = 10;
 
   // Apply filters
   const filteredRows = rows.filter((r) => {
-    const countryOk = selectedCountries.length === 0 || selectedCountries.includes(r.country)
-    const regionOk = selectedRegions.length === 0 || selectedRegions.includes(r.region)
-    const term = searchTerm.trim().toLowerCase()
-    const searchOk = term === "" || r.country.toLowerCase().includes(term) || r.region.toLowerCase().includes(term)
-    return countryOk && regionOk && searchOk
-  })
+    const countryOk =
+      selectedCountries.length === 0 || selectedCountries.includes(r.country);
+    const regionOk =
+      selectedRegions.length === 0 || selectedRegions.includes(r.region);
+    const term = searchTerm.trim().toLowerCase();
+    const searchOk =
+      term === "" ||
+      r.country.toLowerCase().includes(term) ||
+      r.region.toLowerCase().includes(term);
+    return countryOk && regionOk && searchOk;
+  });
 
-  const totalPages = Math.ceil(filteredRows.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentData = filteredRows.slice(startIndex, startIndex + itemsPerPage)
+  const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentData = filteredRows.slice(startIndex, startIndex + itemsPerPage);
 
   const toggleCountry = (country: string, checked: boolean) => {
-    setCurrentPage(1)
+    setCurrentPage(1);
     setSelectedCountries((prev) => {
-      const next = checked ? [...prev, country] : prev.filter((c) => c !== country)
+      const next = checked
+        ? [...prev, country]
+        : prev.filter((c) => c !== country);
       // After updating countries, recompute allowed regions and prune selectedRegions
       // If no countries are selected, clear region filters entirely
-      const allowedRegions = next.length === 0
-        ? []
-        : Array.from(
-            new Set(
-              rows
-                .filter((r) => next.includes(r.country))
-                .map((r) => r.region)
-              )
-            )
-      setSelectedRegions((old) => old.filter((rg) => allowedRegions.includes(rg)))
-      return next
-    })
-  }
+      const allowedRegions =
+        next.length === 0
+          ? []
+          : Array.from(
+              new Set(
+                rows
+                  .filter((r) => next.includes(r.country))
+                  .map((r) => r.region),
+              ),
+            );
+      setSelectedRegions((old) =>
+        old.filter((rg) => allowedRegions.includes(rg)),
+      );
+      return next;
+    });
+  };
 
   const toggleRegion = (region: string, checked: boolean) => {
-    setCurrentPage(1)
+    setCurrentPage(1);
     setSelectedRegions((prev) =>
-      checked ? [...prev, region] : prev.filter((r) => r !== region)
-    )
-  }
-  
+      checked ? [...prev, region] : prev.filter((r) => r !== region),
+    );
+  };
+
   // Pagination is purely local based on fetched rows length
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
-  
+    setCurrentPage(page);
+  };
+
   const handlePrevious = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
-  
+  };
+
   const handleNext = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getRegionAnalysis()
+        const res = await getRegionAnalysis();
         if (res.success && res.data) {
-          const mapped: RegionAnalysisItem[] = res.data.data.map(item => ({
+          const mapped: RegionAnalysisItem[] = res.data.data.map((item) => ({
             region: item.region,
             country: item.country,
             totalUser: item.totalUser,
             newUser: item.newUser,
-          }))
-          setRows(mapped)
+          }));
+          setRows(mapped);
         }
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   return (
     <div>
@@ -197,5 +217,5 @@ export function UsersLocationTable() {
         </div>
       )}
     </div>
-  )
+  );
 }

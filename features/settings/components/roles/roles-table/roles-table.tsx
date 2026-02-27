@@ -16,7 +16,7 @@ import { AlertWindow } from "@/components/alert-window"
 import { RoleTableSearch } from "./roles-table-search"
 import { RoleTableRow } from "./roles-table-row"
 import { useRolesTable } from "./use-roles-table"
-import type { RoleItemsData } from "@/services/queries/settings/role/GET/get-all-roles"
+import type { RoleItemsData } from "@/services/queries/settings/role/get/get-all-roles"
 
 export function RolesTable() {
   const [isCreateRoleOpen, setIsCreateRoleOpen] = useState(false)

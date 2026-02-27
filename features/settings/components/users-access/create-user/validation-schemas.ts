@@ -1,6 +1,6 @@
 import { z } from "zod"
-import type { RoleItemsData } from "@/services/queries/settings/role/GET/get-all-roles"
-import type { DashboardUserData } from "@/services/queries/settings/user/GET/get-all-users"
+import type { RoleItemsData } from "@/services/queries/settings/role/get/get-all-roles"
+import type { DashboardUserData } from "@/services/queries/settings/user/get/get-all-users"
 
 export function createValidationSchemas(
   roles: RoleItemsData[],

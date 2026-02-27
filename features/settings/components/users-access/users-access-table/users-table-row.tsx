@@ -7,7 +7,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import EditIcon from "@/public/edit-icon"
 import DeleteIcon from "@/public/delete-icon"
-import type { DashboardUserData } from "@/services/queries/settings/user/GET/get-all-users"
+import type { DashboardUserData } from "@/services/queries/settings/user/get/get-all-users"
 
 interface UserTableRowProps {
   user: DashboardUserData

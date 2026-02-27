@@ -21,7 +21,7 @@ import { AlertWindow } from "@/components/alert-window"
 import { TableFilters } from "./table-filters"
 import { UserTableRow } from "./users-table-row"
 import { useUserTable } from "./use-users-table"
-import type { DashboardUserData } from "@/services/queries/settings/user/GET/get-all-users"
+import type { DashboardUserData } from "@/services/queries/settings/user/get/get-all-users"
 
 export function UserAccessTable() {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false)
