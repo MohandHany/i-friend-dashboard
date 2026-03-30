@@ -1,12 +1,19 @@
 import api from "@/services/axios"
 
+export type KidReport = {
+  id: string | number;
+  name: string;
+  fileName: string;
+  date: string;
+};
+
 export type KidDetailsData = {
   id: string;
   firstName: string;
   lastName: string;
   age: number;
   avatarUrl: string;
-  reports: string[];
+  reports: KidReport[];
   parentName: string;
 }
 
@@ -22,7 +29,7 @@ export const getKidDetails = async (kidId: string): Promise<KidDetailsResponse> 
     const res = await api.get(`/user-management/get-child-details/${kidId}`)
     return {
       success: true as const,
-      message: res?.data?.message ?? "Kid details retrieved successfully",
+      message: res?.data?.message ?? "Kid details retrieved successfully ✅",
       data: res?.data?.data ?? {} as KidDetailsData,
     }
   } catch (err) {
@@ -31,7 +38,7 @@ export const getKidDetails = async (kidId: string): Promise<KidDetailsResponse> 
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to retrieve kid details",
+      message: error.response?.data?.message ?? "Failed to retrieve kid details ❗",
     }
   }
 }

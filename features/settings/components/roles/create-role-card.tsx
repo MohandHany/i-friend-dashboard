@@ -36,6 +36,7 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
   const [roles, setRoles] = React.useState<RoleItemsData[]>([])
   const [roleNameError, setRoleNameError] = React.useState("")
   const [accessError, setAccessError] = React.useState("")
+  const [accessPopoverOpen, setAccessPopoverOpen] = React.useState(false)
 
   const handleClose = () => {
     setIsClosing(true)
@@ -155,7 +156,7 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
               <Input
                 id="role-name"
                 placeholder="Role Name"
-                className="bg-natural focus-visible:ring-primary-blue placeholder:text-natural-text/50"
+                className="bg-natural placeholder:text-natural-text/50"
                 value={roleName}
                 onChange={(e) => { setRoleName(e.target.value); if (roleNameError) setRoleNameError("") }}
                 onBlur={() => {
@@ -170,7 +171,7 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
               <Label>
                 Access <span className="text-danger">*</span>
               </Label>
-              <Popover>
+              <Popover open={accessPopoverOpen} onOpenChange={setAccessPopoverOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -182,7 +183,7 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
                     {selectedAccess.length > 0
                       ? `${selectedAccess.length} selected`
                       : "Select permissions"}
-                    <ArrowDown2Icon className="h-4 w-4 opacity-50" />
+                    <ArrowDown2Icon className={`h-4 w-4 opacity-50 transition-all duration-300 ${accessPopoverOpen ? "rotate-180" : ""}`} />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-100 p-4 z-99999" align="start">
@@ -218,14 +219,14 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
               onClick={handleAdd}
               disabled={submitting}
             >
-              Add
+              Create
             </Button>
             <Button
               variant="ghost"
               className="w-full p-6 text-natural-text hover:text-black hover:bg-natural"
               onClick={handleClose}
             >
-              Cancel
+              Close
             </Button>
           </div>
         </div>

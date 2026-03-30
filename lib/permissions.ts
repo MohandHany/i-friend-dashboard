@@ -23,11 +23,13 @@ export const PERMISSIONS = {
   REVENUE: "Revenue",
   ANALYSIS: "Analysis",
   SUBSCRIPTION: "Subscription",
-  PAYMENT: "Payment",
   USERS: "Users",
   NOTIFICATION: "Notification",
   FEEDBACK: "Feedback",
   SETTINGS: "Settings",
+  LOYALTY: "Loyalty",
+  PAYMENT: "Payment",
+  HELP_AND_SUPPORT: "Help And Support",
 } as const;
 
 /**
@@ -39,11 +41,13 @@ export const PERMISSION_GROUPS = {
   REVENUE: [PERMISSIONS.REVENUE] as string[],
   ANALYSIS: [PERMISSIONS.ANALYSIS] as string[],
   SUBSCRIPTION: [PERMISSIONS.SUBSCRIPTION] as string[],
-  PAYMENT: [PERMISSIONS.PAYMENT] as string[],
   USERS: [PERMISSIONS.USERS] as string[],
   NOTIFICATION: [PERMISSIONS.NOTIFICATION] as string[],
   FEEDBACK: [PERMISSIONS.FEEDBACK] as string[],
   SETTINGS: [PERMISSIONS.SETTINGS] as string[],
+  LOYALTY: [PERMISSIONS.LOYALTY] as string[],
+  PAYMENT: [PERMISSIONS.PAYMENT] as string[],
+  HELP_AND_SUPPORT: [PERMISSIONS.HELP_AND_SUPPORT] as string[],
 };
 
 

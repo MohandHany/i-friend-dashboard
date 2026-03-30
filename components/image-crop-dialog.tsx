@@ -207,8 +207,8 @@ export function ImageCropDialog({ open, onOpenChange, imageUrl, onCropComplete }
         <div className="space-y-4">
           <canvas
             ref={canvasRef}
-            width={500}
-            height={500}
+            width={350}
+            height={350}
             className="border border-gray-200 rounded-lg cursor-move"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -238,17 +238,17 @@ export function ImageCropDialog({ open, onOpenChange, imageUrl, onCropComplete }
 
           <div className="flex gap-4">
             <Button
-              className="w-full bg-primary-blue hover:bg-primary-blue-hover"
+              className="w-full bg-primary-blue hover:bg-primary-blue-hover px-4 py-5"
               onClick={handleCrop}
             >
               Apply
             </Button>
             <Button
               variant="ghost"
-              className="w-full"
+              className="w-full px-4 py-5"
               onClick={handleClose}
             >
-              Cancel
+              Close
             </Button>
           </div>
         </div>

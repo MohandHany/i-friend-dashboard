@@ -40,7 +40,7 @@ export function TopList() {
         <Table>
           <TableHeader className="bg-light-natural">
             <TableRow>
-              <TableHead className="w-[60px] text-center font-bold text-lg">
+              <TableHead className="w-[60px] text-center font-bold">
                 #
               </TableHead>
               <TableHead>

@@ -8,7 +8,7 @@ export const signOut = async (refreshToken?: string) => {
     const res = await api.post("/auth/sign-out", { refreshToken: rt });
     return {
       success: true,
-      message: res?.data?.message ?? "Signed out successfully",
+      message: res?.data?.message ?? "Signed out successfully ✅",
     };
   } catch (err: unknown) {
     const error = err as { response?: { status?: number; data?: Record<string, unknown> } };

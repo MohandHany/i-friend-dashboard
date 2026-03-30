@@ -45,7 +45,7 @@ export function ParentDetailsContent({ parentId }: { parentId: string }) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-muted-foreground font-normal">
+            <BreadcrumbPage className="text-natural-text font-normal">
               {parent?.firstName} {parent?.lastName}
             </BreadcrumbPage>
           </BreadcrumbItem>
@@ -70,7 +70,7 @@ export function ParentDetailsContent({ parentId }: { parentId: string }) {
       {parent && !loading && (
         <>
           {/* Header */}
-          <h1 className="text-2xl font-semibold text-black">
+          <h1 className="text-[22px] font-semibold">
             View{" "}
             <span className="text-natural-text">
               {parent.firstName} {parent.lastName}

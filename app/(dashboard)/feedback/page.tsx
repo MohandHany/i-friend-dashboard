@@ -1,7 +1,7 @@
-export default function Page() {
-    return (
-        <div>
-            <h1>Feedback</h1>
-        </div>
-    );
+import FeedbackContent from "@/features/feedback/feedback-content";
+
+export default function FeedbackPage() {
+  return (
+    <FeedbackContent />
+  );
 }

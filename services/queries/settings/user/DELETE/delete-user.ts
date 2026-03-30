@@ -19,7 +19,7 @@ export const deleteUsers = async (userIds: string[]) => {
     );
     return {
       success: true as const,
-      message: res?.data?.message ?? "Users deleted successfully",
+      message: res?.data?.message ?? "Users deleted successfully ✅",
       data: res.data.data,
     }
   } catch (err) {
@@ -29,7 +29,7 @@ export const deleteUsers = async (userIds: string[]) => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to delete users",
+      message: error.response?.data?.message ?? "Failed to delete users ❗",
     }
   }
 }

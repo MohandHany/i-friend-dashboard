@@ -49,7 +49,7 @@ export default function FilterationUsersLocation({
       <PopoverContent className="w-56 p-0" align="end">
         <Accordion type="multiple" className="w-full">
           <AccordionItem value="country">
-            <AccordionTrigger className="text-natural-text px-4 py-2 hover:no-underline hover:bg-muted/50">
+            <AccordionTrigger className="px-4 py-2 hover:no-underline hover:bg-muted/50 cursor-pointer">
               Country
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 pt-0">
@@ -61,7 +61,7 @@ export default function FilterationUsersLocation({
                       checked={selectedCountries.includes(country)}
                       onCheckedChange={(val) => onToggleCountry(country, Boolean(val))}
                     />
-                    <Label htmlFor={`country-${country}`} className="cursor-pointer text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <Label htmlFor={`country-${country}`} className="cursor-pointer text-base font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-natural-text text-sm">
                       {country}
                     </Label>
                   </div>
@@ -71,7 +71,7 @@ export default function FilterationUsersLocation({
           </AccordionItem>
 
           <AccordionItem value="region" className="border-b-0">
-            <AccordionTrigger className={`text-natural-text px-4 py-2 hover:no-underline hover:bg-muted/50 ${selectedCountries.length === 0 ? 'opacity-50 pointer-events-none' : ''}`}>
+            <AccordionTrigger className={`px-4 py-2 hover:no-underline hover:bg-muted/50 ${selectedCountries.length === 0 ? 'opacity-50 pointer-events-none' : ''} cursor-pointer`}>
               Region
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 pt-0">
@@ -86,7 +86,7 @@ export default function FilterationUsersLocation({
                         checked={selectedRegions.includes(region)}
                         onCheckedChange={(val) => onToggleRegion(region, Boolean(val))}
                       />
-                      <Label htmlFor={`region-${region}`} className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      <Label htmlFor={`region-${region}`} className="text-base font-normal cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-natural-text text-sm">
                         {region}
                       </Label>
                     </div>

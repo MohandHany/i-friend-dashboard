@@ -36,7 +36,7 @@ export const getAllRoles = async () => {
         const res = await api.get<RolesResponse>("/settings/role/get-all-roles")
         return {
             success: true as const,
-            message: res?.data?.message ?? "Roles retrieved successfully",
+            message: res?.data?.message ?? "Roles retrieved successfully ✅",
             data: res.data.data ?? [] as RoleItemsData[],
         }
     } catch (err) {
@@ -46,7 +46,7 @@ export const getAllRoles = async () => {
         return {
             success: false as const,
             status,
-            message: error.response?.data?.message ?? "Failed to fetch roles",
+            message: error.response?.data?.message ?? "Failed to fetch roles ❗",
         }
     }
 }

@@ -1,10 +1,12 @@
 "use client"
-import { TotalRevenueChart } from "@/components/total-revenue-chart";
+import { TotalRevenuesChart } from "@/components/total-revenue-chart";
+import { AllCustomersTable } from "./components/all-customers-table";
 
-export default function RevenueContent() {
+export default function RevenuesContent() {
   return (
     <div>
-      <TotalRevenueChart justifyDiscount="justify-start" showTimeFilter={true} />
+      <TotalRevenuesChart justifyDiscount="justify-start" showTimeFilter={true} />
+      <AllCustomersTable />
     </div>
   );
 }

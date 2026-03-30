@@ -60,7 +60,7 @@ export function UserTableRow({
           </Button>
           <Button
             variant="ghost"
-            className="text-gray-500 hover:text-danger hover:bg-danger/10"
+            className="text-danger hover:text-danger hover:bg-danger/10"
             onClick={onDelete}
           >
             <DeleteIcon className="h-5! w-5!" /> Delete

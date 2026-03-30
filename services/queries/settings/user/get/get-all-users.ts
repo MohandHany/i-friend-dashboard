@@ -31,7 +31,7 @@ export const getAllDashboardUsers = async () => {
     const res = await api.get<GetAllUsersResponse>("/settings/user/get-all-users");
     return {
       success: true as const,
-      message: res?.data?.message ?? "Users retrieved successfully",
+      message: res?.data?.message ?? "Users retrieved successfully ✅",
       data: res.data.data ?? [] as DashboardUserData[],
     }
 
@@ -42,7 +42,7 @@ export const getAllDashboardUsers = async () => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to fetch users",
+      message: error.response?.data?.message ?? "Failed to fetch users ❗",
     }
   }
 }

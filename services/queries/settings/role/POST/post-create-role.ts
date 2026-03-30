@@ -21,7 +21,7 @@ export const createRole = async (roleName: string, permissionsIds: string[]) => 
     )
     return {
       success: true as const,
-      message: res?.data?.message ?? "Role created successfully",
+      message: res?.data?.message ?? "Role created successfully ✅",
       data: res.data.data,
     }
   } catch (err) {
@@ -31,7 +31,7 @@ export const createRole = async (roleName: string, permissionsIds: string[]) => 
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to create role",
+      message: error.response?.data?.message ?? "Failed to create role ❗",
     }
   }
 }

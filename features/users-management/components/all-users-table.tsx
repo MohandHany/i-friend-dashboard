@@ -9,84 +9,74 @@ import { ArrowRightIcon } from "@/public/arrow-right-icon"
 import ArrowDownIcon from "@/public/arrow-down-icon"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getAllParents, AllParentsItem } from "@/services/queries/users-management/get/get-all-parents"
+import { getAllParentsFull, AllParentsItem } from "@/services/queries/users-management/get/get-all-parents"
 import { UsersFilter } from "./users-filter"
 import { formatRegistrationDate } from "@/lib/utils"
 
 export function AllUsersTable() {
-
   const [kidsFilter, setKidsFilter] = useState("");
   const [subscriptionFilters, setSubscriptionFilters] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState("");
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [users, setUsers] = useState<AllParentsItem[]>([]);
+
+  // Full dataset — fetched once on mount, never re-fetched on filter changes
+  const [allUsers, setAllUsers] = useState<AllParentsItem[]>([]);
   const itemsPerPage = 10;
 
   const pathname = usePathname();
 
-  const filteredUsers = users.filter((user) => {
+  // ── 1. Fetch all data once ────────────────────────────────────────────────
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getAllParentsFull();
+        setAllUsers(data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  // ── 2. Filter across the FULL dataset ────────────────────────────────────
+  const filteredUsers = allUsers.filter((user) => {
     const matchesName = search
       ? user.name?.toLowerCase().includes(search.toLowerCase())
       : true;
+
     const matchesKids = kidsFilter
       ? user.kidsCount.toString() === kidsFilter
       : true;
+
     const matchesSubscription =
       subscriptionFilters.length > 0
-        ? subscriptionFilters.includes(
-          user.isSubscribed ? "Subscribed" : "Not Subscribed",
-        )
+        ? subscriptionFilters.includes(user.isSubscribed ? "Subscribed" : "Not Subscribed")
         : true;
 
     let matchesDate = true;
     if (dateFilter) {
-      // Mock date format: "23 March,2024"
-      // We need to handle the comma carefully or rely on Date parsing
       const userDate = new Date(user.registrationDate || "");
       const filterDate = new Date(dateFilter);
-      // Compare by locale date string or similar to ignore time
       matchesDate = userDate.toDateString() === filterDate.toDateString();
     }
 
     return matchesName && matchesKids && matchesSubscription && matchesDate;
   });
 
+  // ── 3. Paginate AFTER filtering ───────────────────────────────────────────
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentUsers = filteredUsers.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
+  const currentUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // Reset to page 1 whenever a filter changes
+  const handleSetSearch = (v: string) => { setCurrentPage(1); setSearch(v); };
+  const handleSetKidsFilter = (v: string) => { setCurrentPage(1); setKidsFilter(v); };
+  const handleSetSubscriptionFilters = (v: string[]) => { setCurrentPage(1); setSubscriptionFilters(v); };
+  const handleSetDateFilter = (v: string) => { setCurrentPage(1); setDateFilter(v); };
 
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getAllParents();
-        if (res.success && res.data) {
-          setUsers(res.data.users ?? []);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
+  const handlePageChange = (page: number) => setCurrentPage(page);
+  const handlePrevious = () => { if (currentPage > 1) setCurrentPage(currentPage - 1); };
+  const handleNext = () => { if (currentPage < totalPages) setCurrentPage(currentPage + 1); };
 
   return (
     <div>
@@ -97,13 +87,13 @@ export function AllUsersTable() {
           </CardTitle>
           <UsersFilter
             kidsFilter={kidsFilter}
-            setKidsFilter={setKidsFilter}
+            setKidsFilter={handleSetKidsFilter}
             subscriptionFilters={subscriptionFilters}
-            setSubscriptionFilters={setSubscriptionFilters}
+            setSubscriptionFilters={handleSetSubscriptionFilters}
             dateFilter={dateFilter}
-            setDateFilter={setDateFilter}
+            setDateFilter={handleSetDateFilter}
             search={search}
-            setSearch={setSearch}
+            setSearch={handleSetSearch}
             onReset={() => {
               setKidsFilter("");
               setSubscriptionFilters([]);
@@ -118,7 +108,7 @@ export function AllUsersTable() {
           <Table>
             <TableHeader className="bg-light-natural">
               <TableRow>
-                <TableHead className="w-[50px] text-center font-bold text-lg">
+                <TableHead className="w-[50px] text-center font-bold">
                   #
                 </TableHead>
                 <TableHead>
@@ -129,7 +119,7 @@ export function AllUsersTable() {
                 </TableHead>
                 <TableHead>
                   <div className="flex items-center gap-1">
-                    Kids
+                    Kids Count
                     <ArrowDownIcon className="w-4 h-4 fill-natural" />
                   </div>
                 </TableHead>
@@ -149,17 +139,22 @@ export function AllUsersTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {currentUsers.map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-center font-medium">
-                    {index + 1}
+              {currentUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-10 text-natural-text">
+                    No users found
                   </TableCell>
+                </TableRow>
+              ) : (
+                currentUsers.map((user, index) => (
+                  <TableRow key={user.id ?? index}>
+                    <TableCell className="text-center font-medium">
+                      {startIndex + index + 1}
+                    </TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.kidsCount}</TableCell>
                   <TableCell>
-                    <span
-                      className={`text-${user.isSubscribed ? "success" : "danger"}`}
-                    >
+                    <span className={`text-${user.isSubscribed ? "success" : "danger"}`}>
                       {user.isSubscribed ? "Subscribed" : "Not Subscribed"}
                     </span>
                   </TableCell>
@@ -181,7 +176,8 @@ export function AllUsersTable() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

@@ -47,7 +47,7 @@ export default function SignInContent() {
         if (!rememberMe) {
           localStorage.removeItem("refreshToken");
         }
-      } catch {}
+      } catch { }
       const result = await signIn(email, password);
       if (result.success && result.accessToken) {
         login(result.accessToken);
@@ -86,7 +86,7 @@ export default function SignInContent() {
           onSubmit={(e) => e.preventDefault()}
         >
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm text-black select-none">
+            <Label htmlFor="email" className="text-base text-black select-none">
               Email address <span className="text-red-500">*</span>
             </Label>
             <div className="relative">
@@ -99,7 +99,7 @@ export default function SignInContent() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="info@example.com"
-                className="h-12 border-gray-100 bg-natural pl-10 placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-primary-blue"
+                className="h-12 border-gray-100 bg-natural pl-10 placeholder:text-natural-text focus:ring-2 focus:ring-primary-blue focus:ring-offset-1 transition-all"
               />
             </div>
           </div>
@@ -107,12 +107,12 @@ export default function SignInContent() {
           <div className="space-y-2">
             <Label
               htmlFor="password"
-              className="text-sm  text-black select-none"
+              className="text-base  text-black select-none"
             >
               Password <span className="text-red-500">*</span>
             </Label>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-natural-text">
                 <PasswordIcon className="h-5 w-5 fill-natural-text" />
               </div>
               <Input
@@ -121,12 +121,12 @@ export default function SignInContent() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="h-12 border-gray-100 bg-natural px-10 placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-primary-blue"
+                className="h-12 border-gray-100 bg-natural px-10 placeholder:text-natural-text focus:ring-2 focus:ring-primary-blue focus:ring-offset-1 transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-natural-text hover:text-natural-text"
               >
                 {showPassword ? (
                   <VisibleIcon className="h-5 w-5 fill-natural-text" />
@@ -149,10 +149,10 @@ export default function SignInContent() {
                   if (!next) {
                     localStorage.removeItem("refreshToken");
                   }
-                } catch {}
+                } catch { }
               }}
             />
-            <Label htmlFor="remember" className="text-sm cursor-pointer">
+            <Label htmlFor="remember" className="text-base cursor-pointer">
               Remember me
             </Label>
           </div>

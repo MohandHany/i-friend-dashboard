@@ -39,11 +39,6 @@ export const MENU_ROUTES: MenuRoute[] = [
     requiredPermissions: [PERMISSIONS.SUBSCRIPTION],
   },
   {
-    name: "Payment Methods",
-    href: "/payment",
-    requiredPermissions: [PERMISSIONS.PAYMENT],
-  },
-  {
     name: "Users Management",
     href: "/users-management",
     requiredPermissions: [PERMISSIONS.USERS],
@@ -54,9 +49,19 @@ export const MENU_ROUTES: MenuRoute[] = [
     requiredPermissions: [PERMISSIONS.NOTIFICATION],
   },
   {
+    name: "Help & Support",
+    href: "/help-and-support",
+    requiredPermissions: [PERMISSIONS.HELP_AND_SUPPORT],
+  },
+  {
     name: "Feedback",
     href: "/feedback",
     requiredPermissions: [PERMISSIONS.FEEDBACK],
+  },
+  {
+    name: "Refer & Earn",
+    href: "/refer-and-earn",
+    requiredPermissions: [PERMISSIONS.LOYALTY],
   },
   {
     name: "Settings",

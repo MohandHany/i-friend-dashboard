@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { getRevenuesStats, RevenueStatsData } from "@/services/queries/revenues/get/get-revenues-chart"
 
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
@@ -19,36 +20,27 @@ import {
 import { Button } from "./ui/button"
 import { useRouter, usePathname } from "next/navigation"
 
-const chartData = [
-  { month: "Jan", revenue: 0 },
-  { month: "Feb", revenue: 5000 },
-  { month: "Mar", revenue: 12000 },
-  { month: "Apr", revenue: 16000 },
-  { month: "May", revenue: 26000 },
-  { month: "Jun", revenue: 9000 },
-  { month: "Jul", revenue: 16000 },
-  { month: "Aug", revenue: 34000 },
-  { month: "Sep", revenue: 18000 },
-  { month: "Oct", revenue: 29000 },
-  { month: "Nov", revenue: 31000 },
-  { month: "Dec", revenue: 31000 },
-  { month: "Jan2", revenue: 20000 },
-  { month: "Feb2", revenue: 30000 },
-]
-
-// Truncate to 12 months for display matching image
-const displayData = chartData.slice(1, 13).map((d, i) => ({ ...d, month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i] }))
-
-
 const chartConfig = {
-  revenue: {
+  amount: {
     label: "Revenue",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
-export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justifyDiscount: string, showTimeFilter?: boolean }) {
+export function TotalRevenuesChart({ justifyDiscount, showTimeFilter }: { justifyDiscount: string, showTimeFilter?: boolean }) {
   const [timeRange, setTimeRange] = React.useState("Yearly")
+  const [data, setData] = React.useState<RevenueStatsData | null>(null)
+
+  React.useEffect(() => {
+    (async () => {
+      // Map "Yearly" to "Years" to match the API expected values
+      const apiTimeframe = timeRange === "Yearly" ? "Years" : (timeRange as "Weekly" | "Monthly" | "Years")
+      const res = await getRevenuesStats({ timeframe: apiTimeframe })
+      if (res.success && res.data) {
+        setData(res.data)
+      }
+    })()
+  }, [timeRange])
   const router = useRouter()
   const pathname = usePathname().split("/")[1]
   return (
@@ -79,13 +71,9 @@ export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justify
             )}
           </div>
           <div className={`w-full flex items-end gap-4 ${justifyDiscount}`}>
-            <span className="text-3xl font-semibold">10,230 EGP</span>
-            <div className="flex items-center gap-1">
-              <span className="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg">
-                +9.6%
-              </span>
-              <span className="text-xs text-muted-foreground">Last month</span>
-            </div>
+            <span className="text-3xl font-semibold">
+              {data ? `${data.totalRevenue.toLocaleString()} ${data.currency}` : "Loading..."}
+            </span>
           </div>
         </div>
       </CardHeader>
@@ -93,7 +81,7 @@ export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justify
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <AreaChart
             accessibilityLayer
-            data={displayData}
+            data={data?.chartData || []}
             margin={{
               left: 12,
               right: 12,
@@ -107,26 +95,22 @@ export function TotalRevenueChart({ justifyDiscount, showTimeFilter }: { justify
             </defs>
             <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#E5E7EB" />
             <XAxis
-              dataKey="month"
+              dataKey="label"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               tickMargin={15}
-              tickFormatter={(value) => `${value / 1000}k`}
-              domain={[0, 50000]}
-              ticks={[0, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000]}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
             <Area
-              dataKey="revenue"
+              dataKey="amount"
               type="linear"
               fill="url(#fillRevenue)"
               fillOpacity={0.4}

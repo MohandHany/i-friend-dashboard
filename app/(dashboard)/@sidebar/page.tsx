@@ -5,10 +5,11 @@ import HomeIcon from "@/public/home-icon";
 import RevenuesIcon from "@/public/revenues-icon";
 import AnalysisIcon from "@/public/analysis-icon";
 import SubscriptionsIcon from "@/public/subscriptions-icon";
-import PaymentIcon from "@/public/card-icon";
 import UsersIcon from "@/public/users-icon";
 import NotificationsIcon from "@/public/notifications-icon";
+import HeadPhoneIcon from "@/public/head-phone-icon";
 import FeedBackIcon from "@/public/feed-back-icon";
+import { GiftIcon } from "@/public/gift-icon";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,10 +30,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   "/revenues": RevenuesIcon,
   "/analysis": AnalysisIcon,
   "/subscriptions": SubscriptionsIcon,
-  "/payment": PaymentIcon,
   "/users-management": UsersIcon,
   "/notifications": NotificationsIcon,
+  "/help-and-support": HeadPhoneIcon,
   "/feedback": FeedBackIcon,
+  "/refer-and-earn": GiftIcon,
   "/settings": SettingsIcon,
 };
 
@@ -60,9 +62,9 @@ export default function Sidebar() {
   }, [permissions]);
 
   return (
-    <aside className="fixed top-0 left-0 w-76 h-screen bg-dark-blue flex flex-col p-2 z-100">
+    <aside className="hidden xl:flex fixed top-0 left-0 w-76 h-screen bg-dark-blue flex-col p-2 z-100">
       {/* Logo */}
-      <div className="flex items-center justify-center p-4">
+      <div className="flex items-center justify-center p-3">
         <Image
           src="/IFriend.svg"
           alt="iFriend Logo"

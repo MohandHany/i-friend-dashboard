@@ -21,7 +21,7 @@ export const updateRole = async (roleId: string, data: updateRoleData) => {
     )
     return {
       success: true as const,
-      message: res?.data?.message ?? "Role permissions updated successfully",
+      message: res?.data?.message ?? "Role permissions updated successfully ✅",
       data: res.data.data,
     }
   } catch (err) {
@@ -31,7 +31,7 @@ export const updateRole = async (roleId: string, data: updateRoleData) => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to update role permissions",
+      message: error.response?.data?.message ?? "Failed to update role permissions ❗",
     }
   }
 }

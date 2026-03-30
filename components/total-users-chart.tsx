@@ -1,5 +1,5 @@
 "use client";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, LegendProps } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -94,12 +94,6 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
           </div>
           <div className={`w-full flex items-end gap-4 ${justifyDiscount}`}>
             <span className="text-3xl font-semibold">{totalUsers}</span>
-            <div className="flex items-center gap-1">
-              <span className="text-xs font-medium text-rose-500 bg-rose-500/10 px-2 py-1 rounded-lg">
-                -1.8%
-              </span>
-              <span className="text-xs text-muted-foreground">Last month</span>
-            </div>
           </div>
         </div>
       </CardHeader>

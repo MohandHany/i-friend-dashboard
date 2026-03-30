@@ -59,7 +59,7 @@ export function AllKidsTable({ kids }: { kids: ParentChildrenData[] }) {
           <Table>
             <TableHeader className="bg-natural border-none">
               <TableRow>
-                <TableHead className="w-[50px] text-center text-lg font-semibold">
+                <TableHead className="w-[50px] text-center font-bold">
                   #
                 </TableHead>
                 <TableHead>

@@ -33,7 +33,7 @@ export const getMe = async () => {
 
     const normalized: MyDataType = {
       success: Boolean(mid?.success ?? true),
-      message: String(mid?.message ?? outer?.message ?? "My data fetching successfully"),
+      message: String(mid?.message ?? outer?.message ?? "My data fetching successfully ✅"),
       user: user
         ? {
           ...user,
@@ -65,7 +65,7 @@ export const getMe = async () => {
 
     return {
       success: false,
-      message: data?.message ?? `My data fetching failed, Error ${status}`,
+      message: data?.message ?? `My data fetching failed, Error ${status} ❗`,
     };
   }
 };

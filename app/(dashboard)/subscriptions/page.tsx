@@ -1,7 +1,9 @@
+import SubscriptionContent from "@/features/subscription-management/subscription-content"
+
 export default function Page() {
-    return (
-        <div>
-            <h1>Subscription</h1>
-        </div>
-    );
+  return (
+    <div>
+      <SubscriptionContent />
+    </div>
+  );
 }

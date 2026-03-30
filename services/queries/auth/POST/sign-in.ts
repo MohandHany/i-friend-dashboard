@@ -11,7 +11,7 @@ export const signIn = async (email: string, password: string) => {
 
     return {
       success: true,
-      message: res?.data?.message ?? "Login successfully",
+      message: res?.data?.message ?? "Login successfully ✅",
       accessToken: accessToken,
     };
   } catch (err: unknown) {

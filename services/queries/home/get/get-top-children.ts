@@ -11,7 +11,7 @@ export const getTopChildren = async () => {
     const res = await api.get("/home/top-children");
     return {
       success: true,
-      message: res?.data?.message ?? "Top children fetched successfully",
+      message: res?.data?.message ?? "Top children fetched successfully ✅",
       data: (res?.data?.data ?? []) as topChild[],
     };
   } catch (err) {
@@ -21,7 +21,7 @@ export const getTopChildren = async () => {
     return {
       success: false,
       status,
-      message: data?.message ?? "Top children fetch failed",
+      message: data?.message ?? "Top children fetch failed ❗",
     }
   }
 }

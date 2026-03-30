@@ -59,13 +59,14 @@ export function UserFormFields({
     <>
       {/* Name Field */}
       <div className="space-y-2">
-        <Label htmlFor="user-name" className="text-sm">
-          Name <span className="text-red-500">*</span>
+        <Label htmlFor="user-name">
+          Name <span className="text-danger">*</span>
         </Label>
         <Input
           id="user-name"
+          name="user-full-name"
           placeholder="Name"
-          className="bg-natural focus-visible:ring-blue-500"
+          className="bg-natural"
           value={name}
           onChange={(e) => { setName(e.target.value); if (nameError) setNameError("") }}
           onBlur={() => {
@@ -73,13 +74,13 @@ export function UserFormFields({
             setNameError(res.success ? "" : (res.error.issues[0]?.message || "Invalid name"))
           }}
         />
-        {nameError ? (<p className="text-xs text-red-500">{nameError}</p>) : null}
+        {nameError ? (<p className="text-xs text-danger">{nameError}</p>) : null}
       </div>
 
       {/* Role Field */}
       <div className="space-y-2">
-        <Label className="text-sm">
-          Role <span className="text-red-500">*</span>
+        <Label>
+          Role <span className="text-danger">*</span>
         </Label>
         <Popover open={rolePopoverOpen} onOpenChange={setRolePopoverOpen}>
           <PopoverTrigger asChild>
@@ -91,7 +92,7 @@ export function UserFormFields({
               )}
             >
               {roles.find(r => r.id === selectedRoleId)?.name || roleOptionsFallback[0] || "Select role"}
-              <ArrowDown2Icon className="h-4 w-4 opacity-50" />
+              <ArrowDown2Icon className={`h-4 w-4 opacity-50 transition-all duration-300 ${rolePopoverOpen ? "rotate-180" : ""}`} />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2 z-99999" align="start">
@@ -104,19 +105,20 @@ export function UserFormFields({
             </div>
           </PopoverContent>
         </Popover>
-        {roleError ? (<p className="text-xs text-red-500">{roleError}</p>) : null}
+        {roleError ? (<p className="text-xs text-danger">{roleError}</p>) : null}
       </div>
 
       {/* Email Field */}
       <div className="space-y-2">
-        <Label htmlFor="user-email" className="text-sm">
-          Email <span className="text-red-500">*</span>
+        <Label htmlFor="user-email">
+          Email <span className="text-danger">*</span>
         </Label>
         <Input
           id="user-email"
+          name="user-email"
           type="email"
           placeholder="example@gmail.com"
-          className="bg-natural focus-visible:ring-blue-500"
+          className="bg-natural"
           value={email}
           onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError("") }}
           onBlur={() => {
@@ -124,20 +126,22 @@ export function UserFormFields({
             setEmailError(res.success ? "" : (res.error.issues[0]?.message || "Invalid email"))
           }}
         />
-        {emailError ? (<p className="text-xs text-red-500">{emailError}</p>) : null}
+        {emailError ? (<p className="text-xs text-danger">{emailError}</p>) : null}
       </div>
 
       {/* Password Field */}
       <div className="space-y-2">
-        <Label htmlFor="user-password" className="text-sm">
-          Password <span className="text-red-500">*</span>
+        <Label htmlFor="user-password">
+          Password <span className="text-danger">*</span>
         </Label>
         <div className="relative">
           <Input
             id="user-password"
+            name="user-password"
             type={passwordVisibility ? "text" : "password"}
+            autoComplete="new-password"
             placeholder="Password"
-            className="bg-natural focus-visible:ring-blue-500"
+            className="bg-natural"
             value={password}
             onChange={(e) => { setPassword(e.target.value); if (passwordError) setPasswordError("") }}
             onBlur={() => {
@@ -152,7 +156,7 @@ export function UserFormFields({
             {passwordVisibility ? <VisibleIcon /> : <UnvisibleIcon />}
           </Button>
         </div>
-        {passwordError ? (<p className="text-xs text-red-500">{passwordError}</p>) : null}
+        {passwordError ? (<p className="text-xs text-danger">{passwordError}</p>) : null}
       </div>
     </>
   )

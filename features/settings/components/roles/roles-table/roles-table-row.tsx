@@ -34,18 +34,21 @@ export function RoleTableRow({
       <TableCell className="font-medium">{role.name}</TableCell>
       <TableCell>
         <div className="flex flex-wrap gap-2">
-          {(role.dashboardRolePermissions || [])
-            .map((rp) => rp.permission?.name)
-            .filter((n): n is string => Boolean(n))
-            .map((name) => (
-              <Badge
-                key={`${role.id}-${name}`}
-                variant="secondary"
-                className="bg-primary-blue/10 text-primary-blue font-normal hover:bg-primary-blue/10"
-              >
-                {name}
-              </Badge>
-            ))}
+          {Array.from(
+            new Set(
+              (role.dashboardRolePermissions || [])
+                .map((rp) => rp.permission?.name)
+                .filter((n): n is string => Boolean(n))
+            )
+          ).map((name) => (
+            <Badge
+              key={`${role.id}-${name}`}
+              variant="secondary"
+              className="bg-primary-blue/10 text-primary-blue font-normal hover:bg-primary-blue/10"
+            >
+              {name}
+            </Badge>
+          ))}
         </div>
       </TableCell>
       <TableCell className="text-right py-0">

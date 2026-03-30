@@ -16,7 +16,7 @@ export const deleteRoles = async (roleIds: string[]) => {
     const res = await api.delete<deleteRolesResponse>(`/settings/role/delete-role`, { data: { roleIds } })
     return {
       success: true as const,
-      message: res?.data?.message ?? "Roles deleted successfully",
+      message: res?.data?.message ?? "Roles deleted successfully ✅",
       data: res.data.data,
     }
   } catch (err) {
@@ -26,7 +26,7 @@ export const deleteRoles = async (roleIds: string[]) => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to delete roles",
+      message: error.response?.data?.message ?? "Failed to delete roles ❗",
     }
   }
 }

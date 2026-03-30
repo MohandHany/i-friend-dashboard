@@ -25,9 +25,15 @@ import { useEffect, useState } from "react";
 import { getKidDetails } from "@/services/queries/users-management/get/get-kid-details";
 import IFriendSpinner from "@/components/ifriend-spinner";
 
-const reports = [
-  { id: 1, name: "Adham", lastName: "Ahmed", age: 8, reportsCount: 3 },
-];
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).replace(/ (\d{4})$/, ", $1");
+};
 
 export function KidDetailsContent({ kidId }: { kidId: string }) {
   const [kid, setKid] = useState<KidDetailsData | null>(null);
@@ -97,7 +103,7 @@ export function KidDetailsContent({ kidId }: { kidId: string }) {
         <>
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <h1 className="text-2xl font-semibold text-gray-800">
+            <h1 className="text-[22px] font-semibold">
               View <span className="text-natural-text">{kid?.firstName} {kid?.lastName}</span>
             </h1>
           </div>
@@ -138,7 +144,7 @@ export function KidDetailsContent({ kidId }: { kidId: string }) {
               <Table>
                 <TableHeader className="bg-natural border-none">
                   <TableRow>
-                    <TableHead className="w-[50px] text-center text-lg font-semibold">#</TableHead>
+                    <TableHead className="w-[50px] text-center font-bold">#</TableHead>
                     <TableHead>
                       <div className="flex items-center gap-1">
                         Name
@@ -151,14 +157,22 @@ export function KidDetailsContent({ kidId }: { kidId: string }) {
                         <ArrowDownIcon className="h-4 w-4" />
                       </div>
                     </TableHead>
-                    <TableHead className="text-right pr-6"></TableHead>
+                    <TableHead>
+                      <div className="flex items-center gap-1">
+                        Date
+                        <ArrowDownIcon className="h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead className="text-right pr-6" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {kid?.reports.map((report, index) => (
-                    <TableRow key={index + 1}>
+                    <TableRow key={report.id ?? index}>
                       <TableCell className="text-center font-medium">{index + 1}</TableCell>
-                      <TableCell>{report}</TableCell>
+                      <TableCell>{report.name}</TableCell>
+                      <TableCell className="text-natural-text text-sm">{report.fileName}</TableCell>
+                      <TableCell className="text-natural-text text-sm">{formatDate(report.date)}</TableCell>
                       <TableCell className="text-right py-0">
                         <div className="flex items-center justify-end pr-8">
                           <Button variant="ghost" className="h-auto text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10 gap-1">

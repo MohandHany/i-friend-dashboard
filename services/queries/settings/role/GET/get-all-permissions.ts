@@ -18,7 +18,7 @@ export const getAllPermissions = async () => {
     const res = await api.get<PermissionsResponse>("/settings/role/get-all-permissions")
     return {
       success: true as const,
-      message: res?.data?.message ?? "Permissions retrieved successfully",
+      message: res?.data?.message ?? "Permissions retrieved successfully ✅",
       data: res.data.data ?? [] as PermissionItemsData[],
     }
   } catch (err) {
@@ -28,7 +28,7 @@ export const getAllPermissions = async () => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to fetch permissions",
+      message: error.response?.data?.message ?? "Failed to fetch permissions ❗",
     }
   }
 }

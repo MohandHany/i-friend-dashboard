@@ -26,6 +26,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
   const [permissions, setPermissions] = React.useState<PermissionItemsData[]>([])
   const [selectedAccess, setSelectedAccess] = React.useState<string[]>([])
   const [submitting, setSubmitting] = React.useState(false)
+  const [accessPopoverOpen, setAccessPopoverOpen] = React.useState(false)
 
   const roleName = role?.name ?? ""
 
@@ -138,7 +139,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
 
           <div className="space-y-2">
             <Label>Access</Label>
-            <Popover>
+            <Popover open={accessPopoverOpen} onOpenChange={setAccessPopoverOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
@@ -148,7 +149,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
                   )}
                 >
                   {selectedAccess.length > 0 ? `${selectedAccess.length} selected` : "Select permissions"}
-                  <ArrowDown2Icon className="h-4 w-4 opacity-50" />
+                  <ArrowDown2Icon className={`h-4 w-4 opacity-50 transition-all duration-300 ${accessPopoverOpen ? "rotate-180" : ""}`} />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-100 p-4 z-99999" align="start">
@@ -184,14 +185,14 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
               onClick={handleSave}
               disabled={submitting}
             >
-              Save
+              Update
             </Button>
             <Button
               variant="ghost"
               className="w-full p-6 text-natural-text hover:text-black hover:bg-natural"
               onClick={handleClose}
             >
-              Cancel
+              Close
             </Button>
           </div>
         </div>

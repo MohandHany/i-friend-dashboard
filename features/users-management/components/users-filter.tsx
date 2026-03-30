@@ -34,9 +34,9 @@ export function UsersFilter({
   return (
     <div className="flex flex-col md:flex-row justify-end items-center gap-4 w-fit">
       <div className="relative w-72 m-0">
-        <SearchIcon className="absolute fill-natural right-2 top-1/2 -translate-y-1/2" />
+        <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
         <Input
-          placeholder="Search"
+          placeholder="Search by name"
           className="pr-10 rounded-lg placeholder:text-natural-text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -52,7 +52,7 @@ export function UsersFilter({
         <PopoverContent className="w-80 p-4" align="end">
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="kids">Kids Count</Label>
+              <Label htmlFor="kids" className="text-sm">Kids Count</Label>
               <Input
                 id="kids"
                 type="number"
@@ -62,8 +62,8 @@ export function UsersFilter({
                 onChange={(e) => setKidsFilter(e.target.value)}
               />
             </div>
-            <div className="grid gap-2">
-              <Label>Subscription Status</Label>
+            <div className="grid gap-2">  
+              <Label className="text-sm">Subscription Status</Label>
               <div className="flex items-center gap-2">
                 <Checkbox
                   id="subscribed"
@@ -76,7 +76,7 @@ export function UsersFilter({
                     }
                   }}
                 />
-                <Label htmlFor="subscribed" className="font-normal text-success cursor-pointer">
+                <Label htmlFor="subscribed" className="text-success text-sm cursor-pointer">
                   Subscribed
                 </Label>
               </div>
@@ -92,13 +92,13 @@ export function UsersFilter({
                     }
                   }}
                 />
-                <Label htmlFor="not-subscribed" className="font-normal text-danger cursor-pointer">
+                <Label htmlFor="not-subscribed" className="text-danger text-sm cursor-pointer">
                   Not Subscribed
                 </Label>
               </div>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="date">Registration Date</Label>
+              <Label htmlFor="date" className="text-sm">Registration Date</Label>
               <Input
                 id="date"
                 type="date"
@@ -108,7 +108,8 @@ export function UsersFilter({
               />
             </div>
             <Button
-              variant="outline"
+              variant="ghost"
+              className="text-natural-text"
               onClick={() => {
                 if (onReset) {
                   onReset()

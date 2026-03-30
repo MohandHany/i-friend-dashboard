@@ -40,7 +40,7 @@ export const patchUpdateMe = async (body: UpdateMeData) => {
     );
     return {
       success: true as const,
-      message: res?.data?.message ?? "Profile updated successfully",
+      message: res?.data?.message ?? "Profile updated successfully ✅",
       data: res.data?.data,
     };
   } catch (err) {
@@ -49,7 +49,7 @@ export const patchUpdateMe = async (body: UpdateMeData) => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to update profile",
+      message: error.response?.data?.message ?? "Failed to update profile ❗",
     };
   }
 };

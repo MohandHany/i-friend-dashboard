@@ -39,7 +39,7 @@ export const postCreateDashboardUser = async (body: Request) => {
     );
     return {
       success: true as const,
-      message: res?.data?.message ?? "User created successfully",
+      message: res?.data?.message ?? "User created successfully ✅",
       data: res.data?.data,
     };
   } catch (err) {
@@ -50,7 +50,7 @@ export const postCreateDashboardUser = async (body: Request) => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to create user",
+      message: error.response?.data?.message ?? "Failed to create user ❗",
     };
   }
 };

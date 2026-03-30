@@ -22,7 +22,7 @@ export const patchUpdateDashboardUser = async (body: UpdateUserData) => {
     );
     return {
       success: true as const,
-      message: res?.data?.message ?? "User role updated successfully",
+      message: res?.data?.message ?? "User role updated successfully ✅",
       data: res.data?.data,
     };
   } catch (err) {
@@ -33,7 +33,7 @@ export const patchUpdateDashboardUser = async (body: UpdateUserData) => {
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to update user role",
+      message: error.response?.data?.message ?? "Failed to update user role ❗",
     };
   }
 };

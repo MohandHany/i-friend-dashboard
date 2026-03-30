@@ -136,7 +136,7 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
                     )}
                   >
                     {selectedRoleName}
-                    <ArrowDown2Icon className="h-4 w-4 opacity-50" />
+                    <ArrowDown2Icon className={`h-4 w-4 opacity-50 transition-all duration-300 ${rolePopoverOpen ? "rotate-180" : ""}`} />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
@@ -165,7 +165,7 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
               onClick={handleUpdate}
               disabled={loading || !selectedRoleId}
             >
-              Save
+              Update
             </Button>
             <Button
               variant="ghost"
@@ -173,7 +173,7 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
               onClick={handleClose}
               disabled={loading}
             >
-              Cancel
+              Close
             </Button>
           </div>
         </div>

@@ -18,20 +18,34 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import FilterationUsersLocation from "./users-location-filter";
 import {
-  getRegionAnalysis,
+  getRegionAnalysisFull,
   RegionAnalysisItem,
 } from "@/services/queries/analysis/get/get-region-analysis";
 
 export function UsersLocationTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [rows, setRows] = useState<RegionAnalysisItem[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Full dataset — fetched once on mount, never re-fetched on filter changes
+  const [allRows, setAllRows] = useState<RegionAnalysisItem[]>([]);
   const itemsPerPage = 10;
 
-  // Apply filters
-  const filteredRows = rows.filter((r) => {
+  // ── 1. Fetch all data once ────────────────────────────────────────────────
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getRegionAnalysisFull();
+        setAllRows(data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  // ── 2. Filter across the FULL dataset ────────────────────────────────────
+  const filteredRows = allRows.filter((r) => {
     const countryOk =
       selectedCountries.length === 0 || selectedCountries.includes(r.country);
     const regionOk =
@@ -44,33 +58,32 @@ export function UsersLocationTable() {
     return countryOk && regionOk && searchOk;
   });
 
+  // ── 3. Paginate AFTER filtering ───────────────────────────────────────────
   const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = filteredRows.slice(startIndex, startIndex + itemsPerPage);
 
+  // Reset to page 1 whenever a filter changes
   const toggleCountry = (country: string, checked: boolean) => {
+    const next = checked
+      ? [...selectedCountries, country]
+      : selectedCountries.filter((c) => c !== country);
+
+    // Prune regions that no longer belong to the selected countries
+    const allowedRegions =
+      next.length === 0
+        ? []
+        : Array.from(
+          new Set(
+            allRows
+              .filter((r) => next.includes(r.country))
+              .map((r) => r.region),
+          ),
+        );
+
     setCurrentPage(1);
-    setSelectedCountries((prev) => {
-      const next = checked
-        ? [...prev, country]
-        : prev.filter((c) => c !== country);
-      // After updating countries, recompute allowed regions and prune selectedRegions
-      // If no countries are selected, clear region filters entirely
-      const allowedRegions =
-        next.length === 0
-          ? []
-          : Array.from(
-              new Set(
-                rows
-                  .filter((r) => next.includes(r.country))
-                  .map((r) => r.region),
-              ),
-            );
-      setSelectedRegions((old) =>
-        old.filter((rg) => allowedRegions.includes(rg)),
-      );
-      return next;
-    });
+    setSelectedCountries(next);
+    setSelectedRegions((old) => old.filter((rg) => allowedRegions.includes(rg)));
   };
 
   const toggleRegion = (region: string, checked: boolean) => {
@@ -80,57 +93,25 @@ export function UsersLocationTable() {
     );
   };
 
-  // Pagination is purely local based on fetched rows length
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getRegionAnalysis();
-        if (res.success && res.data) {
-          const mapped: RegionAnalysisItem[] = res.data.data.map((item) => ({
-            region: item.region,
-            country: item.country,
-            totalUser: item.totalUser,
-            newUser: item.newUser,
-          }));
-          setRows(mapped);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
+  const handlePageChange = (page: number) => setCurrentPage(page);
+  const handlePrevious = () => { if (currentPage > 1) setCurrentPage(currentPage - 1); };
+  const handleNext = () => { if (currentPage < totalPages) setCurrentPage(currentPage + 1); };
 
   return (
     <div>
       <Card className="w-full bg-white rounded-xl border">
         <CardHeader className="flex flex-row items-center justify-end gap-4 p-4">
           <div className="relative w-72 m-0">
-            <SearchIcon className="absolute fill-natural right-2 top-1/2 -translate-y-1/2" />
+            <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
             <Input
-              placeholder="Search"
+              placeholder="Search by country name"
               className="pr-10 rounded-lg placeholder:text-natural-text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => { setCurrentPage(1); setSearchTerm(e.target.value); }}
             />
           </div>
           <FilterationUsersLocation
-            rows={rows}
+            rows={allRows}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
             onToggleCountry={toggleCountry}
@@ -168,14 +149,22 @@ export function UsersLocationTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell>{row.region}</TableCell>
-                  <TableCell>{row.country}</TableCell>
-                  <TableCell>{row.totalUser}</TableCell>
+              {currentData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center py-10 text-natural-text">
+                    No countries found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                currentData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{row.region}</TableCell>
+                    <TableCell>{row.country}</TableCell>
+                    <TableCell>{row.totalUser}</TableCell>
                   <TableCell>{row.newUser}</TableCell>
                 </TableRow>
-              ))}
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

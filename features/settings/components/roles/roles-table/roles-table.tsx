@@ -3,11 +3,12 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import PlusIcon from "@/public/plus-icon"
 import DeleteIcon from "@/public/delete-icon"
 import ForbiddenOutlineIcon from "@/public/forbidden-outline-icon"
+import ArrowDownIcon from "@/public/arrow-down-icon"
 import { ArrowLeftIcon } from "@/public/arrow-left-icon"
 import { ArrowRightIcon } from "@/public/arrow-right-icon"
 import { CreateRoleCard } from "./../create-role-card"
@@ -103,29 +104,45 @@ export function RolesTable() {
         <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow className="bg-natural border-none">
+              <TableRow className="bg-light-natural border-none">
                 <TableHead>
                   <Checkbox
                     checked={allSelected ? true : someSelected ? "indeterminate" : false}
                     onCheckedChange={(checked) => toggleSelectAll(Boolean(checked))}
                   />
                 </TableHead>
-                <TableHead className="min-w-[200px]">Role name</TableHead>
-                <TableHead className="w-[500px]">Access</TableHead>
+                <TableHead className="min-w-[200px]">
+                  <div className="flex items-center gap-1">
+                    Role Name <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
+                <TableHead className="w-[500px]">
+                  <div className="flex items-center gap-1">
+                    Access <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
                 <TableHead className="text-right"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedRoles.map((role) => (
-                <RoleTableRow
-                  key={role.id}
-                  role={role}
+              {paginatedRoles.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center py-10 text-natural-text">
+                    No roles found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedRoles.map((role) => (
+                  <RoleTableRow
+                    key={role.id}
+                    role={role}
                   isSelected={selectedIds.includes(role.id)}
                   onToggleSelect={(checked) => toggleSelect(role.id, Boolean(checked))}
                   onEdit={() => handleEditClick(role)}
                   onDelete={() => handleDeleteClick(role.id)}
                 />
-              ))}
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
@@ -175,7 +192,7 @@ export function RolesTable() {
         icon={<DeleteIcon className="h-10! w-10!" />}
         variant="destructive"
         confirmText="Delete"
-        cancelText="Cancel"
+        cancelText="Close"
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteRoleId(null)}
       />
@@ -195,7 +212,7 @@ export function RolesTable() {
         icon={<DeleteIcon className="h-10! w-10!" />}
         variant="destructive"
         confirmText="Delete"
-        cancelText="Cancel"
+        cancelText="Close"
         onConfirm={handleBulkDeleteConfirm}
         onCancel={() => setIsBulkDeleteOpen(false)}
       />

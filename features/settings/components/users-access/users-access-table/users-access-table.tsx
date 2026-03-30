@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -13,12 +14,13 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import PlusIcon from "@/public/plus-icon"
 import DeleteIcon from "@/public/delete-icon"
+import ArrowDownIcon from "@/public/arrow-down-icon"
 import { ArrowLeftIcon } from "@/public/arrow-left-icon"
 import { ArrowRightIcon } from "@/public/arrow-right-icon"
-import { AddUserCard } from "../create-user/create-user-card"
+import { CreateUserCard } from "../create-user/create-user-card"
 import { EditUserCard } from "../edit-user-card"
 import { AlertWindow } from "@/components/alert-window"
-import { TableFilters } from "./table-filters"
+import { UsersTableFilters } from "./user-table-filters"
 import { UserTableRow } from "./users-table-row"
 import { useUserTable } from "./use-users-table"
 import type { DashboardUserData } from "@/services/queries/settings/user/get/get-all-users"
@@ -81,11 +83,11 @@ export function UserAccessTable() {
           className="bg-primary-blue hover:bg-primary-blue-hover px-4 py-5"
           onClick={() => setIsAddUserOpen(true)}
         >
-          <PlusIcon className="h-6! w-6!" /> Add User
+          <PlusIcon className="h-6! w-6!" /> Create User
         </Button>
       </div>
 
-      <AddUserCard open={isAddUserOpen} onOpenChange={setIsAddUserOpen} onCreated={reload} />
+      <CreateUserCard open={isAddUserOpen} onOpenChange={setIsAddUserOpen} onCreated={reload} />
       <EditUserCard
         open={isEditOpen}
         onOpenChange={(open) => { setIsEditOpen(open); if (!open) setEditingUser(null) }}
@@ -95,7 +97,7 @@ export function UserAccessTable() {
 
       <Card className="mb-0">
         <CardHeader className="flex flex-col md:flex-row justify-between items-center gap-4 p-4">
-          <TableFilters
+          <UsersTableFilters
             searchValue={searchValue}
             onSearchChange={setSearchValue}
             roles={roles}
@@ -109,30 +111,50 @@ export function UserAccessTable() {
         <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow className="bg-natural border-none">
+              <TableRow className="bg-light-natural border-none">
                 <TableHead className="w-[50px]">
                   <Checkbox
                     checked={allSelected ? true : someSelected ? "indeterminate" : false}
                     onCheckedChange={(checked) => toggleSelectAll(Boolean(checked))}
                   />
                 </TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    User Name <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    Email <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
+                <TableHead>
+                  <div className="flex items-center gap-1">
+                    Role <ArrowDownIcon className="w-4 h-4 fill-natural" />
+                  </div>
+                </TableHead>
                 <TableHead className="text-right"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedUsers.map((user) => (
-                <UserTableRow
-                  key={user.id}
-                  user={user}
-                  isSelected={selectedIds.includes(user.id)}
-                  onToggleSelect={(checked) => toggleSelect(user.id, Boolean(checked))}
-                  onEdit={() => handleEditClick(user)}
-                  onDelete={() => handleDeleteClick(user.id)}
-                />
-              ))}
+              {paginatedUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-10 text-natural-text">
+                    No users found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedUsers.map((user) => (
+                  <UserTableRow
+                    key={user.id}
+                    user={user}
+                    isSelected={selectedIds.includes(user.id)}
+                    onToggleSelect={(checked) => toggleSelect(user.id, Boolean(checked))}
+                    onEdit={() => handleEditClick(user)}
+                    onDelete={() => handleDeleteClick(user.id)}
+                  />
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
@@ -182,7 +204,7 @@ export function UserAccessTable() {
         icon={<DeleteIcon className="h-10 w-10" />}
         variant="destructive"
         confirmText="Delete"
-        cancelText="Cancel"
+        cancelText="Close"
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteUserId(null)}
       />
@@ -202,7 +224,7 @@ export function UserAccessTable() {
         icon={<DeleteIcon className="h-10 w-10" />}
         variant="destructive"
         confirmText="Delete"
-        cancelText="Cancel"
+        cancelText="Close"
         onConfirm={handleBulkDeleteConfirm}
         onCancel={() => setIsBulkDeleteOpen(false)}
       />

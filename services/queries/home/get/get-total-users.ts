@@ -9,7 +9,7 @@ export const getTotalUsers = async () => {
     const res = await api.get("/home/total-users");
     return {
       success: true,
-      message: res?.data?.message ?? "Total users fetched successfully",
+      message: res?.data?.message ?? "Total users fetched successfully ✅",
       data: (res?.data?.data ?? {}) as totalUsersType,
     };
   } catch (err) {
@@ -19,7 +19,7 @@ export const getTotalUsers = async () => {
     return {
       success: false,
       status,
-      message: data?.message ?? "Total users fetch failed",
+      message: data?.message ?? "Total users fetch failed ❗",
     }
   }
 }

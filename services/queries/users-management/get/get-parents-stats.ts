@@ -17,7 +17,7 @@ export const getParentsStats = async () => {
     const res = await api.get<ParentsStatsResponse>("/user-management/get-parents-stats")
     return {
       success: true as const,
-      message: res?.data?.message ?? "Parents stats retrieved successfully",
+      message: res?.data?.message ?? "Parents stats retrieved successfully ✅",
       data: res?.data?.data ?? {} as ParentsStatsData
     }
   } catch (err) {
@@ -27,7 +27,7 @@ export const getParentsStats = async () => {
     return {
       success: false as const,
       status,
-      message: (data?.message as string) ?? "Failed to retrieve parents stats",
+      message: (data?.message as string) ?? "Failed to retrieve parents stats ❗",
     }
   }
 }

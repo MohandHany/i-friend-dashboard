@@ -23,7 +23,7 @@ export const getAnalysisChart = async (period?: AnalysisPeriod) => {
     });
     return {
       success: true as const,
-      message: res?.data?.message ?? "User analysis chart data retrieved successfully",
+      message: res?.data?.message ?? "User analysis chart data retrieved successfully ✅",
       data: (res?.data?.data ?? {}) as UserAnalysisChart,
     };
   } catch (err) {
@@ -33,7 +33,7 @@ export const getAnalysisChart = async (period?: AnalysisPeriod) => {
     return {
       success: false as const,
       status,
-      message: (data?.message as string) ?? "Failed to retrieve user analysis chart data",
+      message: (data?.message as string) ?? "Failed to retrieve user analysis chart data ❗",
     };
   }
 };

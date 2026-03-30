@@ -13,7 +13,7 @@ import { AvatarUpload } from "./avatar-upload"
 import { UserFormFields } from "./user-form-fields"
 import { createValidationSchemas } from "./validation-schemas"
 
-interface AddUserDialogProps {
+interface CreateUserCardProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onCreated?: () => void
@@ -21,7 +21,7 @@ interface AddUserDialogProps {
 
 const roleOptionsFallback = ["Administrator", "Admin", "Marketing"]
 
-export function AddUserCard({ open, onOpenChange, onCreated }: AddUserDialogProps) {
+export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCardProps) {
   const [selectedRoleId, setSelectedRoleId] = React.useState<string>("")
   const [roles, setRoles] = React.useState<RoleItemsData[]>([])
   const [isClosing, setIsClosing] = React.useState(false)
@@ -183,8 +183,8 @@ export function AddUserCard({ open, onOpenChange, onCreated }: AddUserDialogProp
           <Button variant="ghost" size="icon" className="absolute right-4 top-4 h-6 w-6 rounded-full" onClick={handleClose}>
             <X className="h-4 w-4" />
           </Button>
-          <div className="flex flex-col space-y-6">
-            <h2 className="text-xl font-semibold">Add User</h2>
+          <form className="flex flex-col space-y-6" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            <h2 className="text-xl font-semibold">Create User</h2>
             <div className="space-y-4">
               <AvatarUpload avatarPreview={avatarPreview} onFileSelect={handleAvatarChange} />
               <UserFormFields
@@ -197,14 +197,14 @@ export function AddUserCard({ open, onOpenChange, onCreated }: AddUserDialogProp
               />
             </div>
             <div className="flex items-center gap-4 justify-between mt-2">
-              <Button className="w-full p-6 bg-primary-blue hover:bg-primary-blue-hover text-white rounded-lg" onClick={handleSubmit} disabled={loading}>
-                {loading ? "Adding..." : "Add"}
+              <Button type="submit" className="w-full p-6 bg-primary-blue hover:bg-primary-blue-hover text-white rounded-lg" disabled={loading}>
+                {loading ? "Creating..." : "Create"}
               </Button>
-              <Button variant="ghost" className="w-full p-6 text-natural-text hover:text-black hover:bg-natural" onClick={handleClose}>
-                Cancel
+              <Button type="button" variant="ghost" className="w-full p-6 text-natural-text hover:text-black hover:bg-natural" onClick={handleClose}>
+                Close
               </Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>

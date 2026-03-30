@@ -41,7 +41,7 @@ export default function StatsCards({
       {includeAllUsersCard && (
         <Card className={includeAllUsersCard ? "rounded-r-none" : ""}>
           <CardHeader className="pb-0">
-            <CardTitle className="text-lg text-natural-text">
+            <CardTitle className="text-lg text-natural-text font-normal">
               All Users
             </CardTitle>
           </CardHeader>
@@ -52,36 +52,20 @@ export default function StatsCards({
           </CardContent>
         </Card>
       )}
-      <Card className={includeAllUsersCard ? "rounded-none" : "col-span-3 cursor-pointer hover:shadow-lg hover:scale-102 transition-all duration-200"} {...includeAllUsersCard ? {} : { onClick: () => { router.push("/users-management") } }}>
+      <Card className={includeAllUsersCard ? "rounded-none" : "md:col-span-3 cursor-pointer hover:shadow-lg hover:scale-102 transition-all duration-200"} {...includeAllUsersCard ? {} : { onClick: () => { router.push("/users-management") } }}>
         <CardHeader className="pb-0">
           <CardTitle className="text-lg text-natural-text font-normal">Subscribed</CardTitle>
         </CardHeader>
         <CardContent className={!includeAllUsersCard ? "flex flex-row items-center justify-between" : ""}>
           <div className="text-3xl font-semibold">{subscribedUsers.toLocaleString()}</div>
-          {!includeAllUsersCard && (
-            <div className="text-xs text-muted-foreground flex items-center gap-1">
-              <span className="inline-flex items-center rounded-lg bg-success/10 px-2 py-1 text-xs font-medium text-success">
-                +9.6%
-              </span>
-              <span>Last month</span>
-            </div>
-          )}
         </CardContent>
       </Card>
-      <Card className={includeAllUsersCard ? "rounded-l-none col-span-4" : "col-span-3 cursor-pointer hover:shadow-lg hover:scale-102 transition-all duration-200"} {...includeAllUsersCard ? {} : { onClick: () => { router.push("/users-management") } }}>
+      <Card className={includeAllUsersCard ? "rounded-l-none md:col-span-4" : "md:col-span-3 cursor-pointer hover:shadow-lg hover:scale-102 transition-all duration-200"} {...includeAllUsersCard ? {} : { onClick: () => { router.push("/users-management") } }}>
         <CardHeader className="pb-0">
           <CardTitle className="text-lg text-natural-text font-normal">Non-Subscribed</CardTitle>
         </CardHeader>
         <CardContent className={!includeAllUsersCard ? "flex flex-row items-center justify-between" : ""}>
           <div className="text-3xl font-semibold">{notSubscribedUsers.toLocaleString()}</div>
-          {!includeAllUsersCard && (
-            <div className="text-xs text-muted-foreground flex items-center gap-1">
-              <span className="inline-flex items-center rounded-lg bg-success/10 px-2 py-1 text-xs font-medium text-success">
-                +9.6%
-              </span>
-              <span>Last month</span>
-            </div>
-          )}
         </CardContent>
       </Card>
     </div>

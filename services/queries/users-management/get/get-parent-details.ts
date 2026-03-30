@@ -32,7 +32,7 @@ export const getParentDetails = async ( parentId: string): Promise<ParentDetails
 
     return {
       success: true as const,
-      message: res?.data?.message ?? "Parent details retrieved successfully",
+      message: res?.data?.message ?? "Parent details retrieved successfully ✅",
       data: res.data.data ?? {} as ParentDetailsData,
     }
   } catch (err) {
@@ -42,7 +42,7 @@ export const getParentDetails = async ( parentId: string): Promise<ParentDetails
     return {
       success: false as const,
       status,
-      message: error.response?.data?.message ?? "Failed to fetch parent details",
+      message: error.response?.data?.message ?? "Failed to fetch parent details ❗",
     }
   }
 }
