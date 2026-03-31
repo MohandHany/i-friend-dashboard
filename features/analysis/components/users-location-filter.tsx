@@ -43,7 +43,7 @@ export default function FilterationUsersLocation({
       <PopoverTrigger asChild>
         <Button variant="default" className="bg-primary-blue hover:bg-primary-blue-hover gap-2 rounded-lg p-5">
           <FilterIcon className="w-5.5! h-5.5! fill-white" />
-          Filter
+          <span className="hidden sm:block">Filter</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-56 p-0" align="end">

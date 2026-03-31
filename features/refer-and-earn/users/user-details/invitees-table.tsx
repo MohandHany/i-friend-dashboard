@@ -59,9 +59,9 @@ export function InviteesTable({
   return (
     <div className="flex flex-col">
       <Card className="overflow-hidden shadow-none">
-        <CardHeader className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 gap-4">
-          <h2 className="text-lg font-medium mb-0">All Invitees</h2>
-          <div className="relative w-full md:w-72">
+        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 gap-4">
+          <h2 className="text-lg font-medium mb-0 text-nowrap">All Invitees</h2>
+          <div className="relative w-full sm:w-72">
             <SearchIcon className="absolute right-3 top-1/2 -translate-y-1/2 fill-natural-text" />
             <Input
               placeholder="Search"
@@ -74,7 +74,7 @@ export function InviteesTable({
 
         <CardContent className="p-0 rounded-b-xl overflow-hidden shadow-sm">
           <Table>
-            <TableHeader className="bg-light-natural">
+            <TableHeader className="bg-light-natural text-nowrap">
               <TableRow>
                 <TableHead className="font-bold text-center w-12">#</TableHead>
                 <TableHead>
@@ -124,7 +124,7 @@ export function InviteesTable({
                 filteredInvitees.map((invitee, idx) => (
                   <TableRow
                     key={invitee.inviteeId}
-                    className="border-b border-natural last:border-0 hover:bg-light-natural/50 transition-colors h-[60px]"
+                    className="text-nowrap border-b border-natural last:border-0 hover:bg-light-natural/50 transition-colors h-[60px]"
                   >
                     <TableCell className="text-center font-medium">
                       {(currentPage - 1) * ITEMS_PER_PAGE + idx + 1}

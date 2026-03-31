@@ -76,7 +76,7 @@ export function NotificationsTable({
 
   return (
     <Table>
-      <TableHeader className="bg-light-natural">
+      <TableHeader className="bg-light-natural text-nowrap">
         <TableRow>
           <TableHead>
             <Checkbox
@@ -131,7 +131,7 @@ export function NotificationsTable({
             return (
               <TableRow
                 key={notification.id}
-                className={cn("hover:bg-gray-50/50 group transition-all duration-300", isCanceled && "bg-danger/5 hover:bg-danger/5")}
+                className={cn("hover:bg-gray-50/50 group transition-all duration-300 text-nowrap", isCanceled && "bg-danger/5 hover:bg-danger/5")}
               >
                 <TableCell>
                   <Checkbox

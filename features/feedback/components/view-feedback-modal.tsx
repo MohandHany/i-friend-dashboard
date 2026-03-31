@@ -35,20 +35,20 @@ export function ViewFeedbackModal({ open, onOpenChange, feedback }: ViewFeedback
         </div>
       </div>
 
-      <div className="flex gap-4 w-full">
+      <div className="flex  gap-4 w-full">
         <Button
           className="flex-1 bg-primary-blue hover:bg-primary-blue-hover text-white h-12 rounded-xl gap-2 font-bold transition-all"
           onClick={() => feedback?.parent.user.email && window.open(`mailto:${feedback.parent.user.email}`)}
         >
           <MailIcon className="w-5! h-5!" />
-          Reply to Email
+          <span className="hidden sm:block">Reply to Email</span>
         </Button>
         <Button
           className="flex-1 bg-primary-blue hover:bg-primary-blue-hover text-white h-12 rounded-xl gap-2 font-bold transition-all"
           onClick={() => feedback?.parent.phoneNumber && window.open(`tel:${feedback.parent.phoneNumber}`)}
         >
           <CallIcon className="w-5! h-5!" />
-          Call to phone
+          <span className="hidden sm:block">Call to phone</span>
         </Button>
       </div>
     </AlertWindow>

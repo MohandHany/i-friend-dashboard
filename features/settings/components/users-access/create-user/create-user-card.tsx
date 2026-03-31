@@ -8,6 +8,11 @@ import { getAllDashboardUsers, DashboardUserData } from "@/services/queries/sett
 import { postCreateDashboardUser, Request as CreateUserRequest } from "@/services/queries/settings/user/post/post-create-user"
 import { toast } from "sonner"
 import { X } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { ImageCropDialog } from "@/components/image-crop-dialog"
 import { AvatarUpload } from "./avatar-upload"
 import { UserFormFields } from "./user-form-fields"
@@ -24,7 +29,7 @@ const roleOptionsFallback = ["Administrator", "Admin", "Marketing"]
 export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCardProps) {
   const [selectedRoleId, setSelectedRoleId] = React.useState<string>("")
   const [roles, setRoles] = React.useState<RoleItemsData[]>([])
-  const [isClosing, setIsClosing] = React.useState(false)
+
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
@@ -56,12 +61,8 @@ export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCard
   }
 
   const handleClose = () => {
-    setIsClosing(true)
-    setTimeout(() => {
-      onOpenChange(false)
-      setIsClosing(false)
-      resetForm()
-    }, 200)
+    onOpenChange(false)
+    resetForm()
   }
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,18 +125,9 @@ export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCard
     return valid
   }, [nameSchema, emailSchema, passwordSchema, roleSchema, name, email, password, selectedRoleId])
 
-  React.useEffect(() => {
-    if (open || isClosing) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-    return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [open, isClosing])
 
-  if (!open && !isClosing) return null
+
+  if (!open) return null
 
   const handleSubmit = async () => {
     const valid = validateAll()
@@ -168,7 +160,7 @@ export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCard
   }
 
   return (
-    <>
+    <div className="m-0">
       {tempImageUrl && (
         <ImageCropDialog
           open={cropDialogOpen}
@@ -178,9 +170,10 @@ export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCard
         />
       )}
 
-      <div className={cn("fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm m-0 duration-200", isClosing ? "animate-out fade-out-0" : "animate-in fade-in-0")}>
-        <div className={cn("relative w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200", isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50")}>
-          <Button variant="ghost" size="icon" className="absolute right-4 top-4 h-6 w-6 rounded-full" onClick={handleClose}>
+      <AlertDialog open={open} onOpenChange={onOpenChange}>
+        <AlertDialogContent className="w-[95vw] sm:w-full max-w-md p-6 rounded-2xl">
+          <AlertDialogTitle className="hidden">Create User</AlertDialogTitle>
+          <Button variant="ghost" size="icon" className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 transition-opacity hover:opacity-100" onClick={handleClose}>
             <X className="h-4 w-4" />
           </Button>
           <form className="flex flex-col space-y-6" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
@@ -205,8 +198,8 @@ export function CreateUserCard({ open, onOpenChange, onCreated }: CreateUserCard
               </Button>
             </div>
           </form>
-        </div>
-      </div>
-    </>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   )
 }

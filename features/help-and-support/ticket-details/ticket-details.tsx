@@ -69,7 +69,7 @@ export default function TicketDetails({ ticketId }: { ticketId: string }) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink href="/help-and-support">
-                Customers
+                {ticket.parent.firstName} {ticket.parent.lastName}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -127,19 +127,19 @@ export default function TicketDetails({ ticketId }: { ticketId: string }) {
             </CardHeader>
             <CardContent className="p-6">
               <div className="flex flex-col gap-6 text-sm font-medium">
-                <div className="grid grid-cols-[120px_1fr] gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2 sm:gap-4">
                   <div className="text-natural-text pt-0.5">Title</div>
                   <div className="min-w-0 break-all">{ticket.title}</div>
                 </div>
 
-                <div className="grid grid-cols-[120px_1fr] gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2 sm:gap-4">
                   <div className="text-natural-text pt-0.5">Description</div>
                   <div className="min-w-0 break-all text-black">
                     {ticket.description}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-[120px_1fr] gap-4 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2 sm:gap-4">
                   <div className="text-natural-text pt-0.5">Attachment</div>
                   <div className="flex flex-wrap gap-4 min-w-0">
                     {hasAttachments ? (

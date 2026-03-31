@@ -13,7 +13,7 @@ interface TicketsFilterProps {
 
 export function TicketsFilter({ search, onSearchChange, totalCount }: TicketsFilterProps) {
   return (
-    <CardHeader className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4">
+    <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4">
       <div className="flex items-center gap-3 mb-0">
         <h2 className="text-lg font-medium">Customers</h2>
         {totalCount > 0 && (
@@ -23,10 +23,10 @@ export function TicketsFilter({ search, onSearchChange, totalCount }: TicketsFil
         )}
       </div>
 
-      <div className="relative w-full md:w-72 m-0">
+      <div className="relative w-full sm:w-72 m-0">
         <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
         <Input
-          placeholder="Write the name"
+          placeholder="Search"
           className="pr-10 rounded-lg placeholder:text-natural-text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}

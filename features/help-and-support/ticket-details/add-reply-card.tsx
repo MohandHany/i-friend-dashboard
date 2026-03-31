@@ -57,7 +57,7 @@ export default function AddReplyCard({ isOpen, onClose, ticketId, onSuccess }: A
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <AlertDialogContent className="max-w-[500px] z-[9999] flex flex-col items-center justify-center p-0 overflow-hidden bg-transparent border-none shadow-none gap-0">
-        <Card className="w-[500px] rounded-2xl bg-white shadow-lg border-0 m-0 relative p-6">
+        <Card className="max-w-[500px] w-full rounded-2xl bg-white shadow-lg border-0 m-0 relative p-6">
           <CardHeader className="flex flex-row items-center justify-between p-0 mb-6 space-y-0 relative border-b-0">
             <AlertDialogTitle className="text-lg font-medium p-0 m-0 leading-none">Reply</AlertDialogTitle>
             <Button

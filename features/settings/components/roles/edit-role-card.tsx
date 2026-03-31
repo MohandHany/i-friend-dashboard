@@ -12,6 +12,11 @@ import { RoleItemsData } from "@/services/queries/settings/role/get/get-all-role
 import { toast } from "sonner"
 import ArrowDown2Icon from "@/public/arrow-down-2-icon"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { X } from "lucide-react"
 
 interface EditRoleDialogProps {
@@ -22,7 +27,7 @@ interface EditRoleDialogProps {
 }
 
 export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRoleDialogProps) {
-  const [isClosing, setIsClosing] = React.useState(false)
+
   const [permissions, setPermissions] = React.useState<PermissionItemsData[]>([])
   const [selectedAccess, setSelectedAccess] = React.useState<string[]>([])
   const [submitting, setSubmitting] = React.useState(false)
@@ -37,14 +42,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
     return Array.from(new Set(ids))
   }, [role])
 
-  useEffect(() => {
-    if (open || isClosing) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-    return () => { document.body.style.overflow = "unset" }
-  }, [open, isClosing])
+
 
   useEffect(() => {
     // Initialize selected with role's current permissions when role changes or dialog opens
@@ -69,11 +67,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
   }, [])
 
   const handleClose = () => {
-    setIsClosing(true)
-    setTimeout(() => {
-      onOpenChange(false)
-      setIsClosing(false)
-    }, 200)
+    onOpenChange(false)
   }
 
   const toggleAccess = (id: string) => {
@@ -110,25 +104,14 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
     }
   }
 
-  if (!open && !isClosing) return null
-
   return (
-    <div
-      className={cn(
-        "fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm m-0 duration-200",
-        isClosing ? "animate-out fade-out-0" : "animate-in fade-in-0"
-      )}
-    >
-      <div
-        className={cn(
-          "relative w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200",
-          isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50"
-        )}
-      >
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="w-[95vw] sm:w-full max-w-md p-6 rounded-2xl">
+        <AlertDialogTitle className="hidden">Edit {roleName} Permissions</AlertDialogTitle>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-offset-2 disabled:pointer-events-none"
+          className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 transition-opacity hover:opacity-100"
           onClick={handleClose}
         >
           <X className="h-4 w-4" />
@@ -155,7 +138,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
               <PopoverContent className="w-100 p-4 z-99999" align="start">
                 <div className="space-y-2">
                   <h4 className="font-medium leading-none mb-3">Select Access</h4>
-                  <div className={`grid gap-2 ${permissions.length > 9 && "overflow-y-auto"}`}>
+                  <div className={`grid gap-2 custom-scrollbar ${permissions.length > 9 && "overflow-y-auto max-h-[300px]"}`}>
                     {permissions.map((permission) => (
                       <div key={permission.id} className="flex items-center space-x-2">
                         <Checkbox
@@ -196,7 +179,7 @@ export function EditRoleDialog({ open, onOpenChange, role, onUpdated }: EditRole
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

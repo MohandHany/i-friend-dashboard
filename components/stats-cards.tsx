@@ -39,7 +39,7 @@ export default function StatsCards({
   return (
     <div className={`grid grid-cols-1 md:grid-cols-6 ${includeAllUsersCard ? "" : "gap-5"}`}>
       {includeAllUsersCard && (
-        <Card className={includeAllUsersCard ? "rounded-r-none" : ""}>
+        <Card className={includeAllUsersCard ? "rounded-t-xl rounded-b-none md:rounded-r-none md:rounded-l-xl" : ""}>
           <CardHeader className="pb-0">
             <CardTitle className="text-lg text-natural-text font-normal">
               All Users
@@ -60,7 +60,7 @@ export default function StatsCards({
           <div className="text-3xl font-semibold">{subscribedUsers.toLocaleString()}</div>
         </CardContent>
       </Card>
-      <Card className={includeAllUsersCard ? "rounded-l-none md:col-span-4" : "md:col-span-3 cursor-pointer hover:shadow-lg hover:scale-102 transition-all duration-200"} {...includeAllUsersCard ? {} : { onClick: () => { router.push("/users-management") } }}>
+      <Card className={` ${includeAllUsersCard ? "rounded-bl-xl rounded-t-none md:rounded-l-none md:rounded-tr-xl md:col-span-4" : "md:col-span-3 cursor-pointer hover:shadow-lg hover:scale-102 transition-all duration-200"}`} {...includeAllUsersCard ? {} : { onClick: () => { router.push("/users-management") } }}>
         <CardHeader className="pb-0">
           <CardTitle className="text-lg text-natural-text font-normal">Non-Subscribed</CardTitle>
         </CardHeader>

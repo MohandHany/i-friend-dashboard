@@ -103,7 +103,7 @@ export function TicketsTable({ tickets, header, onDeleteSuccess }: TicketsTableP
         {header}
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-light-natural">
+            <TableHeader className="bg-light-natural text-nowrap">
               <TableRow>
                 <TableHead className="w-16">
                   <div className="text-center font-bold">#</div>
@@ -155,7 +155,7 @@ export function TicketsTable({ tickets, header, onDeleteSuccess }: TicketsTableP
                   return (
                     <TableRow
                       key={ticket.id}
-                      className="hover:bg-light-natural/50 transition-colors"
+                      className="hover:bg-light-natural/50 transition-colors text-nowrap"
                     >
                       <TableCell className="text-center">
                         #{ticket.ticketNumber}

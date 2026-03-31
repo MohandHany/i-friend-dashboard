@@ -34,14 +34,14 @@ export function UsersTableFilters({
 }: TableFiltersProps) {
   return (
     <div className="w-full flex items-center justify-between gap-4 mb-0">
-      <div className="flex items-center gap-4">
-        <div className="relative w-72 m-0">
+      <div className="w-full flex items-center gap-4">
+        <div className="relative w-full sm:w-72 m-0">
           <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
           <Input
             id="search-users"
             name="search-users"
             type="search"
-            placeholder="Search by user name"
+            placeholder="Search"
             className="pr-10 rounded-lg placeholder:text-natural-text focus:outline-none"
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
@@ -52,7 +52,7 @@ export function UsersTableFilters({
           <PopoverTrigger asChild>
             <Button variant="default" className="bg-primary-blue hover:bg-primary-blue-hover gap-2 p-5 mb-0">
               <FilterIcon className="w-5.5! h-5.5! fill-white" />
-              Filter
+              <span className="hidden sm:inline">Filter</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-fit p-4" align="end">

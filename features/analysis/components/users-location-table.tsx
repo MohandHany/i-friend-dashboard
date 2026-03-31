@@ -101,10 +101,10 @@ export function UsersLocationTable() {
     <div>
       <Card className="w-full bg-white rounded-xl border">
         <CardHeader className="flex flex-row items-center justify-end gap-4 p-4">
-          <div className="relative w-72 m-0">
+          <div className="relative w-full sm:w-72 m-0">
             <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
             <Input
-              placeholder="Search by country name"
+              placeholder="Search"
               className="pr-10 rounded-lg placeholder:text-natural-text"
               value={searchTerm}
               onChange={(e) => { setCurrentPage(1); setSearchTerm(e.target.value); }}
@@ -120,7 +120,7 @@ export function UsersLocationTable() {
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-light-natural">
+            <TableHeader className="bg-light-natural text-nowrap">
               <TableRow>
                 <TableHead>
                   <div className="flex items-center gap-1">
@@ -150,7 +150,7 @@ export function UsersLocationTable() {
             </TableHeader>
             <TableBody>
               {currentData.length === 0 ? (
-                <TableRow>
+                <TableRow className="text-nowrap">
                   <TableCell colSpan={4} className="text-center py-10 text-natural-text">
                     No countries found
                   </TableCell>

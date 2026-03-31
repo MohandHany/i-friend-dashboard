@@ -59,12 +59,12 @@ export function NotificationsFilterBar({
   }
 
   return (
-    <div className="flex gap-4 ">
+    <div className="flex gap-4 w-full">
       {/* Search by title */}
-      <div className="relative w-72">
+      <div className="relative w-full sm:w-72">
         <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
         <Input
-          placeholder="Search by title"
+          placeholder="Search"
           className="pr-10 rounded-lg placeholder:text-natural-text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
@@ -78,7 +78,7 @@ export function NotificationsFilterBar({
             className="bg-primary-blue hover:bg-primary-blue-hover p-5 gap-2"
           >
             <FilterIcon className="w-5.5! h-5.5! fill-white" />
-            Filter
+            <span className="hidden sm:block">Filter</span>
             {hasActiveFilters && (
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-bold text-primary-blue">
                 {targetFilters.length + statusFilters.length}

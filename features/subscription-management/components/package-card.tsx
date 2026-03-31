@@ -34,7 +34,7 @@ export function PackageCard({ pkg, onDeletePlan, onEdit, onDelete }: PackageCard
     <Card className="overflow-hidden border-none shadow-[0_4px_20px_0_rgba(0,0,0,0.05)]">
       <div className="flex items-center justify-between p-6">
         {/* Left: package name + max children — dimmed when inactive */}
-        <div className={cn("flex items-center gap-4 transition-all duration-300", !pkg.isActive && "opacity-50 grayscale select-none")}>
+        <div className={cn("flex items-center gap-2 transition-all duration-300", !pkg.isActive && "opacity-50 grayscale select-none")}>
           <h3 className="text-xl font-semibold rounded-full px-4 py-1 flex items-center gap-2 text-natural-text bg-natural-text/10 shrink-0">
             {pkg.name}
             {/* Status dot — dimmed when inactive */}
@@ -46,16 +46,16 @@ export function PackageCard({ pkg, onDeletePlan, onEdit, onDelete }: PackageCard
               {pkg.isActive && <div className="w-3 h-3 rounded-full absolute top-0 right-0 bg-success/80 animate-ping" />}
             </div>
           </h3>
-          <div className="text-sm text-natural-text flex items-center gap-2 border-l border-gray-100 pl-4 h-6">
+          <div className="text-sm text-natural-text flex items-center gap-2 border-l border-gray-100 pl-2 h-6">
             <span className="font-medium">Max Children:</span>
             <span className="text-black">{pkg.maxChildren}</span>
           </div>
         </div>
         <div className="flex items-center gap-4">
           {/* Edit button — always full style regardless of package status */}
-          <Button onClick={onEdit} variant="ghost" className="text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10 transition-colors">
+          <Button onClick={onEdit} variant="ghost" className="text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10 transition-colors p-2 sm:px-4 sm:py-2">
             <EditIcon className="w-5! h-5!" />
-            Edit
+            <span className="hidden sm:block">Edit</span>
           </Button>
         </div>
       </div>
@@ -74,7 +74,7 @@ export function PackageCard({ pkg, onDeletePlan, onEdit, onDelete }: PackageCard
 
         <CardContent className="p-0">
           <Table>
-            <TableHeader>
+            <TableHeader className="text-nowrap">
               <TableRow className="bg-light-natural text-natural-text">
                 <TableHead className="text-center px-6">Billing Period</TableHead>
                 <TableHead className="text-center">Price</TableHead>
@@ -87,7 +87,7 @@ export function PackageCard({ pkg, onDeletePlan, onEdit, onDelete }: PackageCard
             </TableHeader>
             <TableBody>
               {pkg.plans.map((plan) => (
-                <TableRow key={plan.id} className="border-gray-50 hover:bg-gray-50/30">
+                <TableRow key={plan.id} className="border-gray-50 hover:bg-gray-50/30 text-nowrap">
                   <TableCell className="text-center px-6">
                     {plan.billingPeriod === "THREE_MONTHS"
                       ? "3 Months"

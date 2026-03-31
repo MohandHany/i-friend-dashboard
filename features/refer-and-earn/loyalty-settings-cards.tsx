@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -142,13 +142,13 @@ export function LoyaltySettingsCards() {
         </Card>
       </div>
 
-      <Dialog open={isEditing} onOpenChange={setIsEditing}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit Loyalty Settings</DialogTitle>
-          </DialogHeader>
+      <AlertDialog open={isEditing} onOpenChange={setIsEditing}>
+        <AlertDialogContent className="sm:max-w-[425px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Edit Loyalty Settings</AlertDialogTitle>
+          </AlertDialogHeader>
           <div className="grid gap-6 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 items-center gap-4">
               <Label htmlFor="points" className="col-span-2 text-natural-text">
                 Points Per Referral
               </Label>
@@ -163,7 +163,7 @@ export function LoyaltySettingsCards() {
             </div>
 
 
-            <div className="flex items-center justify-between border-t border-natural pt-4">
+            <div className="flex items-center justify-between pt-4">
               <Label htmlFor="referral" className="cursor-pointer text-natural-text">Enable Referral System</Label>
               <Checkbox
                 id="referral"
@@ -183,24 +183,24 @@ export function LoyaltySettingsCards() {
               />
             </div>
           </div>
-          <DialogFooter className="gap-3">
+          <AlertDialogFooter className="flex flex-row gap-3">
             <Button onClick={handleSave} className="w-full bg-primary-blue hover:bg-primary-blue-hover text-white rounded-lg px-6">
               Save
             </Button>
             <Button variant="ghost" onClick={() => setIsEditing(false)} className="w-full rounded-lg">
               Cancel
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
-      <Dialog open={isEditingDiscount} onOpenChange={setIsEditingDiscount}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit Signup Discount</DialogTitle>
-          </DialogHeader>
+      <AlertDialog open={isEditingDiscount} onOpenChange={setIsEditingDiscount}>
+        <AlertDialogContent className="sm:max-w-[425px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Edit Signup Discount</AlertDialogTitle>
+          </AlertDialogHeader>
           <div className="grid gap-6 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 items-center gap-4">
               <Label htmlFor="discount" className="col-span-2 text-natural-text">
                 Signup Discount (%)
               </Label>
@@ -215,16 +215,16 @@ export function LoyaltySettingsCards() {
               />
             </div>
           </div>
-          <DialogFooter className="gap-3">
+          <AlertDialogFooter className="flex flex-row gap-3">
             <Button onClick={handleDiscountSave} className="w-full bg-primary-blue hover:bg-primary-blue-hover text-white rounded-lg px-6">
               Save
             </Button>
             <Button variant="ghost" onClick={() => setIsEditingDiscount(false)} className="w-full rounded-lg">
               Cancel
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

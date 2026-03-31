@@ -170,7 +170,7 @@ export function EditTemplateCard({ open, templateId, onOpenChange, onUpdated }: 
     >
       <div
         className={cn(
-          "relative w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200",
+          "relative w-[95vw] sm:w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200",
           isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50"
         )}
       >

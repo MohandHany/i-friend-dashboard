@@ -44,11 +44,11 @@ export function FeedbackFilter({
         </span>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-end items-center gap-4 w-full md:w-auto">
-        <div className="relative w-full md:w-72">
+      <div className="flex flex-row justify-end items-center gap-4 w-full sm:w-auto">
+        <div className="relative w-full sm:w-72">
           <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
           <Input
-            placeholder="Search by name"
+            placeholder="Search"
             className="pr-10 rounded-lg"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
@@ -62,7 +62,7 @@ export function FeedbackFilter({
               className="bg-primary-blue hover:bg-primary-blue-hover p-5 gap-2"
             >
               <FilterIcon className="w-5.5! h-5.5! fill-white" />
-              Filter
+              <span className="hidden sm:block">Filter</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-60 p-4" align="end">
@@ -78,7 +78,7 @@ export function FeedbackFilter({
                         }`}
                       onClick={() => onRatingFilterChange(ratingFilter === option.value ? null : option.value)}
                     >
-                      <span className="text-sm font-normal">{option.label}</span>
+                      <span className="text-sm font-normal text-natural-text">{option.label}</span>
                       <div className="flex items-center gap-1">
                         {Array.from({ length: option.stars }).map((_, i) => (
                           <Star key={i} className="w-4 h-4 fill-[#FFB800] text-[#FFB800]" />

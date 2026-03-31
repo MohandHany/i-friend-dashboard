@@ -74,8 +74,8 @@ export function AllUsersTable({
   return (
     <div className="flex flex-col">
       <Card className="overflow-hidden shadow-none">
-        <CardHeader className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 gap-4">
-          <h2 className="text-lg font-medium mb-0">All Users</h2>
+        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 gap-4">
+          <h2 className="text-lg font-medium mb-0 text-nowrap">All Users</h2>
           <UsersFilter
             searchTerm={searchTerm}
             onSearchChange={onSearchChange}
@@ -91,7 +91,7 @@ export function AllUsersTable({
 
         <CardContent className="p-0 rounded-b-xl overflow-hidden shadow-sm">
           <Table>
-            <TableHeader className="bg-light-natural">
+            <TableHeader className="bg-light-natural text-nowrap">
               <TableRow>
                 <TableHead className="font-bold text-center w-12">#</TableHead>
                 <TableHead>
@@ -137,7 +137,7 @@ export function AllUsersTable({
                 users.map((user, idx) => (
                   <TableRow
                     key={user.id}
-                    className="border-b border-natural last:border-0 hover:bg-light-natural/50 transition-colors h-[60px]"
+                    className="text-nowrap border-b border-natural last:border-0 hover:bg-light-natural/50 transition-colors h-[60px]"
                   >
                     <TableCell className="text-center font-medium">{startIndex + idx + 1}</TableCell>
                     <TableCell>{user.name}</TableCell>

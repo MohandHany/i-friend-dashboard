@@ -121,14 +121,14 @@ export function AllCustomersTable() {
   return (
     <>
       <Card className="mt-6">
-        <CardHeader className="flex flex-col md:flex-row justify-between items-center gap-4 p-4">
-          <h2 className="text-lg font-medium mb-0">All Customer</h2>
-          <div className="flex gap-4 w-full md:w-auto">
+        <CardHeader className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4">
+          <h2 className="text-lg font-medium mb-0 text-left w-full">All Customer</h2>
+          <div className="flex gap-4 w-full sm:w-auto">
             {/* Search */}
-            <div className="relative w-full md:w-72">
+            <div className="relative w-full sm:w-72">
               <SearchIcon className="absolute fill-natural-text right-2 top-1/2 -translate-y-1/2" />
               <Input
-                placeholder="Search by customer name"
+                placeholder="Search"
                 className="pr-10 rounded-lg placeholder:text-natural-text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -216,7 +216,7 @@ export function AllCustomersTable() {
 
         <CardContent className="p-0">
           <Table>
-            <TableHeader>
+            <TableHeader className="text-nowrap">
               <TableRow className="bg-light-natural border-none">
                 <TableHead className="text-natural-text font-bold text-center">#</TableHead>
                 <TableHead className="text-natural-text">
@@ -276,7 +276,7 @@ export function AllCustomersTable() {
                 </TableRow>
               ) : (
                 paginated.map((customer, index) => (
-                  <TableRow key={customer.id} className="hover:bg-gray-50/50">
+                  <TableRow key={customer.id} className="hover:bg-natural/20 text-nowrap">
                     <TableCell className="text-center">
                       {(page - 1) * ITEMS_PER_PAGE + index + 1}
                     </TableCell>

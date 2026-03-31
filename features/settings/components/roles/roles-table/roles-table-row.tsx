@@ -24,7 +24,7 @@ export function RoleTableRow({
   onDelete
 }: RoleTableRowProps) {
   return (
-    <TableRow className="border-b last:border-0">
+    <TableRow className="border-b last:border-0 text-nowrap">
       <TableCell>
         <Checkbox
           checked={isSelected}

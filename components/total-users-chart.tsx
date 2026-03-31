@@ -12,6 +12,8 @@ import {
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import MoreIcon from "@/public/more-icon";
 import {
   getAnalysisChart,
   AnalysisPeriod,
@@ -74,22 +76,47 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
           <div className="flex items-center justify-between w-full mb-0">
             <CardTitle className="font-normal text-lg">Total Users</CardTitle>
             {showTimeFilter && (
-              <div className="flex items-center gap-2">
-                {ranges.map((range) => (
-                  <Button
-                    key={range}
-                    onClick={() => setTimeRange(range)}
-                    className={`px-6 py-3 rounded-lg cursor-pointer shadow transition-all duration-200 
-                      ${timeRange === range
-                        ? "bg-primary-blue text-white hover:bg-primary-blue-hover"
-                        : "bg-primary-blue/10 text-primary-blue hover:bg-primary-blue/20"
-                      }`}
-                    variant={"default"}
-                  >
-                    {range.charAt(0).toUpperCase() + range.slice(1)}
-                  </Button>
-                ))}
-              </div>
+              <>
+                <div className="hidden md:flex items-center gap-2">
+                  {ranges.map((range) => (
+                    <Button
+                      key={range}
+                      onClick={() => setTimeRange(range)}
+                      className={`px-6 py-3 rounded-lg cursor-pointer shadow transition-all duration-200 
+                        ${timeRange === range
+                          ? "bg-primary-blue text-white hover:bg-primary-blue-hover"
+                          : "bg-primary-blue/10 text-primary-blue hover:bg-primary-blue/20"
+                        }`}
+                      variant={"default"}
+                    >
+                      {range.charAt(0).toUpperCase() + range.slice(1)}
+                    </Button>
+                  ))}
+                </div>
+                <div className="flex md:hidden">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <MoreIcon className="w-6! h-6! text-natural-text"/>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-32 p-2 mr-2" align="end">
+                      <div className="flex flex-col gap-1">
+                        {ranges.map((range) => (
+                          <Button
+                            key={range}
+                            onClick={() => setTimeRange(range)}
+                            variant="ghost"
+                            className={`justify-start w-full ${timeRange === range ? "bg-primary-blue/10 text-primary-blue" : "text-natural-text"}`}
+                          >
+                            {range.charAt(0).toUpperCase() + range.slice(1)}
+                          </Button>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </>
             )}
           </div>
           <div className={`w-full flex items-end gap-4 ${justifyDiscount}`}>
@@ -97,44 +124,50 @@ export function TotalUsersChart({ barSize, justifyDiscount, showTimeFilter }: { 
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pl-0 pr-4 pb-4">
-        <ChartContainer config={config} className="h-[300px] w-full">
-          <BarChart accessibilityLayer data={rows}>
-            <CartesianGrid
-              vertical={false}
-              strokeDasharray="3 3"
-              stroke="#E5E7EB"
-            />
-            <XAxis
-              dataKey="period"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              // labels expected as e.g., 2026-W04
-              tickFormatter={(value) => String(value)}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-            // Let Recharts compute domain from data
-            />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            {Object.entries(config).map(([key, cfg]) => (
-              <Bar
-                key={key}
-                dataKey={key}
-                stackId="a"
-                fill={cfg.color}
-                radius={[5, 5, 5, 5]}
-                stroke="#fff"
-                strokeWidth={2}
-                barSize={barSize}
+      <CardContent className="pl-0 pr-4 pb-4 overflow-x-auto custom-scrollbar">
+        <div className="min-w-fit">
+          <ChartContainer config={config} className="h-[300px] w-full">
+            <BarChart accessibilityLayer data={rows} margin={{
+              left: 0,
+              right: 0,
+            }}
+            >
+              <CartesianGrid
+                vertical={false}
+                strokeDasharray="3 3"
+                stroke="#E5E7EB"
               />
-            ))}
-          </BarChart>
-        </ChartContainer>
+              <XAxis
+                dataKey="period"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                // labels expected as e.g., 2026-W04
+                tickFormatter={(value) => String(value)}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+              // Let Recharts compute domain from data
+              />
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              {Object.entries(config).map(([key, cfg]) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  stackId="a"
+                  fill={cfg.color}
+                  radius={[5, 5, 5, 5]}
+                  stroke="#fff"
+                  strokeWidth={2}
+                  barSize={barSize}
+                />
+              ))}
+            </BarChart>
+          </ChartContainer>
+        </div>
       </CardContent>
     </Card>
   );

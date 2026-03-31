@@ -75,7 +75,7 @@ export function UserAccessTable() {
   }
 
   return (
-    <div className="space-y-4 mt-6 h-[80vh]">
+    <div className="space-y-4 mt-6">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">User Access</h2>
         <Button
@@ -110,7 +110,7 @@ export function UserAccessTable() {
 
         <CardContent className="p-0">
           <Table>
-            <TableHeader>
+            <TableHeader className="text-nowrap">
               <TableRow className="bg-light-natural border-none">
                 <TableHead className="w-[50px]">
                   <Checkbox

@@ -41,8 +41,8 @@ export function UsersFilter({
   }
 
   return (
-    <div className="flex flex-col md:flex-row justify-end items-center gap-3 w-full md:w-auto">
-      <div className="relative w-full md:w-72">
+    <div className="flex justify-end items-center gap-3 w-full md:w-auto">
+      <div className="relative w-full sm:w-72">
         <SearchIcon className="absolute right-3 top-1/2 -translate-y-1/2 fill-natural-text" />
         <Input
           placeholder="Search"
@@ -56,7 +56,7 @@ export function UsersFilter({
         <PopoverTrigger asChild>
           <Button className="bg-primary-blue hover:bg-primary-blue-hover px-5 gap-2 h-10 shrink-0">
             <FilterIcon className="w-5! h-5! fill-white" />
-            Filter
+            <span className="hidden sm:block">Filter</span>
           </Button>
         </PopoverTrigger>
 

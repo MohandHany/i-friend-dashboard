@@ -167,8 +167,8 @@ export function AddPeriodCard({ open, onOpenChange, onAdded }: AddPackageCardPro
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-4xl p-8 rounded-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden custom-scrollbar">
-        <AlertDialogTitle className="text-2xl font-bold mb-8">Add New Package</AlertDialogTitle>
+      <AlertDialogContent className="max-w-4xl w-[95vw] sm:w-full p-5 sm:p-8 rounded-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden custom-scrollbar">
+        <AlertDialogTitle className="text-2xl font-bold mb-4 sm:mb-8">Add New Package</AlertDialogTitle>
         <Button
           variant="ghost"
           size="icon"
@@ -179,7 +179,7 @@ export function AddPeriodCard({ open, onOpenChange, onAdded }: AddPackageCardPro
         </Button>
 
         <div className="grid grid-cols-1 gap-5 mb-5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <h3 className="text-lg font-semibold text-primary-blue">General Information</h3>
             <div className="flex items-center gap-3">
               <Label htmlFor="package-active" className="cursor-pointer">Active Package</Label>
@@ -202,7 +202,7 @@ export function AddPeriodCard({ open, onOpenChange, onAdded }: AddPackageCardPro
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+              {errors.name && <p className="text-xs text-danger">{errors.name}</p>}
             </div>
             <div className="w-full flex flex-col gap-2">
               <Label htmlFor="maxChildren">Max Children</Label>
@@ -214,7 +214,7 @@ export function AddPeriodCard({ open, onOpenChange, onAdded }: AddPackageCardPro
                 min={0}
                 onChange={(e) => setMaxChildren(Number(e.target.value))}
               />
-              {errors.maxChildren && <p className="text-xs text-red-500">{errors.maxChildren}</p>}
+              {errors.maxChildren && <p className="text-xs text-danger">{errors.maxChildren}</p>}
             </div>
           </div>
 
@@ -234,7 +234,7 @@ export function AddPeriodCard({ open, onOpenChange, onAdded }: AddPackageCardPro
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-primary-blue">Plans Configuration</h3>
-              {errors.plans && <p className="text-xs text-red-500 mt-0.5">{errors.plans}</p>}
+              {errors.plans && <p className="text-xs text-danger mt-0.5">{errors.plans}</p>}
             </div>
             <Button
               type="button"

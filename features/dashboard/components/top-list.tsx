@@ -38,7 +38,7 @@ export function TopList() {
       </CardHeader>
       <CardContent className="p-0">
         <Table>
-          <TableHeader className="bg-light-natural">
+          <TableHeader className="bg-light-natural text-nowrap">
             <TableRow>
               <TableHead className="w-[60px] text-center font-bold">
                 #
@@ -65,8 +65,8 @@ export function TopList() {
           </TableHeader>
           <TableBody>
             {topChildren.map((child, index) => (
-              <TableRow key={index}>
-                <TableCell className="flex items-center justify-center">
+              <TableRow key={index} className="text-nowrap">
+                <TableCell className="flex items-center justify-center p-1 md:p-3">
                   {index + 1 === 1 && (
                     <div>
                       <Image

@@ -119,7 +119,7 @@ export function AllDiscountsTable({
       <Card className="overflow-hidden mt-4">
         <CardContent className="p-0 rounded-b-xl overflow-hidden shadow-sm">
           <Table className="w-full text-left">
-            <TableHeader className={`bg-light-natural border-b border-natural`}>
+            <TableHeader className={`bg-light-natural border-b border-natural text-nowrap`}>
               <TableRow>
                 <TableHead className="p-4 w-12 text-center">
                   <Checkbox
@@ -145,7 +145,7 @@ export function AllDiscountsTable({
             </TableHeader>
             <TableBody>
               {packages.map((pkg) => (
-                <TableRow key={pkg.id} className="border-b border-natural last:border-0 hover:bg-light-natural/50 transition-colors">
+                <TableRow key={pkg.id} className="text-nowrap border-b border-natural last:border-0 hover:bg-light-natural/50 transition-colors">
                   <TableCell className="p-4 text-center">
                     <Checkbox
                       className="border-natural-text/30"

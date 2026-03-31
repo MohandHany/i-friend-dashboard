@@ -81,8 +81,8 @@ export function AllUsersTable() {
   return (
     <div>
       <Card className="w-full bg-white rounded-xl border">
-        <CardHeader className="flex flex-col md:flex-row justify-between items-center gap-4 p-4">
-          <CardTitle className="text-black text-lg font-semibold grow m-0">
+        <CardHeader className="flex sm:flex-row justify-between items-center gap-4 p-4">
+          <CardTitle className="text-black text-lg font-semibold grow m-0 text-left w-full">
             All Users
           </CardTitle>
           <UsersFilter
@@ -106,7 +106,7 @@ export function AllUsersTable() {
 
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-light-natural">
+            <TableHeader className="bg-light-natural text-nowrap">
               <TableRow>
                 <TableHead className="w-[50px] text-center font-bold">
                   #
@@ -147,7 +147,7 @@ export function AllUsersTable() {
                 </TableRow>
               ) : (
                 currentUsers.map((user, index) => (
-                  <TableRow key={user.id ?? index}>
+                  <TableRow className="text-nowrap" key={user.id ?? index}>
                     <TableCell className="text-center font-medium">
                       {startIndex + index + 1}
                     </TableCell>

@@ -186,8 +186,8 @@ export function EditPackageCard({ pkg, open, onOpenChange, onUpdated }: EditPack
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-4xl p-8 rounded-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden custom-scrollbar">
-        <AlertDialogTitle className="text-2xl font-bold mb-8">Edit Package</AlertDialogTitle>
+      <AlertDialogContent className="max-w-4xl w-[95vw] sm:w-full p-5 sm:p-8 rounded-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden custom-scrollbar">
+        <AlertDialogTitle className="text-2xl font-bold mb-4 sm:mb-8">Edit Package</AlertDialogTitle>
         <Button
           variant="ghost"
           size="icon"
@@ -198,7 +198,7 @@ export function EditPackageCard({ pkg, open, onOpenChange, onUpdated }: EditPack
         </Button>
 
         <div className="grid grid-cols-1 gap-5 mb-5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <h3 className="text-lg font-semibold text-primary-blue">General Information</h3>
             <div className="flex items-center gap-3">
               <Label htmlFor="package-active-edit" className="cursor-pointer">Active Package</Label>

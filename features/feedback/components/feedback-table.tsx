@@ -36,7 +36,7 @@ const ratingToStars = (rating: RatingValue): number => {
 export function FeedbackTable({ feedback, startIndex, onView, onDelete }: FeedbackTableProps) {
   return (
     <Table>
-      <TableHeader className="bg-light-natural">
+      <TableHeader className="bg-light-natural text-nowrap">
         <TableRow className="hover:bg-natural/20 border-none">
           <TableHead className="text-center font-bold">#</TableHead>
           <TableHead>
@@ -80,7 +80,7 @@ export function FeedbackTable({ feedback, startIndex, onView, onDelete }: Feedba
             const fullName = `${item.parent.firstName} ${item.parent.lastName}`;
             const stars = ratingToStars(item.rating);
             return (
-              <TableRow key={item.id} className="hover:bg-natural/50 border-b border-natural h-[55px] last:border-none transition-colors">
+              <TableRow key={item.id} className="text-nowrap hover:bg-natural/50 border-b border-natural h-[55px] last:border-none transition-colors">
                 <TableCell className="text-center font-medium">
                   {startIndex + index + 1}
                 </TableCell>

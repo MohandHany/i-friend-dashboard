@@ -71,7 +71,7 @@ export function RolesTable() {
   const roleToDelete = roles.find((r) => r.id === deleteRoleId)
 
   return (
-    <div className="space-y-4 h-[80vh]">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Roles</h2>
         <Button
@@ -103,7 +103,7 @@ export function RolesTable() {
 
         <CardContent className="p-0">
           <Table>
-            <TableHeader>
+            <TableHeader className="text-nowrap">
               <TableRow className="bg-light-natural border-none">
                 <TableHead>
                   <Checkbox

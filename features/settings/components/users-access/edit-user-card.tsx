@@ -10,6 +10,11 @@ import { getAllRoles, RoleItemsData } from "@/services/queries/settings/role/get
 import { DashboardUserData } from "@/services/queries/settings/user/get/get-all-users"
 import { patchUpdateDashboardUser } from "@/services/queries/settings/user/patch/patch-update-user"
 import { toast } from "sonner"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { X } from "lucide-react"
 
 interface EditUserDialogProps {
@@ -20,7 +25,7 @@ interface EditUserDialogProps {
 }
 
 export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDialogProps) {
-  const [isClosing, setIsClosing] = React.useState(false)
+
   const [roles, setRoles] = React.useState<RoleItemsData[]>([])
   const [selectedRoleId, setSelectedRoleId] = React.useState<string>("")
   const [loading, setLoading] = React.useState(false)
@@ -49,23 +54,10 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
     }
   }, [open, user]);
 
-  React.useEffect(() => {
-    if (open || isClosing) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [open, isClosing]);
+
 
   const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      onOpenChange(false);
-      setIsClosing(false);
-    }, 200);
+    onOpenChange(false);
   };
 
   const handleUpdate = async () => {
@@ -91,28 +83,17 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
     }
   };
 
-  if (!open && !isClosing) return null;
-
   const selectedRoleName =
     roles.find((r) => r.id === selectedRoleId)?.name || "Select role";
 
   return (
-    <div
-      className={cn(
-        "fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm m-0 duration-200",
-        isClosing ? "animate-out fade-out-0" : "animate-in fade-in-0",
-      )}
-    >
-      <div
-        className={cn(
-          "relative w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200",
-          isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50",
-        )}
-      >
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="w-[95vw] sm:w-full max-w-md p-6 rounded-2xl">
+        <AlertDialogTitle className="hidden">Edit {user?.name} Role</AlertDialogTitle>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-offset-2 disabled:pointer-events-none"
+          className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 transition-opacity hover:opacity-100"
           onClick={handleClose}
         >
           <X className="h-4 w-4" />
@@ -177,7 +158,7 @@ export function EditUserCard({ open, onOpenChange, user, onUpdated }: EditUserDi
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

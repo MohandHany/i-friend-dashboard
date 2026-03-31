@@ -14,11 +14,15 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
 import { useEffect } from "react"
-import { getAllPermissions } from "@/services/queries/settings/role/get/get-all-permissions"
-import { PermissionItemsData } from "@/services/queries/settings/role/get/get-all-permissions"
+import { getAllPermissions, PermissionItemsData } from "@/services/queries/settings/role/get/get-all-permissions"
 import { createRole } from "@/services/queries/settings/role/post/post-create-role"
 import { getAllRoles, RoleItemsData } from "@/services/queries/settings/role/get/get-all-roles"
 import { toast } from "sonner"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { X } from "lucide-react"
 
 interface CreateRoleDialogProps {
@@ -121,25 +125,14 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
     }
   }
 
-  if (!open && !isClosing) return null
-
   return (
-    <div
-      className={cn(
-        "fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm m-0 duration-200",
-        isClosing ? "animate-out fade-out-0" : "animate-in fade-in-0"
-      )}
-    >
-      <div
-        className={cn(
-          "relative w-full max-w-md bg-white rounded-2xl shadow-lg p-6 duration-200",
-          isClosing ? "animate-out zoom-out-50" : "animate-in zoom-in-50"
-        )}
-      >
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="w-[95vw] sm:w-full max-w-md p-6 rounded-2xl">
+        <AlertDialogTitle className="hidden">Create Role</AlertDialogTitle>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-offset-2 disabled:pointer-events-none"
+          className="absolute right-4 top-4 h-6 w-6 rounded-full opacity-70 transition-opacity hover:opacity-100"
           onClick={handleClose}
         >
           <X className="h-4 w-4" />
@@ -189,7 +182,7 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
                 <PopoverContent className="w-100 p-4 z-99999" align="start">
                   <div className="space-y-2">
                     <h4 className="font-medium leading-none mb-3">Select Access</h4>
-                    <div className="grid gap-2 max-h-[300px] overflow-y-auto">
+                    <div className="grid gap-2 max-h-[300px] overflow-y-auto custom-scrollbar">
                       {permissions.map((permission, index) => (
                         <div key={index + 1} className="flex items-center space-x-2">
                           <Checkbox
@@ -230,7 +223,7 @@ export function CreateRoleCard({ open, onOpenChange, onCreated }: CreateRoleDial
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

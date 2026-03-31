@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/chart"
 import { Button } from "./ui/button"
 import { useRouter, usePathname } from "next/navigation"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import MoreIcon from "@/public/more-icon"
 
 const chartConfig = {
   amount: {
@@ -52,22 +54,47 @@ export function TotalRevenuesChart({ justifyDiscount, showTimeFilter }: { justif
               Total Revenues
             </CardTitle>
             {showTimeFilter && (
-              <div className="flex items-center gap-2">
-                {["Weekly", "Monthly", "Yearly"].map((range) => (
-                  <Button
-                    key={range}
-                    onClick={() => setTimeRange(range)}
-                    className={`px-6 py-3 rounded-lg cursor-pointer shadow transition-all duration-200
-                      ${timeRange === range
-                        ? "bg-primary-blue text-white hover:bg-primary-blue-hover"
-                        : "bg-primary-blue/10 text-primary-blue hover:bg-primary-blue/20"
-                      }`}
-                    variant={"default"}
-                  >
-                    {range}
-                  </Button>
-                ))}
-              </div>
+              <>
+                <div className="hidden md:flex items-center gap-2">
+                  {["Weekly", "Monthly", "Yearly"].map((range) => (
+                    <Button
+                      key={range}
+                      onClick={() => setTimeRange(range)}
+                      className={`px-6 py-3 rounded-lg cursor-pointer shadow transition-all duration-200
+                        ${timeRange === range
+                          ? "bg-primary-blue text-white hover:bg-primary-blue-hover"
+                          : "bg-primary-blue/10 text-primary-blue hover:bg-primary-blue/20"
+                        }`}
+                      variant={"default"}
+                    >
+                      {range}
+                    </Button>
+                  ))}
+                </div>
+                <div className="flex md:hidden">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <MoreIcon className="w-6! h-6! text-natural-text"/>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-32 p-2 mr-2" align="end">
+                      <div className="flex flex-col gap-1">
+                        {["Weekly", "Monthly", "Yearly"].map((range) => (
+                          <Button
+                            key={range}
+                            onClick={() => setTimeRange(range)}
+                            variant="ghost"
+                            className={`justify-start w-full ${timeRange === range ? "bg-primary-blue/10 text-primary-blue" : "text-natural-text"}`}
+                          >
+                            {range}
+                          </Button>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </>
             )}
           </div>
           <div className={`w-full flex items-end gap-4 ${justifyDiscount}`}>
@@ -77,57 +104,59 @@ export function TotalRevenuesChart({ justifyDiscount, showTimeFilter }: { justif
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pl-0 pr-4 pb-4">
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <AreaChart
-            accessibilityLayer
-            data={data?.chartData || []}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <defs>
-              <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0066FF" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#0066FF" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis
-              dataKey="label"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={15}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
-            />
-            <Area
-              dataKey="amount"
-              type="linear"
-              fill="url(#fillRevenue)"
-              fillOpacity={0.4}
-              stroke="#0066FF"
-              strokeWidth={2}
-              dot={{
-                fill: "#0066FF",
-                stroke: "#FFFFFF",
-                strokeWidth: 2,
-                r: 4,
+      <CardContent className="pl-0 pr-4 pb-4 overflow-x-auto custom-scrollbar">
+        <div className="min-w-fit">
+          <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <AreaChart
+              accessibilityLayer
+              data={data?.chartData || []}
+              margin={{
+                left: 0,
+                right: 0,
               }}
-              activeDot={{
-                r: 6,
-              }}
-            />
-          </AreaChart>
-        </ChartContainer>
+            >
+              <defs>
+                <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#0066FF" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#0066FF" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#E5E7EB" />
+              <XAxis
+                dataKey="label"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={15}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dot" hideLabel />}
+              />
+              <Area
+                dataKey="amount"
+                type="linear"
+                fill="url(#fillRevenue)"
+                fillOpacity={0.4}
+                stroke="#0066FF"
+                strokeWidth={2}
+                dot={{
+                  fill: "#0066FF",
+                  stroke: "#FFFFFF",
+                  strokeWidth: 2,
+                  r: 4,
+                }}
+                activeDot={{
+                  r: 6,
+                }}
+              />
+            </AreaChart>
+          </ChartContainer>
+        </div>
       </CardContent>
     </Card>
   )

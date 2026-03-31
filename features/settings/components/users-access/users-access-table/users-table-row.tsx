@@ -25,7 +25,7 @@ export function UserTableRow({
   onDelete
 }: UserTableRowProps) {
   return (
-    <TableRow className="border-b last:border-0">
+    <TableRow className="border-b last:border-0 text-nowrap">
       <TableCell>
         <Checkbox
           checked={isSelected}
