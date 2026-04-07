@@ -109,6 +109,25 @@ export function ImageCropDialog({ open, onOpenChange, imageUrl, onCropComplete }
     setIsDragging(false)
   }
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const touch = e.touches[0]
+    setIsDragging(true)
+    setDragStart({ x: touch.clientX - position.x, y: touch.clientY - position.y })
+  }
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDragging) return
+    const touch = e.touches[0]
+    setPosition({
+      x: touch.clientX - dragStart.x,
+      y: touch.clientY - dragStart.y,
+    })
+  }
+
+  const handleTouchEnd = () => {
+    setIsDragging(false)
+  }
+
   const handleCrop = () => {
     if (!canvasRef.current || !image) return
 
@@ -207,13 +226,17 @@ export function ImageCropDialog({ open, onOpenChange, imageUrl, onCropComplete }
         <div className="space-y-4">
           <canvas
             ref={canvasRef}
-            width={350}
-            height={350}
-            className="border border-gray-200 rounded-lg cursor-move"
+            width={320}
+            height={320}
+            className="border border-gray-200 rounded-lg cursor-move touch-none"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchEnd}
           />
 
           <div className="flex items-center gap-4 justify-center">
