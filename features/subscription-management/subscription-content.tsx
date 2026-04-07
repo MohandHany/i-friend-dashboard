@@ -14,6 +14,7 @@ import { getAllPackages, SubscriptionPackage } from "@/services/queries/subscrip
 import { deletePackage } from "@/services/queries/subscription/delete/delete-package"
 import { toast } from "sonner"
 import { Card } from "@/components/ui/card"
+import LoadingSpinner from "@/components/ifriend-spinner"
 
 export default function SubscriptionContent() {
   const [packages, setPackages] = React.useState<SubscriptionPackage[]>([])
@@ -57,38 +58,44 @@ export default function SubscriptionContent() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header row */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-medium">All Packages</h2>
-        <Button
-          className="bg-primary-blue hover:bg-primary-blue-hover gap-2 h-11 px-6 rounded-lg font-medium"
-          onClick={() => setIsAddOpen(true)}
-        >
-          <PlusIcon className="w-5! h-5!" />
-          Create Package
-        </Button>
-      </div>
-
-      {/* Toolbar */}
-      <PackagesFilter search={search} onSearchChange={setSearch} />
-
-      {/* Content */}
       {loading ? (
-        <div className="text-center py-10 text-natural-text">Loading packages...</div>
-      ) : filtered.length === 0 ? (
-        <Card className="bg-white text-center py-10 text-natural-text">No packages found</Card>
-      ) : (
-        <div className="flex flex-col gap-8">
-          {filtered.map((pkg) => (
-            <PackageCard
-              key={pkg.id}
-              pkg={pkg}
-              onDeletePlan={setDeleteId}
-              onDelete={() => setDeleteId(pkg.id)}
-              onEdit={() => setEditPkg(pkg)}
-            />
-          ))}
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <LoadingSpinner />
         </div>
+      ) : (
+        <>
+          {/* Header row */}
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-medium">All Packages</h2>
+            <Button
+              className="bg-primary-blue hover:bg-primary-blue-hover gap-2 h-11 px-6 rounded-lg font-medium"
+              onClick={() => setIsAddOpen(true)}
+            >
+              <PlusIcon className="w-5! h-5!" />
+              Create Package
+            </Button>
+          </div>
+
+          {/* Toolbar */}
+          <PackagesFilter search={search} onSearchChange={setSearch} />
+
+          {/* Content */}
+          {filtered.length === 0 ? (
+            <Card className="bg-white text-center py-10 text-natural-text">No packages found</Card>
+          ) : (
+            <div className="flex flex-col gap-8">
+              {filtered.map((pkg) => (
+                <PackageCard
+                  key={pkg.id}
+                  pkg={pkg}
+                  onDeletePlan={setDeleteId}
+                  onDelete={() => setDeleteId(pkg.id)}
+                  onEdit={() => setEditPkg(pkg)}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       {/* Add Package dialog */}

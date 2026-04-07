@@ -4,6 +4,7 @@ import * as React from "react"
 import { TicketsFilter } from "./tickets-filter"
 import { TicketsTable } from "./tickets-table"
 import { getAllTickets, Ticket } from "@/services/queries/help-and-support/get/get-all-tickets"
+import LoadingSpinner from "@/components/ifriend-spinner"
 
 export default function HelpAndSupportContent() {
   const [search, setSearch] = React.useState("")
@@ -33,15 +34,11 @@ export default function HelpAndSupportContent() {
     })
   }, [search, tickets])
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center p-12 text-natural-text">
-        Loading tickets...
-      </div>
-    )
-  }
-
-  return (
+  return loading ? (
+    <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+      <LoadingSpinner />
+    </div>
+  ) : (
     <TicketsTable
       tickets={filtered}
       onDeleteSuccess={fetchTickets}

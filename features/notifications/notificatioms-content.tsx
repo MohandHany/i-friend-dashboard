@@ -19,6 +19,7 @@ import {
 import { NotificationsTable } from "./components/notifications-table"
 import { cancelNotificationTemplate } from "@/services/queries/notifications/delete/delete-template"
 import { updateNotificationTemplate } from "@/services/queries/notifications/patch/patch-update-template"
+import LoadingSpinner from "@/components/ifriend-spinner"
 
 export default function NotificationsContent() {
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
@@ -145,146 +146,151 @@ export default function NotificationsContent() {
   const notificationToCancel = notifications.find((n) => n.id === cancelId)
 
   return (
-    <div className="flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-end mb-4">
-        <div className="flex-1">
-          {loading && <span className="text-sm text-natural-text animate-pulse">Updating...</span>}
+    <div className="flex flex-col gap-6">
+      {loading ? (
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <LoadingSpinner />
         </div>
-        <Button
-          className="bg-primary-blue hover:bg-primary-blue-hover text-white gap-2 rounded-lg px-4 py-5"
-          onClick={() => setIsCreateOpen(true)}
-        >
-          <PlusIcon className="w-6! h-6!" />
-          Create Template
-        </Button>
-      </div>
-
-      <CreateTemplateCard
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        onCreated={loadData}
-      />
-
-      <EditTemplateCard
-        open={editId !== null}
-        templateId={editId}
-        onOpenChange={(open) => !open && setEditId(null)}
-        onUpdated={loadData}
-      />
-
-      <Card className="mb-0 overflow-hidden">
-        <CardHeader className="flex flex-col md:flex-row justify-between items-center gap-4 p-4">
-          <div className="w-full flex items-center justify-between gap-4">
-            <NotificationsFilterBar
-              search={search}
-              onSearchChange={setSearch}
-              statusFilters={statusFilters}
-              onStatusFiltersChange={setStatusFilters}
-              targetFilters={targetFilters}
-              onTargetFiltersChange={setTargetFilters}
-            />
-
-            {/* Bulk cancel button — only shows when more than 1 row selected */}
-            {selectedIds.length > 0 && (
-              <Button
-                variant="default"
-                className="bg-danger/10 text-danger hover:bg-danger hover:text-white px-4 py-5"
-                onClick={() => setIsBulkCancelOpen(true)}
-              >
-                <CancelIcon className="h-5! w-5!" /> Cancel Selected ({selectedIds.length})
-              </Button>
-            )}
+      ) : (
+        <>
+          {/* Header */}
+          <div className="flex items-center justify-end mb-4">
+            <Button
+              className="bg-primary-blue hover:bg-primary-blue-hover text-white gap-2 rounded-lg px-4 py-5"
+              onClick={() => setIsCreateOpen(true)}
+            >
+              <PlusIcon className="w-6! h-6!" />
+              Create Template
+            </Button>
           </div>
-        </CardHeader>
 
-        <CardContent className="p-0">
-          <NotificationsTable
-            notifications={currentNotifications}
-            selectedIds={selectedIds}
-            onToggleSelect={toggleSelect}
-            onToggleSelectAll={toggleSelectAll}
-            allSelected={allSelected}
-            someSelected={someSelected}
-            onCancel={setCancelId}
-            onRestore={handleRestore}
-            onEdit={setEditId}
+          <CreateTemplateCard
+            open={isCreateOpen}
+            onOpenChange={setIsCreateOpen}
+            onCreated={loadData}
           />
-        </CardContent>
-      </Card>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between py-4">
-          <Button
-            variant="outline"
-            className="gap-2 group"
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeftIcon className="h-4 w-4 group-hover:-translate-x-1 transition" />
-            Previous
-          </Button>
+          <EditTemplateCard
+            open={editId !== null}
+            templateId={editId}
+            onOpenChange={(open) => !open && setEditId(null)}
+            onUpdated={loadData}
+          />
 
-          <div className="flex items-center gap-2 text-sm">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <Card className="mb-0 overflow-hidden">
+            <CardHeader className="flex flex-col md:flex-row justify-between items-center gap-4 p-4">
+              <div className="w-full flex items-center justify-between gap-4">
+                <NotificationsFilterBar
+                  search={search}
+                  onSearchChange={setSearch}
+                  statusFilters={statusFilters}
+                  onStatusFiltersChange={setStatusFilters}
+                  targetFilters={targetFilters}
+                  onTargetFiltersChange={setTargetFilters}
+                />
+
+                {/* Bulk cancel button — only shows when more than 1 row selected */}
+                {selectedIds.length > 0 && (
+                  <Button
+                    variant="default"
+                    className="bg-danger/10 text-danger hover:bg-danger hover:text-white px-4 py-5"
+                    onClick={() => setIsBulkCancelOpen(true)}
+                  >
+                    <CancelIcon className="h-5! w-5!" /> Cancel Selected ({selectedIds.length})
+                  </Button>
+                )}
+              </div>
+            </CardHeader>
+
+            <CardContent className="p-0">
+              <NotificationsTable
+                notifications={currentNotifications}
+                selectedIds={selectedIds}
+                onToggleSelect={toggleSelect}
+                onToggleSelectAll={toggleSelectAll}
+                allSelected={allSelected}
+                someSelected={someSelected}
+                onCancel={setCancelId}
+                onRestore={handleRestore}
+                onEdit={setEditId}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between py-4">
               <Button
-                key={page}
-                variant={currentPage === page ? "outline" : "ghost"}
-                size="icon"
-                className={`h-8 w-8 ${currentPage === page ? "bg-gray-50" : ""}`}
-                onClick={() => setCurrentPage(page)}
+                variant="outline"
+                className="gap-2 group"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
               >
-                {page}
+                <ArrowLeftIcon className="h-4 w-4 group-hover:-translate-x-1 transition" />
+                Previous
               </Button>
-            ))}
-          </div>
 
-          <Button
-            variant="outline"
-            className="gap-2 group"
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-            <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition" />
-          </Button>
-        </div>
+              <div className="flex items-center gap-2 text-sm">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "outline" : "ghost"}
+                    size="icon"
+                    className={`h-8 w-8 ${currentPage === page ? "bg-gray-50" : ""}`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </div>
+
+              <Button
+                variant="outline"
+                className="gap-2 group"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+                <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition" />
+              </Button>
+            </div>
+          )}
+
+          {/* Single cancel confirmation */}
+          <AlertWindow
+            open={cancelId !== null}
+            onOpenChange={(open) => !open && setCancelId(null)}
+            title={`Cancel "${notificationToCancel?.title ?? "notification"}"`}
+            description="Are you sure you want to cancel this notification?"
+            icon={<CancelIcon className="h-10! w-10!" />}
+            variant="destructive"
+            confirmText="Cancel"
+            cancelText="Close"
+            onConfirm={handleCancelSingle}
+            onCancel={() => setCancelId(null)}
+          />
+
+          {/* Bulk cancel confirmation */}
+          <AlertWindow
+            open={isBulkCancelOpen}
+            onOpenChange={setIsBulkCancelOpen}
+            title={`Cancel ${selectedIds.length} selected notification${selectedIds.length === 1 ? "" : "s"}`}
+            description={(() => {
+              const titles = notifications
+                .filter((n) => selectedIds.includes(n.id))
+                .map((n) => n.title)
+              const preview = titles.slice(0, 3).join(", ")
+              return titles.length > 3 ? `${preview}, ...` : preview || "This action cannot be undone."
+            })()}
+            icon={<CancelIcon className="h-10! w-10!" />}
+            variant="destructive"
+            confirmText="Cancel"
+            cancelText="Close"
+            onConfirm={handleBulkCancel}
+            onCancel={() => setIsBulkCancelOpen(false)}
+          />
+        </>
       )}
-
-      {/* Single cancel confirmation */}
-      <AlertWindow
-        open={cancelId !== null}
-        onOpenChange={(open) => !open && setCancelId(null)}
-        title={`Cancel "${notificationToCancel?.title ?? "notification"}"`}
-        description="Are you sure you want to cancel this notification?"
-        icon={<CancelIcon className="h-10! w-10!" />}
-        variant="destructive"
-        confirmText="Cancel"
-        cancelText="Close"
-        onConfirm={handleCancelSingle}
-        onCancel={() => setCancelId(null)}
-      />
-
-      {/* Bulk cancel confirmation */}
-      <AlertWindow
-        open={isBulkCancelOpen}
-        onOpenChange={setIsBulkCancelOpen}
-        title={`Cancel ${selectedIds.length} selected notification${selectedIds.length === 1 ? "" : "s"}`}
-        description={(() => {
-          const titles = notifications
-            .filter((n) => selectedIds.includes(n.id))
-            .map((n) => n.title)
-          const preview = titles.slice(0, 3).join(", ")
-          return titles.length > 3 ? `${preview}, ...` : preview || "This action cannot be undone."
-        })()}
-        icon={<CancelIcon className="h-10! w-10!" />}
-        variant="destructive"
-        confirmText="Cancel"
-        cancelText="Close"
-        onConfirm={handleBulkCancel}
-        onCancel={() => setIsBulkCancelOpen(false)}
-      />
     </div>
   )
 }

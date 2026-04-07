@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import { FeedbackFilter } from "./components/feedback-filter"
 import { FeedbackTable } from "./components/feedback-table"
 import { ViewFeedbackModal } from "./components/view-feedback-modal"
+import LoadingSpinner from "@/components/ifriend-spinner"
 
 const ITEMS_PER_PAGE = 10
 
@@ -90,75 +91,79 @@ export default function FeedbackContent() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Card className="overflow-hidden">
-        <FeedbackFilter
-          search={search}
-          onSearchChange={setSearch}
-          ratingFilter={ratingFilter}
-          onRatingFilterChange={(val) => {
-            setRatingFilter(val)
-            setCurrentPage(1)
-          }}
-          totalCount={totalCount}
-        />
-
-        <CardContent className="p-0">
-          {loading ? (
-            <div className="p-8 text-center text-natural-text">Loading feedbacks...</div>
-          ) : (
-            <FeedbackTable
-              feedback={filteredFeedback}
-              startIndex={startIndex}
-              onView={(f) => setViewFeedback(f)}
-              onDelete={(id) => setDeleteId(id)}
-            />
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between py-4">
-          <Button
-            variant="outline"
-            className="gap-2 group transition-all disabled:opacity-40"
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeftIcon className="w-4 h-4" />
-            Previous
-          </Button>
-
-          <div className="flex items-center gap-1 text-sm">
-            {getPageNumbers().map((page, idx) =>
-              page === "..." ? (
-                <span key={`ellipsis-${idx}`} className="px-2 text-natural-text">
-                  ...
-                </span>
-              ) : (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? "outline" : "ghost"}
-                  size="icon"
-                  className={`h-8 w-8 ${currentPage === page ? "bg-gray-50 font-semibold" : ""}`}
-                  onClick={() => setCurrentPage(page as number)}
-                >
-                  {page}
-                </Button>
-              )
-            )}
-          </div>
-
-          <Button
-            variant="outline"
-            className="gap-2 group transition-all disabled:opacity-40"
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-            <ArrowRightIcon className="w-4 h-4" />
-          </Button>
+      {loading ? (
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <LoadingSpinner />
         </div>
+      ) : (
+        <>
+          <Card className="overflow-hidden">
+            <FeedbackFilter
+              search={search}
+              onSearchChange={setSearch}
+              ratingFilter={ratingFilter}
+              onRatingFilterChange={(val) => {
+                setRatingFilter(val)
+                setCurrentPage(1)
+              }}
+              totalCount={totalCount}
+            />
+
+            <CardContent className="p-0">
+              <FeedbackTable
+                feedback={filteredFeedback}
+                startIndex={startIndex}
+                onView={(f) => setViewFeedback(f)}
+                onDelete={(id) => setDeleteId(id)}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between py-4">
+              <Button
+                variant="outline"
+                className="gap-2 group transition-all disabled:opacity-40"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                <ArrowLeftIcon className="w-4 h-4" />
+                Previous
+              </Button>
+
+              <div className="flex items-center gap-1 text-sm">
+                {getPageNumbers().map((page, idx) =>
+                  page === "..." ? (
+                    <span key={`ellipsis-${idx}`} className="px-2 text-natural-text">
+                      ...
+                    </span>
+                  ) : (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? "outline" : "ghost"}
+                      size="icon"
+                      className={`h-8 w-8 ${currentPage === page ? "bg-gray-50 font-semibold" : ""}`}
+                      onClick={() => setCurrentPage(page as number)}
+                    >
+                      {page}
+                    </Button>
+                  )
+                )}
+              </div>
+
+              <Button
+                variant="outline"
+                className="gap-2 group transition-all disabled:opacity-40"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+                <ArrowRightIcon className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+        </>
       )}
 
       {/* Delete confirmation dialog */}

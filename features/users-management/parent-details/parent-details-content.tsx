@@ -8,6 +8,7 @@ import type { ParentDetailsData } from "@/services/queries/users-management/get/
 import IFriendSpinner from "@/components/ifriend-spinner"
 import { formatRegistrationDate } from "@/lib/utils"
 import { Detail } from "@/components/detail"
+import LoadingSpinner from "@/components/ifriend-spinner"
 
 export function ParentDetailsContent({ parentId }: { parentId: string }) {
   const [parent, setParent] = useState<ParentDetailsData | null>(null);
@@ -36,40 +37,33 @@ export function ParentDetailsContent({ parentId }: { parentId: string }) {
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      {/* Breadcrumb */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/users-management">
-              Users Management
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage className="text-natural-text font-normal">
-              {parent?.firstName} {parent?.lastName}
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      {/* Loading */}
-      {loading && (
-        <div className="w-full h-[70vh] flex items-center justify-center">
-          <IFriendSpinner size={80} />
+      {loading ? (
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <LoadingSpinner />
         </div>
-      )}
-
-      {/* Error */}
-      {error && !loading && (
+      ) : error ? (
         <div className="w-full min-h-[40vh] flex items-center justify-center text-danger">
           {error}
         </div>
-      )}
-
-      {/* Content */}
-      {parent && !loading && (
+      ) : parent ? (
         <>
+          {/* Breadcrumb */}
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/users-management">
+                  Users Management
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-natural-text font-normal">
+                  {parent.firstName} {parent.lastName}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
           {/* Header */}
           <h1 className="text-[22px] font-semibold">
             View{" "}
@@ -107,7 +101,7 @@ export function ParentDetailsContent({ parentId }: { parentId: string }) {
           {/* Kids Table */}
           <AllKidsTable kids={parent.children ?? []} />
         </>
-      )}
+      ) : null}
     </div>
   );
 }
