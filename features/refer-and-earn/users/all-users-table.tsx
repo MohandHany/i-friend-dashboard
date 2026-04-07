@@ -153,7 +153,7 @@ export function AllUsersTable({
                     <TableCell className="px-6 py-0 text-right">
                       <Button
                         variant="ghost"
-                        className="h-auto text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10 gap-1.5"
+                        className="h-auto text-primary-blue hover:text-primary-blue hover:bg-primary-blue/10"
                         onClick={() => onView(user.id)}
                       >
                         <VisibleIcon className="w-5! h-5!" />

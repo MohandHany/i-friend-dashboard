@@ -16,38 +16,36 @@ export function VersionCard({ version, onEdit }: VersionCardProps) {
   return (
     <Card className="border shadow-sm">
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col gap-2">
-            <PlatformBadge platform={version.platform} />
-            <CardTitle className="text-base font-medium">
-              v{version.latestVersion}
-            </CardTitle>
-          </div>
+        <div className="flex items-center justify-between">
+          <CardTitle className="font-medium">
+            <span className="bg-natural-text/10 text-natural-text px-2.5 py-1 rounded-full border">v{version.latestVersion}</span>
+          </CardTitle>
           <Button
             variant="ghost"
-            size="icon"
-            className="h-8 w-8 text-primary-blue hover:text-primary-blue-hover hover:bg-primary-blue/10 shrink-0"
+            className="text-primary-blue hover:text-primary-blue-hover hover:bg-primary-blue/10"
             onClick={() => onEdit(version)}
             title="Edit version"
           >
             <EditIcon className="w-5! h-5!" />
+            <span className="hidden sm:block">Edit</span>
           </Button>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
         {/* Version info grid */}
+        <PlatformBadge platform={version.platform} />
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Latest Version</p>
+            <p className="text-sm text-natural-text mb-1">Latest Version</p>
             <p className="text-sm font-medium">{version.latestVersion}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Min. Version</p>
+            <p className="text-sm text-natural-text mb-1">Min. Version</p>
             <p className="text-sm font-medium">{version.minVersion}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Force Update</p>
+            <p className="text-sm text-natural-text mb-1">Force Update</p>
             <Badge
               variant={version.forceUpdate ? "destructive" : "secondary"}
               className={`text-xs font-medium ${version.forceUpdate
@@ -59,18 +57,18 @@ export function VersionCard({ version, onEdit }: VersionCardProps) {
             </Badge>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Store URL</p>
+            <p className="text-sm text-natural-text mb-1">Store URL</p>
             {version.storeUrl ? (
               <a
                 href={version.storeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-primary-blue hover:underline truncate block max-w-[120px]"
+                className="text-sm text-primary-blue hover:underline truncate block max-w-[120px]"
               >
                 View Store
               </a>
             ) : (
-              <p className="text-xs text-muted-foreground">Not set</p>
+              <p className="text-sm text-natural-text">Not set</p>
             )}
           </div>
         </div>
@@ -79,7 +77,7 @@ export function VersionCard({ version, onEdit }: VersionCardProps) {
 
         {/* Release notes */}
         <div>
-          <p className="text-xs text-natural-text mb-1.5">Release Notes</p>
+          <p className="text-sm text-natural-text mb-1">Release Notes</p>
           <p className="text-sm leading-relaxed">
             {version.releaseNotes || (
               <span className="text-natural-text">No notes</span>

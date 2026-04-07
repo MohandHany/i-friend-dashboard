@@ -77,7 +77,7 @@ export default function AppConfigContent() {
           onClick={() => setIsCreating(true)}
           className="bg-primary-blue hover:bg-primary-blue-hover px-4 py-5"
         >
-          <PlusIcon />
+          <PlusIcon className="w-6! h-6!" />
           Add Platform
         </Button>
       </div>
